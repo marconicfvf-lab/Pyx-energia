@@ -1,10 +1,12 @@
 import { Router, type IRouter } from "express";
-import healthRouter from "./health";
 import crmRouter from "./crm";
+import conversationsRouter from "./conversations";
+import campaignsRouter from "./campaigns";
 
 const router: IRouter = Router();
 
-router.use(healthRouter);
 router.use(crmRouter);
+router.use(conversationsRouter);
+router.use(campaignsRouter);
 
 export default router;

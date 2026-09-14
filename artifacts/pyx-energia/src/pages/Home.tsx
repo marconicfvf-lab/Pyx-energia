@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Calculator } from "@/components/Calculator";
+import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Zap, Sun, ShieldCheck, Building2, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark } from "lucide-react";
@@ -301,6 +302,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

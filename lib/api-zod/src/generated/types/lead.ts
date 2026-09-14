@@ -13,18 +13,26 @@ export interface Lead {
   id: number;
   name: string;
   phone: string;
-  customerType: CustomerType;
-  cpfCnpj: string;
-  state: BrazilState;
-  city: string;
-  distributor: string;
-  averageBill: number;
-  estimatedMonthlySavings: number;
-  estimatedAnnualSavings: number;
+  customerType?: CustomerType | null;
+  /** @nullable */
+  cpfCnpj?: string | null;
+  state?: BrazilState | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  distributor?: string | null;
+  /** @nullable */
+  averageBill?: number | null;
+  /** @nullable */
+  estimatedMonthlySavings?: number | null;
+  /** @nullable */
+  estimatedAnnualSavings?: number | null;
   source: string;
   stage: LeadStage;
-  consentAt: Date;
-  consentText: string;
+  /** @nullable */
+  consentAt?: Date | null;
+  /** @nullable */
+  consentText?: string | null;
   createdAt: Date;
   updatedAt: Date;
   /** @nullable */
