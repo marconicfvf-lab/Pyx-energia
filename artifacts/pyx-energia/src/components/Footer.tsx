@@ -10,7 +10,7 @@ export function Footer() {
               <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-8" />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Energia renovável por assinatura em Pernambuco. Reduza seus custos sem investir nada, sem obras e sem burocracia.
+              Energia renovável por assinatura para casas e empresas. Reduza sua conta sem investir nada, sem obras e sem burocracia.
             </p>
           </div>
           
@@ -30,18 +30,17 @@ export function Footer() {
               <li>
                 <a href="https://wa.me/5581999725151" target="_blank" rel="noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
                   <span className="w-5 h-5 flex items-center justify-center bg-primary rounded-full text-white text-[10px] shrink-0">W</span>
-                  (81) 99999-9999 {/* Using a placeholder visual, actual link is accurate to 5581999725151 */}
-                  {/* Wait, the brief says actual number is 5581999725151, let's display it accurately */}
+                   (81) 99972-5151
                 </a>
               </li>
-              <li>Pernambuco, Brasil</li>
+              <li>Pernambuco e Ceará</li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-display font-semibold mb-6">Comece agora</h4>
             <p className="text-sm text-gray-400 mb-6">
-              Descubra o quanto sua empresa pode economizar.
+              Descubra o quanto você pode economizar.
             </p>
             <a 
               href="https://wa.me/5581999725151?text=Ol%C3%A1%21%20Gostaria%20de%20saber%20como%20reduzir%20minha%20conta%20de%20luz%20com%20a%20PYX."

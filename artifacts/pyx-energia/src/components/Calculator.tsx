@@ -41,7 +41,7 @@ export function Calculator() {
   };
 
   const handleWhatsApp = () => {
-    const text = `Olá! Minha empresa gasta cerca de ${formatCurrency(bill)} por mês com energia. Gostaria de saber como a PYX pode me ajudar a economizar até ${formatCurrency(estimatedSavings)} mensais.`;
+    const text = `Olá! Minha conta de luz é de aproximadamente ${formatCurrency(bill)} por mês. Gostaria de saber como a PYX pode me ajudar a economizar até ${formatCurrency(estimatedSavings)} mensais.`;
     window.open(`https://wa.me/5581999725151?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -55,7 +55,7 @@ export function Calculator() {
           Simule sua economia
         </h3>
         <p className="text-muted-foreground mb-8">
-          Descubra quanto dinheiro sua empresa deixa na mesa todos os meses.
+          Descubra quanto você pode economizar todos os meses.
         </p>
 
         <div className="mb-10">
@@ -116,7 +116,7 @@ export function Calculator() {
           </div>
           <div className="flex items-center gap-2 text-sm text-foreground">
             <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-            <span>Sem instalação de placas ou obras na sua empresa</span>
+            <span>Sem instalação de placas ou obras no imóvel</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-foreground">
             <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />

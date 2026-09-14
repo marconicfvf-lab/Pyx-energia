@@ -62,7 +62,6 @@
   /* Deep green #1B6B3A -> HSL: 143 60% 26% */
   /* Supporting green #2A8A50 -> HSL: 144 53% 35% */
   /* Pale green #F2FAF5 -> HSL: 143 60% 96% */
-  /* Warm gold #C9A84C -> HSL: 44 55% 54% */
   /* Near-black #111827 -> HSL: 221 39% 11% */
 
   --background: 0 0% 100%;
@@ -83,8 +82,8 @@
   --primary: 143 60% 26%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 44 55% 54%;
-  --secondary-foreground: 221 39% 11%;
+  --secondary: 143 60% 26%;
+  --secondary-foreground: 0 0% 100%;
 
   --muted: 143 60% 96%;
   --muted-foreground: 144 20% 40%;
@@ -113,7 +112,7 @@
 
   --border: 144 30% 20%;
   --input: 144 30% 20%;
-  --ring: 44 55% 54%;
+  --ring: 143 60% 26%;
 
   --card: 144 30% 15%;
   --card-foreground: 143 60% 96%;
@@ -123,8 +122,8 @@
   --popover-foreground: 143 60% 96%;
   --popover-border: 144 30% 20%;
 
-  --primary: 44 55% 54%;
-  --primary-foreground: 221 39% 11%;
+  --primary: 143 60% 26%;
+  --primary-foreground: 0 0% 100%;
 
   --secondary: 143 60% 26%;
   --secondary-foreground: 0 0% 100%;
