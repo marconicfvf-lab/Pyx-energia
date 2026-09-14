@@ -1,19 +1,14 @@
+import { getAuth } from "@clerk/express";
 import type { NextFunction, Request, Response } from "express";
 
 /**
- * Clerk's clerkMiddleware attaches `auth` to the request. Keeping the
+ * Reads the Clerk session attached by clerkMiddleware. Keeping the
  * authorization boundary in one middleware makes it impossible to
  * accidentally expose CRM data when adding a route.
  */
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  const request = req as Request & {
-    auth?: { userId?: string; sessionClaims?: { userId?: string } };
-    userId?: string;
-  };
-  const userId =
-    request.auth?.userId ??
-    request.auth?.sessionClaims?.userId ??
-    request.userId;
+  const request = req as Request & { userId?: string };
+  const userId = getAuth(req).userId ?? request.userId;
 
   if (!userId) {
     res.status(401).json({ error: "Autenticação necessária" });
