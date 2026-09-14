@@ -31,6 +31,8 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CampaignsPanel } from "@/components/CampaignsPanel";
+import { ConversationsPanel } from "@/components/ConversationsPanel";
 
 const stages: Array<{ value: LeadStage; label: string }> = [
   { value: "novo", label: "Novo" },
@@ -46,12 +48,14 @@ const stages: Array<{ value: LeadStage; label: string }> = [
 
 const stageLabel = (stage: string) =>
   stages.find((item) => item.value === stage)?.label ?? stage;
-const currency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(value);
+const currency = (value: number | null | undefined) =>
+  value === null || value === undefined
+    ? "—"
+    : new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 0,
+      }).format(value);
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
@@ -165,8 +169,8 @@ function LeadDetailPanel({
       <div className="space-y-7 p-6">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Telefone</span><p className="font-semibold">{lead.phone}</p></div>
-          <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Documento</span><p className="font-semibold">{lead.customerType} · {lead.cpfCnpj}</p></div>
-          <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Local</span><p className="font-semibold">{lead.city}, {lead.state}</p></div>
+          <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Documento</span><p className="font-semibold">{lead.cpfCnpj ? `${lead.customerType} · ${lead.cpfCnpj}` : "—"}</p></div>
+          <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Local</span><p className="font-semibold">{[lead.city, lead.state].filter(Boolean).join(", ") || "—"}</p></div>
           <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Conta média</span><p className="font-semibold">{currency(lead.averageBill)}</p></div>
         </div>
 
@@ -256,6 +260,7 @@ export default function Dashboard() {
   const [stage, setStage] = useState<LeadStage | "">("");
   const [state, setState] = useState<"PE" | "CE" | "">("");
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
+  const [tab, setTab] = useState<"leads" | "conversas" | "campanhas">("leads");
   const { data: kpis, isLoading: loadingKpis } = useGetDashboardKpis();
   const { data: leads = [], isLoading: loadingLeads } = useListLeads({
     search: search || undefined,
@@ -285,6 +290,22 @@ export default function Dashboard() {
           <p className="mt-2 text-muted-foreground">Acompanhe seus leads e próximos contatos em um só lugar.</p>
         </div>
 
+        <nav className="flex gap-2">
+          {(["leads", "conversas", "campanhas"] as const).map((item) => (
+            <button
+              key={item}
+              onClick={() => setTab(item)}
+              className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition-colors ${
+                tab === item
+                  ? "bg-primary text-white"
+                  : "bg-white text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
+        </nav>
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard title="Total de leads" value={loadingKpis ? "—" : kpis?.totalLeads ?? 0} detail="Todos os contatos captados" icon={Users} />
           <KpiCard title="Em andamento" value={loadingKpis ? "—" : kpis?.activeLeads ?? 0} detail="Leads no funil ativo" icon={TrendingUp} tone="blue" />
@@ -292,6 +313,10 @@ export default function Dashboard() {
           <KpiCard title="Follow-ups pendentes" value={loadingKpis ? "—" : kpis?.dueFollowUps ?? 0} detail="Contatos que precisam de atenção" icon={CalendarClock} tone="amber" />
         </div>
 
+        {tab === "conversas" && <ConversationsPanel />}
+        {tab === "campanhas" && <CampaignsPanel />}
+
+        {tab === "leads" && (
         <section className="rounded-2xl border border-border/70 bg-white shadow-sm">
           <div className="flex flex-col gap-4 border-b border-border/70 p-5 md:flex-row md:items-center md:justify-between">
             <div><h2 className="font-display text-xl font-bold">Leads recentes</h2><p className="mt-1 text-sm text-muted-foreground">{filteredLeads.length} contato(s) encontrado(s)</p></div>
@@ -309,8 +334,8 @@ export default function Dashboard() {
                   {filteredLeads.map((lead) => (
                     <tr key={lead.id} className="cursor-pointer transition-colors hover:bg-muted/30" onClick={() => setSelectedLeadId(lead.id)}>
                       <td className="px-5 py-4"><p className="font-semibold">{lead.name}</p><p className="text-xs text-muted-foreground">{lead.phone}</p></td>
-                      <td className="px-5 py-4"><p>{lead.city}</p><p className="text-xs text-muted-foreground">{lead.state} · {lead.distributor}</p></td>
-                      <td className="px-5 py-4"><p className="font-medium">{currency(lead.averageBill)}</p><p className="text-xs text-primary">economiza {currency(lead.estimatedMonthlySavings)}/mês</p></td>
+                      <td className="px-5 py-4"><p>{lead.city ?? "—"}</p><p className="text-xs text-muted-foreground">{[lead.state, lead.distributor].filter(Boolean).join(" · ") || "Em qualificação"}</p></td>
+                      <td className="px-5 py-4"><p className="font-medium">{currency(lead.averageBill)}</p><p className="text-xs text-primary">{lead.estimatedMonthlySavings ? `economiza ${currency(lead.estimatedMonthlySavings)}/mês` : "economia a calcular"}</p></td>
                       <td className="px-5 py-4"><span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${lead.stage === "ganho" ? "bg-primary/10 text-primary" : lead.stage === "perdido" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>{stageLabel(lead.stage)}</span></td>
                       <td className="px-5 py-4 text-muted-foreground">{lead.nextFollowUpAt ? dateTime(lead.nextFollowUpAt) : "—"}</td>
                       <td className="px-5 py-4"><ChevronRight className="h-4 w-4 text-muted-foreground" /></td>
@@ -321,6 +346,7 @@ export default function Dashboard() {
             </div>
           )}
         </section>
+        )}
       </main>
       {selectedLeadId !== null && <><button onClick={() => setSelectedLeadId(null)} className="fixed inset-0 z-30 cursor-default bg-black/20" aria-label="Fechar detalhes" /><LeadDetailPanel leadId={selectedLeadId} onClose={() => setSelectedLeadId(null)} /></>}
     </div>

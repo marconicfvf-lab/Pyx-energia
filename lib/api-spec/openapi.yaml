@@ -12,6 +12,10 @@ tags:
   - name: activities
   - name: follow-ups
   - name: dashboard
+  - name: conversations
+  - name: campaigns
+  - name: chat
+  - name: webhooks
 paths:
   /healthz:
     get:
@@ -220,6 +224,231 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/DashboardKpis" }
         "401": { $ref: "#/components/responses/Unauthorized" }
+  /chat/messages:
+    post:
+      operationId: sendChatMessage
+      tags: [chat]
+      summary: Send a message to the site chat agent
+      description: Public endpoint used by the site widget. Creates/continues a conversation and returns the agent reply.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ChatMessageInput" }
+      responses:
+        "200":
+          description: Agent reply
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChatMessageResponse" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+  /webhooks/whatsapp:
+    post:
+      operationId: whatsappWebhook
+      tags: [webhooks]
+      summary: Receive inbound WhatsApp messages
+      description: Called by Evolution API or Meta Cloud API. Protected by the WHATSAPP_WEBHOOK_TOKEN query token.
+      parameters:
+        - name: token
+          in: query
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/WhatsappWebhookPayload" }
+      responses:
+        "200":
+          description: Acknowledged
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/WebhookAck" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /conversations:
+    get:
+      operationId: listConversations
+      tags: [conversations]
+      summary: List conversations
+      security: [{ clerkSession: [] }]
+      parameters:
+        - name: channel
+          in: query
+          schema: { $ref: "#/components/schemas/ConversationChannel" }
+        - name: status
+          in: query
+          schema: { $ref: "#/components/schemas/ConversationStatus" }
+      responses:
+        "200":
+          description: Conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Conversation" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /conversations/{id}:
+    get:
+      operationId: getConversation
+      tags: [conversations]
+      summary: Get a conversation with its messages
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      responses:
+        "200":
+          description: Conversation detail
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ConversationDetail" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      operationId: updateConversation
+      tags: [conversations]
+      summary: Toggle the agent or hand the conversation to a human
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ConversationUpdate" }
+      responses:
+        "200":
+          description: Updated conversation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Conversation" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /conversations/{id}/messages:
+    post:
+      operationId: sendConversationMessage
+      tags: [conversations]
+      summary: Send a message as a human operator
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MessageInput" }
+      responses:
+        "201":
+          description: Sent message
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Message" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /campaigns:
+    get:
+      operationId: listCampaigns
+      tags: [campaigns]
+      summary: List outbound campaigns
+      security: [{ clerkSession: [] }]
+      responses:
+        "200":
+          description: Campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Campaign" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      operationId: createCampaign
+      tags: [campaigns]
+      summary: Create an outbound campaign
+      security: [{ clerkSession: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CampaignInput" }
+      responses:
+        "201":
+          description: Created campaign
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Campaign" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /campaigns/{id}:
+    patch:
+      operationId: updateCampaign
+      tags: [campaigns]
+      summary: Update campaign settings or status
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CampaignUpdate" }
+      responses:
+        "200":
+          description: Updated campaign
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Campaign" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /campaigns/{id}/contacts:
+    get:
+      operationId: listCampaignContacts
+      tags: [campaigns]
+      summary: List campaign contacts
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      responses:
+        "200":
+          description: Contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Contact" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: importCampaignContacts
+      tags: [campaigns]
+      summary: Import a contact list (CSV text or rows)
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ContactImportInput" }
+      responses:
+        "201":
+          description: Import result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContactImportResult" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /campaigns/{id}/dispatch:
+    post:
+      operationId: dispatchCampaign
+      tags: [campaigns]
+      summary: Send the next batch of campaign messages
+      description: Respects the daily limit, the minimum interval, the business-hours window and the opt-out list.
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/ResourceId" }]
+      responses:
+        "200":
+          description: Dispatch result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DispatchResult" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
 components:
   securitySchemes:
     clerkSession:
@@ -228,6 +457,11 @@ components:
       description: Clerk-authenticated session
   parameters:
     LeadId:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+    ResourceId:
       name: id
       in: path
       required: true
@@ -268,23 +502,29 @@ components:
       enum: [nota, ligacao, whatsapp, email, mudanca_etapa]
     Lead:
       type: object
-      required: [id, name, phone, customerType, cpfCnpj, state, city, distributor, averageBill, estimatedMonthlySavings, estimatedAnnualSavings, source, stage, consentAt, consentText, createdAt, updatedAt]
+      required: [id, name, phone, source, stage, createdAt, updatedAt]
       properties:
         id: { type: integer }
         name: { type: string }
         phone: { type: string }
-        customerType: { $ref: "#/components/schemas/CustomerType" }
-        cpfCnpj: { type: string }
-        state: { $ref: "#/components/schemas/BrazilState" }
-        city: { type: string }
-        distributor: { type: string }
-        averageBill: { type: number }
-        estimatedMonthlySavings: { type: number }
-        estimatedAnnualSavings: { type: number }
+        customerType:
+          oneOf:
+            - $ref: "#/components/schemas/CustomerType"
+            - type: "null"
+        cpfCnpj: { type: ["string", "null"] }
+        state:
+          oneOf:
+            - $ref: "#/components/schemas/BrazilState"
+            - type: "null"
+        city: { type: ["string", "null"] }
+        distributor: { type: ["string", "null"] }
+        averageBill: { type: ["number", "null"] }
+        estimatedMonthlySavings: { type: ["number", "null"] }
+        estimatedAnnualSavings: { type: ["number", "null"] }
         source: { type: string }
         stage: { $ref: "#/components/schemas/LeadStage" }
-        consentAt: { type: string, format: date-time }
-        consentText: { type: string }
+        consentAt: { type: ["string", "null"], format: date-time }
+        consentText: { type: ["string", "null"] }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
         nextFollowUpAt: { type: ["string", "null"], format: date-time }
@@ -380,6 +620,179 @@ components:
         lostLeads: { type: integer }
         monthlySavings: { type: number }
         dueFollowUps: { type: integer }
+    ConversationChannel:
+      type: string
+      enum: [whatsapp, site]
+    ConversationStatus:
+      type: string
+      enum: [bot, humano, encerrada]
+    MessageDirection:
+      type: string
+      enum: [entrada, saida]
+    Conversation:
+      type: object
+      required: [id, channel, contactKey, status, botEnabled, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        leadId: { type: ["integer", "null"] }
+        channel: { $ref: "#/components/schemas/ConversationChannel" }
+        contactKey: { type: string }
+        displayName: { type: ["string", "null"] }
+        status: { $ref: "#/components/schemas/ConversationStatus" }
+        botEnabled: { type: boolean }
+        lastInboundAt: { type: ["string", "null"], format: date-time }
+        lastOutboundAt: { type: ["string", "null"], format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    Message:
+      type: object
+      required: [id, conversationId, direction, body, fromAgent, createdAt]
+      properties:
+        id: { type: integer }
+        conversationId: { type: integer }
+        direction: { $ref: "#/components/schemas/MessageDirection" }
+        body: { type: string }
+        mediaUrl: { type: ["string", "null"] }
+        providerMessageId: { type: ["string", "null"] }
+        fromAgent: { type: boolean }
+        createdAt: { type: string, format: date-time }
+    ConversationDetail:
+      allOf:
+        - $ref: "#/components/schemas/Conversation"
+        - type: object
+          required: [messages]
+          properties:
+            messages:
+              type: array
+              items: { $ref: "#/components/schemas/Message" }
+    ConversationUpdate:
+      type: object
+      properties:
+        botEnabled: { type: boolean }
+        status: { $ref: "#/components/schemas/ConversationStatus" }
+    MessageInput:
+      type: object
+      required: [body]
+      properties:
+        body: { type: string, minLength: 1 }
+    ChatMessageInput:
+      type: object
+      required: [message]
+      properties:
+        sessionId: { type: string, minLength: 8 }
+        message: { type: string, minLength: 1 }
+        name: { type: string }
+        phone: { type: string }
+    ChatMessageResponse:
+      type: object
+      required: [sessionId, conversationId, reply, handoff]
+      properties:
+        sessionId: { type: string }
+        conversationId: { type: integer }
+        reply: { type: string }
+        handoff: { type: boolean }
+        leadId: { type: ["integer", "null"] }
+    WhatsappWebhookPayload:
+      type: object
+      additionalProperties: true
+    WebhookAck:
+      type: object
+      required: [received]
+      properties:
+        received: { type: boolean }
+    CampaignStatus:
+      type: string
+      enum: [rascunho, ativa, pausada, concluida]
+    ContactStatus:
+      type: string
+      enum: [novo, enviado, respondeu, invalido, optout, falhou]
+    Campaign:
+      type: object
+      required: [id, name, messageTemplate, status, dailyLimit, minIntervalSeconds, windowStartHour, windowEndHour, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        messageTemplate: { type: string }
+        status: { $ref: "#/components/schemas/CampaignStatus" }
+        dailyLimit: { type: integer }
+        minIntervalSeconds: { type: integer }
+        windowStartHour: { type: integer }
+        windowEndHour: { type: integer }
+        lastSentAt: { type: ["string", "null"], format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CampaignInput:
+      type: object
+      required: [name, messageTemplate]
+      properties:
+        name: { type: string, minLength: 2 }
+        messageTemplate: { type: string, minLength: 10 }
+        dailyLimit: { type: integer, minimum: 1, maximum: 1000 }
+        minIntervalSeconds: { type: integer, minimum: 5 }
+        windowStartHour: { type: integer, minimum: 0, maximum: 23 }
+        windowEndHour: { type: integer, minimum: 1, maximum: 24 }
+    CampaignUpdate:
+      type: object
+      properties:
+        name: { type: string, minLength: 2 }
+        messageTemplate: { type: string, minLength: 10 }
+        status: { $ref: "#/components/schemas/CampaignStatus" }
+        dailyLimit: { type: integer, minimum: 1, maximum: 1000 }
+        minIntervalSeconds: { type: integer, minimum: 5 }
+        windowStartHour: { type: integer, minimum: 0, maximum: 23 }
+        windowEndHour: { type: integer, minimum: 1, maximum: 24 }
+    Contact:
+      type: object
+      required: [id, name, phone, status, createdAt]
+      properties:
+        id: { type: integer }
+        campaignId: { type: ["integer", "null"] }
+        leadId: { type: ["integer", "null"] }
+        name: { type: string }
+        phone: { type: string }
+        city: { type: ["string", "null"] }
+        business: { type: ["string", "null"] }
+        status: { $ref: "#/components/schemas/ContactStatus" }
+        failureReason: { type: ["string", "null"] }
+        sentAt: { type: ["string", "null"], format: date-time }
+        repliedAt: { type: ["string", "null"], format: date-time }
+        createdAt: { type: string, format: date-time }
+    ContactRow:
+      type: object
+      required: [name, phone]
+      properties:
+        name: { type: string, minLength: 1 }
+        phone: { type: string, minLength: 8 }
+        city: { type: string }
+        business: { type: string }
+    ContactImportInput:
+      type: object
+      properties:
+        csv:
+          type: string
+          description: "CSV text with a nome,telefone[,cidade,negocio] header"
+        contacts:
+          type: array
+          items: { $ref: "#/components/schemas/ContactRow" }
+    ContactImportResult:
+      type: object
+      required: [imported, duplicates, invalid, optedOut]
+      properties:
+        imported: { type: integer }
+        duplicates: { type: integer }
+        invalid: { type: integer }
+        optedOut: { type: integer }
+        errors:
+          type: array
+          items: { type: string }
+    DispatchResult:
+      type: object
+      required: [sent, skipped, remaining]
+      properties:
+        sent: { type: integer }
+        skipped: { type: integer }
+        remaining: { type: integer }
+        reason: { type: ["string", "null"] }
     Error:
       type: object
       required: [error]

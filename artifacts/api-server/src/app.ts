@@ -9,6 +9,7 @@ import {
   getClerkProxyHost,
 } from "./middlewares/clerkProxyMiddleware";
 import router from "./routes";
+import publicRouter from "./routes/public";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
@@ -40,6 +41,8 @@ app.use(CLERK_PROXY_PATH, clerkProxyMiddleware());
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", publicRouter);
 
 app.use(
   clerkMiddleware((req) => ({

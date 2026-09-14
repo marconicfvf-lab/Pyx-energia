@@ -55,18 +55,26 @@ export interface Lead {
   id: number;
   name: string;
   phone: string;
-  customerType: CustomerType;
-  cpfCnpj: string;
-  state: BrazilState;
-  city: string;
-  distributor: string;
-  averageBill: number;
-  estimatedMonthlySavings: number;
-  estimatedAnnualSavings: number;
+  customerType?: CustomerType | null;
+  /** @nullable */
+  cpfCnpj?: string | null;
+  state?: BrazilState | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  distributor?: string | null;
+  /** @nullable */
+  averageBill?: number | null;
+  /** @nullable */
+  estimatedMonthlySavings?: number | null;
+  /** @nullable */
+  estimatedAnnualSavings?: number | null;
   source: string;
   stage: LeadStage;
-  consentAt: string;
-  consentText: string;
+  /** @nullable */
+  consentAt?: string | null;
+  /** @nullable */
+  consentText?: string | null;
   createdAt: string;
   updatedAt: string;
   /** @nullable */
@@ -173,6 +181,239 @@ export interface DashboardKpis {
   dueFollowUps: number;
 }
 
+export type ConversationChannel = typeof ConversationChannel[keyof typeof ConversationChannel];
+
+
+export const ConversationChannel = {
+  whatsapp: 'whatsapp',
+  site: 'site',
+} as const;
+
+export type ConversationStatus = typeof ConversationStatus[keyof typeof ConversationStatus];
+
+
+export const ConversationStatus = {
+  bot: 'bot',
+  humano: 'humano',
+  encerrada: 'encerrada',
+} as const;
+
+export type MessageDirection = typeof MessageDirection[keyof typeof MessageDirection];
+
+
+export const MessageDirection = {
+  entrada: 'entrada',
+  saida: 'saida',
+} as const;
+
+export interface Conversation {
+  id: number;
+  /** @nullable */
+  leadId?: number | null;
+  channel: ConversationChannel;
+  contactKey: string;
+  /** @nullable */
+  displayName?: string | null;
+  status: ConversationStatus;
+  botEnabled: boolean;
+  /** @nullable */
+  lastInboundAt?: string | null;
+  /** @nullable */
+  lastOutboundAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Message {
+  id: number;
+  conversationId: number;
+  direction: MessageDirection;
+  body: string;
+  /** @nullable */
+  mediaUrl?: string | null;
+  /** @nullable */
+  providerMessageId?: string | null;
+  fromAgent: boolean;
+  createdAt: string;
+}
+
+export type ConversationDetail = Conversation & {
+  messages: Message[];
+};
+
+export interface ConversationUpdate {
+  botEnabled?: boolean;
+  status?: ConversationStatus;
+}
+
+export interface MessageInput {
+  /** @minLength 1 */
+  body: string;
+}
+
+export interface ChatMessageInput {
+  /** @minLength 8 */
+  sessionId?: string;
+  /** @minLength 1 */
+  message: string;
+  name?: string;
+  phone?: string;
+}
+
+export interface ChatMessageResponse {
+  sessionId: string;
+  conversationId: number;
+  reply: string;
+  handoff: boolean;
+  /** @nullable */
+  leadId?: number | null;
+}
+
+export interface WhatsappWebhookPayload { [key: string]: unknown }
+
+export interface WebhookAck {
+  received: boolean;
+}
+
+export type CampaignStatus = typeof CampaignStatus[keyof typeof CampaignStatus];
+
+
+export const CampaignStatus = {
+  rascunho: 'rascunho',
+  ativa: 'ativa',
+  pausada: 'pausada',
+  concluida: 'concluida',
+} as const;
+
+export type ContactStatus = typeof ContactStatus[keyof typeof ContactStatus];
+
+
+export const ContactStatus = {
+  novo: 'novo',
+  enviado: 'enviado',
+  respondeu: 'respondeu',
+  invalido: 'invalido',
+  optout: 'optout',
+  falhou: 'falhou',
+} as const;
+
+export interface Campaign {
+  id: number;
+  name: string;
+  messageTemplate: string;
+  status: CampaignStatus;
+  dailyLimit: number;
+  minIntervalSeconds: number;
+  windowStartHour: number;
+  windowEndHour: number;
+  /** @nullable */
+  lastSentAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CampaignInput {
+  /** @minLength 2 */
+  name: string;
+  /** @minLength 10 */
+  messageTemplate: string;
+  /**
+     * @minimum 1
+     * @maximum 1000
+     */
+  dailyLimit?: number;
+  /** @minimum 5 */
+  minIntervalSeconds?: number;
+  /**
+     * @minimum 0
+     * @maximum 23
+     */
+  windowStartHour?: number;
+  /**
+     * @minimum 1
+     * @maximum 24
+     */
+  windowEndHour?: number;
+}
+
+export interface CampaignUpdate {
+  /** @minLength 2 */
+  name?: string;
+  /** @minLength 10 */
+  messageTemplate?: string;
+  status?: CampaignStatus;
+  /**
+     * @minimum 1
+     * @maximum 1000
+     */
+  dailyLimit?: number;
+  /** @minimum 5 */
+  minIntervalSeconds?: number;
+  /**
+     * @minimum 0
+     * @maximum 23
+     */
+  windowStartHour?: number;
+  /**
+     * @minimum 1
+     * @maximum 24
+     */
+  windowEndHour?: number;
+}
+
+export interface Contact {
+  id: number;
+  /** @nullable */
+  campaignId?: number | null;
+  /** @nullable */
+  leadId?: number | null;
+  name: string;
+  phone: string;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  business?: string | null;
+  status: ContactStatus;
+  /** @nullable */
+  failureReason?: string | null;
+  /** @nullable */
+  sentAt?: string | null;
+  /** @nullable */
+  repliedAt?: string | null;
+  createdAt: string;
+}
+
+export interface ContactRow {
+  /** @minLength 1 */
+  name: string;
+  /** @minLength 8 */
+  phone: string;
+  city?: string;
+  business?: string;
+}
+
+export interface ContactImportInput {
+  /** CSV text with a nome,telefone[,cidade,negocio] header */
+  csv?: string;
+  contacts?: ContactRow[];
+}
+
+export interface ContactImportResult {
+  imported: number;
+  duplicates: number;
+  invalid: number;
+  optedOut: number;
+  errors?: string[];
+}
+
+export interface DispatchResult {
+  sent: number;
+  skipped: number;
+  remaining: number;
+  /** @nullable */
+  reason?: string | null;
+}
+
 export interface Error {
   error: string;
 }
@@ -197,5 +438,14 @@ search?: string;
 stage?: LeadStage;
 state?: BrazilState;
 customerType?: CustomerType;
+};
+
+export type WhatsappWebhookParams = {
+token?: string;
+};
+
+export type ListConversationsParams = {
+channel?: ConversationChannel;
+status?: ConversationStatus;
 };
 

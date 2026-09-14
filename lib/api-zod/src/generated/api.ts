@@ -62,18 +62,18 @@ export const CreateLeadResponse = zod.object({
   "id": zod.number().int(),
   "name": zod.string(),
   "phone": zod.string(),
-  "customerType": zod.enum(['CPF', 'CNPJ']),
-  "cpfCnpj": zod.string(),
-  "state": zod.enum(['PE', 'CE']),
-  "city": zod.string(),
-  "distributor": zod.string(),
-  "averageBill": zod.number(),
-  "estimatedMonthlySavings": zod.number(),
-  "estimatedAnnualSavings": zod.number(),
+  "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
+  "cpfCnpj": zod.string().nullish(),
+  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "city": zod.string().nullish(),
+  "distributor": zod.string().nullish(),
+  "averageBill": zod.number().nullish(),
+  "estimatedMonthlySavings": zod.number().nullish(),
+  "estimatedAnnualSavings": zod.number().nullish(),
   "source": zod.string(),
   "stage": zod.enum(['novo', 'qualificacao', 'fatura', 'proposta', 'documentos', 'assinatura', 'ativacao', 'ganho', 'perdido']),
-  "consentAt": zod.coerce.date(),
-  "consentText": zod.string(),
+  "consentAt": zod.coerce.date().nullish(),
+  "consentText": zod.string().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date(),
   "nextFollowUpAt": zod.coerce.date().nullish(),
@@ -95,18 +95,18 @@ export const ListLeadsResponseItem = zod.object({
   "id": zod.number().int(),
   "name": zod.string(),
   "phone": zod.string(),
-  "customerType": zod.enum(['CPF', 'CNPJ']),
-  "cpfCnpj": zod.string(),
-  "state": zod.enum(['PE', 'CE']),
-  "city": zod.string(),
-  "distributor": zod.string(),
-  "averageBill": zod.number(),
-  "estimatedMonthlySavings": zod.number(),
-  "estimatedAnnualSavings": zod.number(),
+  "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
+  "cpfCnpj": zod.string().nullish(),
+  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "city": zod.string().nullish(),
+  "distributor": zod.string().nullish(),
+  "averageBill": zod.number().nullish(),
+  "estimatedMonthlySavings": zod.number().nullish(),
+  "estimatedAnnualSavings": zod.number().nullish(),
   "source": zod.string(),
   "stage": zod.enum(['novo', 'qualificacao', 'fatura', 'proposta', 'documentos', 'assinatura', 'ativacao', 'ganho', 'perdido']),
-  "consentAt": zod.coerce.date(),
-  "consentText": zod.string(),
+  "consentAt": zod.coerce.date().nullish(),
+  "consentText": zod.string().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date(),
   "nextFollowUpAt": zod.coerce.date().nullish(),
@@ -129,18 +129,18 @@ export const GetLeadResponse = zod.object({
   "id": zod.number().int(),
   "name": zod.string(),
   "phone": zod.string(),
-  "customerType": zod.enum(['CPF', 'CNPJ']),
-  "cpfCnpj": zod.string(),
-  "state": zod.enum(['PE', 'CE']),
-  "city": zod.string(),
-  "distributor": zod.string(),
-  "averageBill": zod.number(),
-  "estimatedMonthlySavings": zod.number(),
-  "estimatedAnnualSavings": zod.number(),
+  "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
+  "cpfCnpj": zod.string().nullish(),
+  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "city": zod.string().nullish(),
+  "distributor": zod.string().nullish(),
+  "averageBill": zod.number().nullish(),
+  "estimatedMonthlySavings": zod.number().nullish(),
+  "estimatedAnnualSavings": zod.number().nullish(),
   "source": zod.string(),
   "stage": zod.enum(['novo', 'qualificacao', 'fatura', 'proposta', 'documentos', 'assinatura', 'ativacao', 'ganho', 'perdido']),
-  "consentAt": zod.coerce.date(),
-  "consentText": zod.string(),
+  "consentAt": zod.coerce.date().nullish(),
+  "consentText": zod.string().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date(),
   "nextFollowUpAt": zod.coerce.date().nullish(),
@@ -196,18 +196,18 @@ export const UpdateLeadResponse = zod.object({
   "id": zod.number().int(),
   "name": zod.string(),
   "phone": zod.string(),
-  "customerType": zod.enum(['CPF', 'CNPJ']),
-  "cpfCnpj": zod.string(),
-  "state": zod.enum(['PE', 'CE']),
-  "city": zod.string(),
-  "distributor": zod.string(),
-  "averageBill": zod.number(),
-  "estimatedMonthlySavings": zod.number(),
-  "estimatedAnnualSavings": zod.number(),
+  "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
+  "cpfCnpj": zod.string().nullish(),
+  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "city": zod.string().nullish(),
+  "distributor": zod.string().nullish(),
+  "averageBill": zod.number().nullish(),
+  "estimatedMonthlySavings": zod.number().nullish(),
+  "estimatedAnnualSavings": zod.number().nullish(),
   "source": zod.string(),
   "stage": zod.enum(['novo', 'qualificacao', 'fatura', 'proposta', 'documentos', 'assinatura', 'ativacao', 'ganho', 'perdido']),
-  "consentAt": zod.coerce.date(),
-  "consentText": zod.string(),
+  "consentAt": zod.coerce.date().nullish(),
+  "consentText": zod.string().nullish(),
   "createdAt": zod.coerce.date(),
   "updatedAt": zod.coerce.date(),
   "nextFollowUpAt": zod.coerce.date().nullish(),
@@ -364,6 +364,356 @@ export const GetDashboardKpisResponse = zod.object({
   "lostLeads": zod.number().int(),
   "monthlySavings": zod.number(),
   "dueFollowUps": zod.number().int()
+})
+
+
+/**
+ * Public endpoint used by the site widget. Creates/continues a conversation and returns the agent reply.
+ * @summary Send a message to the site chat agent
+ */
+export const sendChatMessageBodySessionIdMin = 8;
+
+
+
+
+export const SendChatMessageBody = zod.object({
+  "sessionId": zod.string().min(sendChatMessageBodySessionIdMin).optional(),
+  "message": zod.string().min(1),
+  "name": zod.string().optional(),
+  "phone": zod.string().optional()
+})
+
+export const SendChatMessageResponse = zod.object({
+  "sessionId": zod.string(),
+  "conversationId": zod.number().int(),
+  "reply": zod.string(),
+  "handoff": zod.boolean(),
+  "leadId": zod.number().int().nullish()
+})
+
+
+/**
+ * Called by Evolution API or Meta Cloud API. Protected by the WHATSAPP_WEBHOOK_TOKEN query token.
+ * @summary Receive inbound WhatsApp messages
+ */
+export const WhatsappWebhookQueryParams = zod.object({
+  "token": zod.coerce.string().optional()
+})
+
+export const WhatsappWebhookBody = zod.record(zod.string(), zod.unknown())
+
+export const WhatsappWebhookResponse = zod.object({
+  "received": zod.boolean()
+})
+
+
+/**
+ * @summary List conversations
+ */
+export const ListConversationsQueryParams = zod.object({
+  "channel": zod.enum(['whatsapp', 'site']).optional(),
+  "status": zod.enum(['bot', 'humano', 'encerrada']).optional()
+})
+
+export const ListConversationsResponseItem = zod.object({
+  "id": zod.number().int(),
+  "leadId": zod.number().int().nullish(),
+  "channel": zod.enum(['whatsapp', 'site']),
+  "contactKey": zod.string(),
+  "displayName": zod.string().nullish(),
+  "status": zod.enum(['bot', 'humano', 'encerrada']),
+  "botEnabled": zod.boolean(),
+  "lastInboundAt": zod.coerce.date().nullish(),
+  "lastOutboundAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+export const ListConversationsResponse = zod.array(ListConversationsResponseItem)
+
+
+/**
+ * @summary Get a conversation with its messages
+ */
+
+
+
+export const GetConversationParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const GetConversationResponse = zod.object({
+  "id": zod.number().int(),
+  "leadId": zod.number().int().nullish(),
+  "channel": zod.enum(['whatsapp', 'site']),
+  "contactKey": zod.string(),
+  "displayName": zod.string().nullish(),
+  "status": zod.enum(['bot', 'humano', 'encerrada']),
+  "botEnabled": zod.boolean(),
+  "lastInboundAt": zod.coerce.date().nullish(),
+  "lastOutboundAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+}).and(zod.object({
+  "messages": zod.array(zod.object({
+  "id": zod.number().int(),
+  "conversationId": zod.number().int(),
+  "direction": zod.enum(['entrada', 'saida']),
+  "body": zod.string(),
+  "mediaUrl": zod.string().nullish(),
+  "providerMessageId": zod.string().nullish(),
+  "fromAgent": zod.boolean(),
+  "createdAt": zod.coerce.date()
+}))
+}))
+
+
+/**
+ * @summary Toggle the agent or hand the conversation to a human
+ */
+
+
+
+export const UpdateConversationParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const UpdateConversationBody = zod.object({
+  "botEnabled": zod.boolean().optional(),
+  "status": zod.enum(['bot', 'humano', 'encerrada']).optional()
+})
+
+export const UpdateConversationResponse = zod.object({
+  "id": zod.number().int(),
+  "leadId": zod.number().int().nullish(),
+  "channel": zod.enum(['whatsapp', 'site']),
+  "contactKey": zod.string(),
+  "displayName": zod.string().nullish(),
+  "status": zod.enum(['bot', 'humano', 'encerrada']),
+  "botEnabled": zod.boolean(),
+  "lastInboundAt": zod.coerce.date().nullish(),
+  "lastOutboundAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Send a message as a human operator
+ */
+
+
+
+export const SendConversationMessageParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+
+
+
+export const SendConversationMessageBody = zod.object({
+  "body": zod.string().min(1)
+})
+
+export const SendConversationMessageResponse = zod.object({
+  "id": zod.number().int(),
+  "conversationId": zod.number().int(),
+  "direction": zod.enum(['entrada', 'saida']),
+  "body": zod.string(),
+  "mediaUrl": zod.string().nullish(),
+  "providerMessageId": zod.string().nullish(),
+  "fromAgent": zod.boolean(),
+  "createdAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary List outbound campaigns
+ */
+export const ListCampaignsResponseItem = zod.object({
+  "id": zod.number().int(),
+  "name": zod.string(),
+  "messageTemplate": zod.string(),
+  "status": zod.enum(['rascunho', 'ativa', 'pausada', 'concluida']),
+  "dailyLimit": zod.number().int(),
+  "minIntervalSeconds": zod.number().int(),
+  "windowStartHour": zod.number().int(),
+  "windowEndHour": zod.number().int(),
+  "lastSentAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+export const ListCampaignsResponse = zod.array(ListCampaignsResponseItem)
+
+
+/**
+ * @summary Create an outbound campaign
+ */
+export const createCampaignBodyNameMin = 2;
+
+export const createCampaignBodyMessageTemplateMin = 10;
+
+export const createCampaignBodyDailyLimitMax = 1000;
+
+export const createCampaignBodyMinIntervalSecondsMin = 5;
+
+export const createCampaignBodyWindowStartHourMin = 0;
+export const createCampaignBodyWindowStartHourMax = 23;
+
+export const createCampaignBodyWindowEndHourMax = 24;
+
+
+
+export const CreateCampaignBody = zod.object({
+  "name": zod.string().min(createCampaignBodyNameMin),
+  "messageTemplate": zod.string().min(createCampaignBodyMessageTemplateMin),
+  "dailyLimit": zod.number().int().min(1).max(createCampaignBodyDailyLimitMax).optional(),
+  "minIntervalSeconds": zod.number().int().min(createCampaignBodyMinIntervalSecondsMin).optional(),
+  "windowStartHour": zod.number().int().min(createCampaignBodyWindowStartHourMin).max(createCampaignBodyWindowStartHourMax).optional(),
+  "windowEndHour": zod.number().int().min(1).max(createCampaignBodyWindowEndHourMax).optional()
+})
+
+export const CreateCampaignResponse = zod.object({
+  "id": zod.number().int(),
+  "name": zod.string(),
+  "messageTemplate": zod.string(),
+  "status": zod.enum(['rascunho', 'ativa', 'pausada', 'concluida']),
+  "dailyLimit": zod.number().int(),
+  "minIntervalSeconds": zod.number().int(),
+  "windowStartHour": zod.number().int(),
+  "windowEndHour": zod.number().int(),
+  "lastSentAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary Update campaign settings or status
+ */
+
+
+
+export const UpdateCampaignParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const updateCampaignBodyNameMin = 2;
+
+export const updateCampaignBodyMessageTemplateMin = 10;
+
+export const updateCampaignBodyDailyLimitMax = 1000;
+
+export const updateCampaignBodyMinIntervalSecondsMin = 5;
+
+export const updateCampaignBodyWindowStartHourMin = 0;
+export const updateCampaignBodyWindowStartHourMax = 23;
+
+export const updateCampaignBodyWindowEndHourMax = 24;
+
+
+
+export const UpdateCampaignBody = zod.object({
+  "name": zod.string().min(updateCampaignBodyNameMin).optional(),
+  "messageTemplate": zod.string().min(updateCampaignBodyMessageTemplateMin).optional(),
+  "status": zod.enum(['rascunho', 'ativa', 'pausada', 'concluida']).optional(),
+  "dailyLimit": zod.number().int().min(1).max(updateCampaignBodyDailyLimitMax).optional(),
+  "minIntervalSeconds": zod.number().int().min(updateCampaignBodyMinIntervalSecondsMin).optional(),
+  "windowStartHour": zod.number().int().min(updateCampaignBodyWindowStartHourMin).max(updateCampaignBodyWindowStartHourMax).optional(),
+  "windowEndHour": zod.number().int().min(1).max(updateCampaignBodyWindowEndHourMax).optional()
+})
+
+export const UpdateCampaignResponse = zod.object({
+  "id": zod.number().int(),
+  "name": zod.string(),
+  "messageTemplate": zod.string(),
+  "status": zod.enum(['rascunho', 'ativa', 'pausada', 'concluida']),
+  "dailyLimit": zod.number().int(),
+  "minIntervalSeconds": zod.number().int(),
+  "windowStartHour": zod.number().int(),
+  "windowEndHour": zod.number().int(),
+  "lastSentAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date()
+})
+
+
+/**
+ * @summary List campaign contacts
+ */
+
+
+
+export const ListCampaignContactsParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const ListCampaignContactsResponseItem = zod.object({
+  "id": zod.number().int(),
+  "campaignId": zod.number().int().nullish(),
+  "leadId": zod.number().int().nullish(),
+  "name": zod.string(),
+  "phone": zod.string(),
+  "city": zod.string().nullish(),
+  "business": zod.string().nullish(),
+  "status": zod.enum(['novo', 'enviado', 'respondeu', 'invalido', 'optout', 'falhou']),
+  "failureReason": zod.string().nullish(),
+  "sentAt": zod.coerce.date().nullish(),
+  "repliedAt": zod.coerce.date().nullish(),
+  "createdAt": zod.coerce.date()
+})
+export const ListCampaignContactsResponse = zod.array(ListCampaignContactsResponseItem)
+
+
+/**
+ * @summary Import a contact list (CSV text or rows)
+ */
+
+
+
+export const ImportCampaignContactsParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+
+export const importCampaignContactsBodyContactsItemPhoneMin = 8;
+
+
+
+export const ImportCampaignContactsBody = zod.object({
+  "csv": zod.string().optional().describe('CSV text with a nome,telefone[,cidade,negocio] header'),
+  "contacts": zod.array(zod.object({
+  "name": zod.string().min(1),
+  "phone": zod.string().min(importCampaignContactsBodyContactsItemPhoneMin),
+  "city": zod.string().optional(),
+  "business": zod.string().optional()
+})).optional()
+})
+
+export const ImportCampaignContactsResponse = zod.object({
+  "imported": zod.number().int(),
+  "duplicates": zod.number().int(),
+  "invalid": zod.number().int(),
+  "optedOut": zod.number().int(),
+  "errors": zod.array(zod.string()).optional()
+})
+
+
+/**
+ * Respects the daily limit, the minimum interval, the business-hours window and the opt-out list.
+ * @summary Send the next batch of campaign messages
+ */
+
+
+
+export const DispatchCampaignParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const DispatchCampaignResponse = zod.object({
+  "sent": zod.number().int(),
+  "skipped": zod.number().int(),
+  "remaining": zod.number().int(),
+  "reason": zod.string().nullish()
 })
 
 
