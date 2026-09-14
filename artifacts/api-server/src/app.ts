@@ -1,3 +1,4 @@
+import path from "node:path";
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
@@ -10,6 +11,7 @@ import {
 } from "./middlewares/clerkProxyMiddleware";
 import router from "./routes";
 import publicRouter from "./routes/public";
+import { env } from "./lib/env";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
@@ -54,5 +56,14 @@ app.use(
 );
 
 app.use("/api", router);
+
+if (env.staticDir) {
+  const staticDir = path.resolve(env.staticDir);
+  app.use(express.static(staticDir));
+  // Client-side routing: any non-API path renders the SPA shell.
+  app.get(/^(?!\/api\/).*/, (_req, res) => {
+    res.sendFile(path.join(staticDir, "index.html"));
+  });
+}
 
 export default app;

@@ -22,4 +22,8 @@ export const env = {
   discountPercent: num("PYX_DISCOUNT_PERCENT", 20),
   maxDiscountPercent: num("PYX_MAX_DISCOUNT_PERCENT", 32),
   salesWhatsapp: str("PYX_SALES_WHATSAPP", "5581999725151"),
+  /** Shared secret for the scheduled dispatch endpoint; empty disables it. */
+  cronSecret: str("CRON_SECRET"),
+  /** Directory with the built SPA; empty means the API serves no static files. */
+  staticDir: str("STATIC_DIR"),
 } as const;

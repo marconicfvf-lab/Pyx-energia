@@ -292,7 +292,8 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
   return { sent: 1, skipped: 0, remaining: remaining - 1, reason: null };
 }
 
-async function tick(): Promise<void> {
+/** One dispatch pass over every active campaign. */
+export async function runCampaignPass(): Promise<void> {
   const campaigns = await db
     .select()
     .from(campaignsTable)
@@ -309,7 +310,7 @@ async function tick(): Promise<void> {
 /** Keeps active campaigns flowing without any manual click. */
 export function startCampaignScheduler(intervalMs = 30_000): NodeJS.Timeout {
   const timer = setInterval(() => {
-    void tick();
+    void runCampaignPass();
   }, intervalMs);
   timer.unref();
   return timer;
