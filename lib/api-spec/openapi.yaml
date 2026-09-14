@@ -1,22 +1,23 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: PYX Energia CRM API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
-    description: Health operations
+  - name: leads
+  - name: activities
+  - name: follow-ups
+  - name: dashboard
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +25,363 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /leads:
+    post:
+      operationId: createLead
+      tags: [leads]
+      summary: Capture a calculator lead
+      description: Public endpoint used before opening WhatsApp. Requires explicit LGPD consent.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadInput"
+      responses:
+        "201":
+          description: Lead captured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+    get:
+      operationId: listLeads
+      tags: [leads]
+      summary: List leads
+      security: [{ clerkSession: [] }]
+      parameters:
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: stage
+          in: query
+          schema: { $ref: "#/components/schemas/LeadStage" }
+        - name: state
+          in: query
+          schema: { $ref: "#/components/schemas/BrazilState" }
+        - name: customerType
+          in: query
+          schema: { $ref: "#/components/schemas/CustomerType" }
+      responses:
+        "200":
+          description: Leads
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Lead" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /leads/{id}:
+    get:
+      operationId: getLead
+      tags: [leads]
+      summary: Get a lead and its timeline
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      responses:
+        "200":
+          description: Lead detail
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LeadDetail" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      operationId: updateLead
+      tags: [leads]
+      summary: Update lead fields or funnel stage
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/LeadUpdate" }
+      responses:
+        "200":
+          description: Updated lead
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Lead" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /leads/{id}/activities:
+    get:
+      operationId: listLeadActivities
+      tags: [activities]
+      summary: List a lead timeline
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      responses:
+        "200":
+          description: Timeline entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Activity" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createLeadActivity
+      tags: [activities]
+      summary: Add a note or timeline activity
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ActivityInput" }
+      responses:
+        "201":
+          description: Created activity
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Activity" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /leads/{id}/tasks:
+    get:
+      operationId: listLeadTasks
+      tags: [follow-ups]
+      summary: List a lead follow-up tasks
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      responses:
+        "200":
+          description: Follow-up tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/FollowUpTask" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createLeadTask
+      tags: [follow-ups]
+      summary: Schedule a follow-up
+      security: [{ clerkSession: [] }]
+      parameters: [{ $ref: "#/components/parameters/LeadId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FollowUpTaskInput" }
+      responses:
+        "201":
+          description: Created task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FollowUpTask" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /tasks/{id}:
+    patch:
+      operationId: updateFollowUpTask
+      tags: [follow-ups]
+      summary: Complete or edit a follow-up
+      security: [{ clerkSession: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, minimum: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FollowUpTaskUpdate" }
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FollowUpTask" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /dashboard/kpis:
+    get:
+      operationId: getDashboardKpis
+      tags: [dashboard]
+      summary: Get dashboard KPIs
+      security: [{ clerkSession: [] }]
+      responses:
+        "200":
+          description: KPI totals
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DashboardKpis" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
 components:
+  securitySchemes:
+    clerkSession:
+      type: http
+      scheme: bearer
+      description: Clerk-authenticated session
+  parameters:
+    LeadId:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
-        status:
-          type: string
-      required:
-        - status
-
+        status: { type: string }
+    LeadStage:
+      type: string
+      enum: [novo, qualificacao, fatura, proposta, documentos, assinatura, ativacao, ganho, perdido]
+    CustomerType:
+      type: string
+      enum: [CPF, CNPJ]
+    BrazilState:
+      type: string
+      enum: [PE, CE]
+    ActivityType:
+      type: string
+      enum: [nota, ligacao, whatsapp, email, mudanca_etapa]
+    Lead:
+      type: object
+      required: [id, name, phone, customerType, cpfCnpj, state, city, distributor, averageBill, estimatedMonthlySavings, estimatedAnnualSavings, source, stage, consentAt, consentText, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        phone: { type: string }
+        customerType: { $ref: "#/components/schemas/CustomerType" }
+        cpfCnpj: { type: string }
+        state: { $ref: "#/components/schemas/BrazilState" }
+        city: { type: string }
+        distributor: { type: string }
+        averageBill: { type: number }
+        estimatedMonthlySavings: { type: number }
+        estimatedAnnualSavings: { type: number }
+        source: { type: string }
+        stage: { $ref: "#/components/schemas/LeadStage" }
+        consentAt: { type: string, format: date-time }
+        consentText: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        nextFollowUpAt: { type: ["string", "null"], format: date-time }
+        notes: { type: ["string", "null"] }
+    LeadInput:
+      type: object
+      required: [name, phone, customerType, cpfCnpj, state, city, distributor, averageBill, estimatedMonthlySavings, estimatedAnnualSavings, source, consentAccepted, consentText]
+      properties:
+        name: { type: string, minLength: 2 }
+        phone: { type: string, minLength: 8 }
+        customerType: { $ref: "#/components/schemas/CustomerType" }
+        cpfCnpj: { type: string, minLength: 5 }
+        state: { $ref: "#/components/schemas/BrazilState" }
+        city: { type: string, minLength: 2 }
+        distributor: { type: string, minLength: 2 }
+        averageBill: { type: number, minimum: 0 }
+        estimatedMonthlySavings: { type: number, minimum: 0 }
+        estimatedAnnualSavings: { type: number, minimum: 0 }
+        source: { type: string, minLength: 1, default: calculator }
+        consentAccepted: { type: boolean, const: true }
+        consentText: { type: string, minLength: 10 }
+    LeadUpdate:
+      type: object
+      properties:
+        name: { type: string, minLength: 2 }
+        phone: { type: string, minLength: 8 }
+        stage: { $ref: "#/components/schemas/LeadStage" }
+        nextFollowUpAt: { type: ["string", "null"], format: date-time }
+        notes: { type: ["string", "null"] }
+    Activity:
+      type: object
+      required: [id, leadId, type, content, createdAt]
+      properties:
+        id: { type: integer }
+        leadId: { type: integer }
+        type: { $ref: "#/components/schemas/ActivityType" }
+        content: { type: string }
+        authorId: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+    ActivityInput:
+      type: object
+      required: [type, content]
+      properties:
+        type: { $ref: "#/components/schemas/ActivityType" }
+        content: { type: string, minLength: 1 }
+    FollowUpTask:
+      type: object
+      required: [id, leadId, title, dueAt, completed, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        leadId: { type: integer }
+        title: { type: string }
+        dueAt: { type: string, format: date-time }
+        completed: { type: boolean }
+        completedAt: { type: ["string", "null"], format: date-time }
+        assignedTo: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    FollowUpTaskInput:
+      type: object
+      required: [title, dueAt]
+      properties:
+        title: { type: string, minLength: 1 }
+        dueAt: { type: string, format: date-time }
+        assignedTo: { type: string }
+    FollowUpTaskUpdate:
+      type: object
+      properties:
+        title: { type: string, minLength: 1 }
+        dueAt: { type: string, format: date-time }
+        completed: { type: boolean }
+        assignedTo: { type: string }
+    LeadDetail:
+      allOf:
+        - $ref: "#/components/schemas/Lead"
+        - type: object
+          required: [activities, tasks]
+          properties:
+            activities:
+              type: array
+              items: { $ref: "#/components/schemas/Activity" }
+            tasks:
+              type: array
+              items: { $ref: "#/components/schemas/FollowUpTask" }
+    DashboardKpis:
+      type: object
+      required: [totalLeads, newLeads, activeLeads, wonLeads, lostLeads, monthlySavings, dueFollowUps]
+      properties:
+        totalLeads: { type: integer }
+        newLeads: { type: integer }
+        activeLeads: { type: integer }
+        wonLeads: { type: integer }
+        lostLeads: { type: integer }
+        monthlySavings: { type: number }
+        dueFollowUps: { type: integer }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }

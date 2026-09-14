@@ -1,0 +1,1 @@
+- [CRM próprio da PYX](crm-proprio.md) — automação comercial deve evoluir sobre o painel próprio, mantendo integrações externas opcionais.

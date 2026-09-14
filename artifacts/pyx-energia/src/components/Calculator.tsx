@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { ArrowRight, Info, CheckCircle2, TrendingDown } from "lucide-react";
+import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
+import { useCreateLead } from "@workspace/api-client-react";
 
 export function Calculator() {
   const [bill, setBill] = useState(2500);
   const [animatedSavings, setAnimatedSavings] = useState(0);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [customerType, setCustomerType] = useState<"CPF" | "CNPJ">("CPF");
+  const [cpfCnpj, setCpfCnpj] = useState("");
+  const [state, setState] = useState<"PE" | "CE">("PE");
+  const [city, setCity] = useState("");
+  const [distributor, setDistributor] = useState("Neoenergia");
+  const [consentAccepted, setConsentAccepted] = useState(false);
+  const [formError, setFormError] = useState("");
+  const createLead = useCreateLead();
 
   const discountRate = 0.32; // up to 32%
   const estimatedSavings = bill * discountRate;
@@ -41,8 +52,42 @@ export function Calculator() {
   };
 
   const handleWhatsApp = () => {
+    setFormError("");
+    if (!name.trim() || !phone.trim() || !cpfCnpj.trim() || !city.trim()) {
+      setFormError("Preencha seus dados para receber a simulação pelo WhatsApp.");
+      return;
+    }
+    if (!consentAccepted) {
+      setFormError("É necessário aceitar o uso dos dados para continuar.");
+      return;
+    }
     const text = `Olá! Minha conta de luz é de aproximadamente ${formatCurrency(bill)} por mês. Gostaria de saber como a PYX pode me ajudar a economizar até ${formatCurrency(estimatedSavings)} mensais.`;
-    window.open(`https://wa.me/5581999725151?text=${encodeURIComponent(text)}`, '_blank');
+    createLead.mutate(
+      {
+        data: {
+          name: name.trim(),
+          phone: phone.trim(),
+          customerType,
+          cpfCnpj: cpfCnpj.trim(),
+          state,
+          city: city.trim(),
+          distributor,
+          averageBill: bill,
+          estimatedMonthlySavings: estimatedSavings,
+          estimatedAnnualSavings: yearlySavings,
+          source: "calculator",
+          consentAccepted: true,
+          consentText:
+            "Autorizo a PYX Energia a tratar meus dados para contato comercial e simulação de economia, conforme a LGPD.",
+        },
+      },
+      {
+        onSuccess: () => {
+          window.open(`https://wa.me/5581999725151?text=${encodeURIComponent(text)}`, "_blank");
+        },
+        onError: () => setFormError("Não foi possível registrar seus dados. Tente novamente."),
+      },
+    );
   };
 
   return (
@@ -124,8 +169,85 @@ export function Calculator() {
           </div>
         </div>
 
-        <Button onClick={handleWhatsApp} size="lg" className="w-full gap-2 text-lg h-14">
-          Quero economizar agora
+        <div className="space-y-4 mb-8">
+          <p className="text-sm font-semibold text-foreground">Como podemos enviar sua simulação?</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Nome completo"
+              aria-label="Nome completo"
+              className="h-11 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+            />
+            <input
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              placeholder="WhatsApp (DDD + número)"
+              aria-label="WhatsApp"
+              inputMode="tel"
+              className="h-11 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+            />
+            <div className="flex gap-2">
+              <select
+                value={customerType}
+                onChange={(event) => setCustomerType(event.target.value as "CPF" | "CNPJ")}
+                aria-label="Tipo de cliente"
+                className="h-11 rounded-lg border border-input bg-white px-2 text-sm"
+              >
+                <option value="CPF">CPF</option>
+                <option value="CNPJ">CNPJ</option>
+              </select>
+              <input
+                value={cpfCnpj}
+                onChange={(event) => setCpfCnpj(event.target.value)}
+                placeholder={customerType}
+                aria-label={customerType}
+                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+            <div className="flex gap-2">
+              <select
+                value={state}
+                onChange={(event) => setState(event.target.value as "PE" | "CE")}
+                aria-label="Estado"
+                className="h-11 rounded-lg border border-input bg-white px-2 text-sm"
+              >
+                <option value="PE">PE</option>
+                <option value="CE">CE</option>
+              </select>
+              <input
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+                placeholder="Cidade"
+                aria-label="Cidade"
+                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+          </div>
+          <input
+            value={distributor}
+            onChange={(event) => setDistributor(event.target.value)}
+            placeholder="Distribuidora"
+            aria-label="Distribuidora"
+            className="h-11 w-full rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+          />
+          <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={consentAccepted}
+              onChange={(event) => setConsentAccepted(event.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-primary"
+            />
+            <span>
+              Autorizo a PYX Energia a tratar meus dados para contato comercial e
+              simulação de economia, conforme a LGPD.
+            </span>
+          </label>
+          {formError && <p className="text-sm font-medium text-destructive">{formError}</p>}
+        </div>
+
+        <Button onClick={handleWhatsApp} disabled={createLead.isPending} size="lg" className="w-full gap-2 text-lg h-14">
+          {createLead.isPending ? "Registrando..." : "Quero economizar agora"}
           <ArrowRight className="w-5 h-5" />
         </Button>
         <p className="text-center text-xs text-muted-foreground mt-4">
