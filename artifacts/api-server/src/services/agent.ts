@@ -159,24 +159,38 @@ function extractName(message: string): string | undefined {
   return cleaned.length >= 2 ? cleaned : undefined;
 }
 
-function extractCity(message: string): string | undefined {
+function extractCity(message: string, awaitingCity: boolean): string | undefined {
   const match =
     /(?:moro em|sou de|aqui (?:é|e) (?:de|em)|minha cidade (?:é|e)|cidade:|estou em)\s+([\p{L}][\p{L}\s']{2,30})/iu.exec(
       message,
     );
   const candidate = match?.[1]?.split(/[,.;]|\be\b/)[0];
-  return sanitizeLabel(candidate);
+  const city = sanitizeLabel(candidate);
+  if (city) return city;
+  // "Recife" alone only means a city right after the agent asked for one.
+  if (!awaitingCity || NOT_A_NAME.test(message.trim())) return undefined;
+  return sanitizeLabel(message);
+}
+
+/** True when the last thing the agent said was a question about the city. */
+function askedForCity(history: AgentTurn[]): boolean {
+  const last = [...history].reverse().find((turn) => turn.role === "agente");
+  return Boolean(last && /cidade|onde (você|voce) mora/i.test(last.text));
 }
 
 /** Reads the lead fields straight from what the lead typed. */
-function extractFields(known: AgentKnownLead, message: string): AgentExtraction {
+function extractFields(
+  known: AgentKnownLead,
+  message: string,
+  history: AgentTurn[],
+): AgentExtraction {
   const extracted: AgentExtraction = {};
   if (!known.name) {
     const name = extractName(message);
     if (name) extracted.name = name;
   }
   if (!known.city) {
-    const city = extractCity(message);
+    const city = extractCity(message, askedForCity(history));
     if (city) extracted.city = city;
   }
   const bill = resolveBill(message);
@@ -193,10 +207,16 @@ function extractFields(known: AgentKnownLead, message: string): AgentExtraction 
  * Deterministic script used when Gemini is unavailable, so the funnel keeps
  * qualifying leads instead of going silent.
  */
-function scriptedReply(known: AgentKnownLead, message: string): AgentResult {
-  const extracted = extractFields(known, message);
+function scriptedReply(
+  known: AgentKnownLead,
+  message: string,
+  history: AgentTurn[],
+): AgentResult {
+  const extracted = extractFields(known, message, history);
 
   const name = known.name ?? extracted.name;
+  const city = known.city ?? extracted.city;
+  const customerType = known.customerType ?? extracted.customerType;
   const averageBill = known.averageBill ?? extracted.averageBill;
 
   if (HANDOFF_PATTERNS.test(message)) {
@@ -211,6 +231,22 @@ function scriptedReply(known: AgentKnownLead, message: string): AgentResult {
     return {
       reply:
         "Oi! Aqui é a Sofia, da PYX Energia. Posso te mostrar quanto dá para economizar na conta de luz sem obra nem investimento. Como é o seu nome?",
+      extracted,
+      handoff: false,
+      qualified: false,
+    };
+  }
+  if (!city) {
+    return {
+      reply: `Prazer, ${name}! Em qual cidade fica o imóvel?`,
+      extracted,
+      handoff: false,
+      qualified: false,
+    };
+  }
+  if (!customerType) {
+    return {
+      reply: "A conta de luz está no CPF ou no CNPJ?",
       extracted,
       handoff: false,
       qualified: false,
@@ -246,7 +282,7 @@ export async function runAgent(
   history: AgentTurn[],
   message: string,
 ): Promise<AgentResult> {
-  const fallback = scriptedReply(known, message);
+  const fallback = scriptedReply(known, message, history);
   if (HANDOFF_PATTERNS.test(message)) return fallback;
   // The model sees what this turn revealed, so it never has to guess a value.
   const enriched: AgentKnownLead = { ...known, ...fallback.extracted };

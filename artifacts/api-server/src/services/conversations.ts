@@ -287,8 +287,10 @@ export async function handleInbound(input: {
       type: "whatsapp",
       content: `${input.channel === "site" ? "Chat do site" : "WhatsApp"} — lead: ${input.text}`,
     });
-    const hasBill = Boolean(lead.averageBill ?? result.extracted.averageBill);
-    await advanceStage(lead, result.qualified && hasBill ? "proposta" : "qualificacao");
+    const ready =
+      Boolean(lead.averageBill ?? result.extracted.averageBill) &&
+      Boolean(lead.city ?? result.extracted.city);
+    await advanceStage(lead, result.qualified && ready ? "proposta" : "qualificacao");
     await scheduleFollowUp(
       lead.id,
       result.handoff ? "Assumir conversa do robô" : "Retomar conversa do robô",
