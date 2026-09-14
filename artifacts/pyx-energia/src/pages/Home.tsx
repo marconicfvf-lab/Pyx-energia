@@ -29,9 +29,9 @@ export default function Home() {
         {/* HERO */}
         <section 
           ref={heroRef}
-          className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-white text-foreground"
+          className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-primary text-white"
           style={{
-            backgroundImage: `radial-gradient(circle at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), rgba(27, 107, 58, 0.12) 0%, transparent 48%)`
+            backgroundImage: `radial-gradient(circle at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), rgba(255, 255, 255, 0.13) 0%, transparent 48%)`
           }}
         >
           {/* Subtle noise texture */}
@@ -42,19 +42,19 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
               <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium mb-6">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-60"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                   </span>
                   Energia limpa por assinatura
                 </div>
                 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 tracking-tight">
-                  Reduza até <span className="text-primary">32%</span> na sua conta de luz.
+                  Reduza até <span className="text-white">32%</span> na sua conta de luz.
                 </h1>
                 
-                <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
+                <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed max-w-xl">
                   Assine energia renovável sem burocracia. Sem investimento inicial, sem obras e sem instalar placas solares. 
                   Economia para sua casa ou seu negócio, todos os meses.
                 </p>
@@ -62,7 +62,7 @@ export default function Home() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     size="lg" 
-                    className="h-14 px-8 text-base gap-2 bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto"
+                    className="h-14 px-8 text-base gap-2 bg-white text-primary hover:bg-white/90 w-full sm:w-auto"
                     onClick={() => document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     Simular Economia
@@ -71,7 +71,7 @@ export default function Home() {
                   <Button 
                     variant="outline"
                     size="lg" 
-                    className="h-14 px-8 text-base gap-2 border-primary/40 !bg-transparent !text-primary hover:!bg-primary/5 w-full sm:w-auto"
+                    className="h-14 px-8 text-base gap-2 border-white/40 !bg-transparent !text-white hover:!bg-white/10 w-full sm:w-auto"
                     onClick={() => {
                       const text = "Olá! Gostaria de falar com um especialista sobre como reduzir minha conta de luz.";
                       window.open(`https://wa.me/5581999725151?text=${encodeURIComponent(text)}`, '_blank');
@@ -81,13 +81,13 @@ export default function Home() {
                   </Button>
                 </div>
                 
-                <div className="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
+                <div className="mt-10 flex items-center gap-6 text-sm text-white/70">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-primary" />
+                    <ShieldCheck className="w-5 h-5 text-white" />
                     <span>Regulamentado pela Aneel</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-primary" />
+                    <Zap className="w-5 h-5 text-white" />
                     <span>Ativação em até 60 dias</span>
                   </div>
                 </div>

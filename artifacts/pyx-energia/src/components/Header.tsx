@@ -41,7 +41,9 @@ export function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  isScrolled ? "text-foreground hover:text-primary" : "text-white/85 hover:text-white"
+                }`}
               >
                 {link.label}
               </a>
@@ -51,7 +53,9 @@ export function Header() {
                 document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' });
               }}
               variant="default"
-              className="gap-2"
+              className={`gap-2 ${
+                isScrolled ? "" : "bg-white text-primary hover:bg-white/90"
+              }`}
             >
               <Zap className="h-4 w-4" />
               Simular Economia
@@ -60,7 +64,9 @@ export function Header() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden z-50 p-2 text-foreground"
+            className={`md:hidden z-50 p-2 ${
+              isMobileMenuOpen || isScrolled ? "text-foreground" : "text-white"
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
