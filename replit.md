@@ -1,6 +1,6 @@
-# [Project name]
+# PYX Energia
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Landing page de conversão da PYX Energia para empresas de Pernambuco interessadas em reduzir gastos com energia.
 
 ## Run & Operate
 
@@ -22,15 +22,23 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/pyx-energia/` — site público e fonte visual da marca
+- `artifacts/pyx-energia/src/pages/Home.tsx` — conteúdo e fluxo principal
+- `artifacts/pyx-energia/src/components/Calculator.tsx` — simulador de economia
+- `artifacts/pyx-energia/src/index.css` — tokens e estilos globais
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- A primeira versão é estática e direciona leads qualificados ao WhatsApp.
+- Toda economia exibida pelo simulador é apresentada como estimativa.
+- A promessa comercial deve permanecer consistente em “até 32%”.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Explica energia renovável por assinatura sem obras ou investimento inicial.
+- Calcula economia mensal e anual estimada.
+- Encaminha o visitante ao WhatsApp com uma mensagem contextualizada.
+- Inclui conteúdo rastreável, metadados sociais, sitemap e robots.
 
 ## User preferences
 

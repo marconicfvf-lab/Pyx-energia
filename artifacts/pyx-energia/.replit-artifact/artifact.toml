@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "PYX Energia"
+description = "Landing page de alta conversão para a PYX Energia, focada em empresas de Pernambuco que querem reduzir a conta de luz com energia renovável por assinatura, sem obras ou investimento inicial."
+version = "1.0.0"
+id = "artifacts/pyx-energia"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18171
+
+[services.development]
+run = "pnpm --filter @workspace/pyx-energia run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pyx-energia", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pyx-energia/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18171"
+BASE_PATH = "/"
