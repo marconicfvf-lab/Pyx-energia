@@ -25,7 +25,7 @@ jobs:
             echo "APP_URL (variable) e CRON_SECRET (secret) precisam estar configurados"
             exit 1
           fi
-          code=$(curl -sS -o /tmp/out.txt -w '%{http_code}' \
+          code=$(curl --connect-timeout 10 --max-time 60 -sS -o /tmp/out.txt -w '%{http_code}' \
             -H "Authorization: Bearer $CRON_SECRET" \
             "$APP_URL/api/cron/campaigns")
           echo "HTTP $code"
