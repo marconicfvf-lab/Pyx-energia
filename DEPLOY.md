@@ -34,7 +34,7 @@ STATIC_DIR=artifacts/pyx-energia/dist/public PORT=8080 node artifacts/api-server
 | `GEMINI_API_KEY` / `GEMINI_MODEL` | não | Sem chave o robô usa o fluxo determinístico |
 | `PYX_DISCOUNT_PERCENT` / `PYX_MAX_DISCOUNT_PERCENT` | não | Desconto usado na estimativa |
 | `PYX_SALES_WHATSAPP` | não | Número comercial mostrado no fallback |
-| `CRON_SECRET` | em serverless | Habilita `POST /api/cron/campaigns` |
+| `CRON_SECRET` | em serverless | Habilita `GET`/`POST /api/cron/campaigns` |
 
 ## Disparo das campanhas
 
@@ -45,11 +45,20 @@ Em hosts serverless (Vercel, Lambda) o processo morre entre requisições: defin
 `CRON_SECRET` e chame periodicamente
 
 ```
-POST /api/cron/campaigns
+GET /api/cron/campaigns
 Authorization: Bearer $CRON_SECRET
 ```
 
 Sem `CRON_SECRET` o endpoint responde 404.
+
+O cron do plano Hobby da Vercel roda só uma vez por dia (um contato por
+campanha por dia). Para o ritmo configurado nas campanhas, o repositório traz o
+workflow gratuito `.github/workflows/campanhas-cron.yml`, que chama o endpoint a
+cada 5 minutos. Configure no GitHub:
+
+- variável `APP_URL` (Settings → Secrets and variables → Actions → Variables),
+  ex.: `https://pyxenergia.com`;
+- secret `CRON_SECRET` com o mesmo valor usado no host.
 
 ## Migrações
 
