@@ -1,0 +1,33 @@
+name: Disparo de campanhas
+
+# Agendador gratuito: chama o endpoint de campanhas do app publicado, já que
+# hosts serverless não mantêm o scheduler em processo e o cron do plano Hobby
+# da Vercel roda só uma vez por dia.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: campanhas-cron
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar /api/cron/campaigns
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$APP_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "APP_URL (variable) e CRON_SECRET (secret) precisam estar configurados"
+            exit 1
+          fi
+          code=$(curl -sS -o /tmp/out.txt -w '%{http_code}' \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$APP_URL/api/cron/campaigns")
+          echo "HTTP $code"
+          cat /tmp/out.txt
+          [ "$code" = "200" ]
