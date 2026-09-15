@@ -1,4 +1,4 @@
-import { and, asc, count, eq, gte } from "drizzle-orm";
+import { and, asc, count, eq, gte, isNull, lt, or } from "drizzle-orm";
 import {
   activitiesTable,
   campaignsTable,
@@ -203,20 +203,58 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
   if (await sentToday(campaign.id) >= campaign.dailyLimit) {
     return { ...base, reason: "Limite diário atingido" };
   }
-  if (
-    campaign.lastSentAt &&
-    Date.now() - campaign.lastSentAt.getTime() < campaign.minIntervalSeconds * 1000
-  ) {
-    return { ...base, reason: "Aguardando o intervalo mínimo entre mensagens" };
-  }
+  // Reserva o intervalo da campanha em uma única escrita condicional: passes
+  // simultâneos (cron externo, scheduler em processo, retries) perdem a corrida
+  // em vez de enviarem a mesma mensagem duas vezes.
+  const claimedAt = new Date();
+  const previousLastSentAt = campaign.lastSentAt;
+  const [claimed] = await db
+    .update(campaignsTable)
+    .set({ lastSentAt: claimedAt })
+    .where(
+      and(
+        eq(campaignsTable.id, campaign.id),
+        eq(campaignsTable.status, "ativa"),
+        or(
+          isNull(campaignsTable.lastSentAt),
+          lt(
+            campaignsTable.lastSentAt,
+            new Date(claimedAt.getTime() - campaign.minIntervalSeconds * 1000),
+          ),
+        ),
+      ),
+    )
+    .returning({ id: campaignsTable.id });
+  if (!claimed) return { ...base, reason: "Aguardando o intervalo mínimo entre mensagens" };
 
-  const [contact] = await db
+  const releaseClaim = async (): Promise<void> => {
+    await db
+      .update(campaignsTable)
+      .set({ lastSentAt: previousLastSentAt ?? null })
+      .where(and(eq(campaignsTable.id, campaign.id), eq(campaignsTable.lastSentAt, claimedAt)));
+  };
+
+  const [candidate] = await db
     .select()
     .from(contactsTable)
     .where(and(eq(contactsTable.campaignId, campaign.id), eq(contactsTable.status, "novo")))
     .orderBy(asc(contactsTable.id))
     .limit(1);
-  if (!contact) return { ...base, reason: "Nenhum contato pendente" };
+  if (!candidate) {
+    await releaseClaim();
+    return { ...base, reason: "Nenhum contato pendente" };
+  }
+
+  // Marca o contato antes do envio para que nenhum outro pass o selecione.
+  const [contact] = await db
+    .update(contactsTable)
+    .set({ status: "enviado", sentAt: claimedAt })
+    .where(and(eq(contactsTable.id, candidate.id), eq(contactsTable.status, "novo")))
+    .returning();
+  if (!contact) {
+    await releaseClaim();
+    return { ...base, reason: "Contato já trabalhado por outro disparo" };
+  }
 
   const [optOut] = await db
     .select({ id: optOutsTable.id })
@@ -228,6 +266,7 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
       .update(contactsTable)
       .set({ status: "optout" })
       .where(eq(contactsTable.id, contact.id));
+    await releaseClaim();
     return { ...base, skipped: 1, remaining: remaining - 1, reason: "Contato na lista de opt-out" };
   }
 
@@ -236,8 +275,9 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
   if (!sent.ok) {
     await db
       .update(contactsTable)
-      .set({ status: "falhou", failureReason: sent.error ?? "Erro desconhecido" })
+      .set({ status: "falhou", failureReason: sent.error ?? "Erro desconhecido", sentAt: null })
       .where(eq(contactsTable.id, contact.id));
+    await releaseClaim();
     logger.error({ contactId: contact.id, error: sent.error }, "Falha no disparo da campanha");
     return { ...base, skipped: 1, remaining: remaining - 1, reason: sent.error ?? null };
   }
@@ -280,14 +320,9 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
       content: `Campanha "${campaign.name}" enviada: ${body}`,
     });
   }
-  await db
-    .update(contactsTable)
-    .set({ status: "enviado", sentAt: new Date(), ...(leadId ? { leadId } : {}) })
-    .where(eq(contactsTable.id, contact.id));
-  await db
-    .update(campaignsTable)
-    .set({ lastSentAt: new Date() })
-    .where(eq(campaignsTable.id, campaign.id));
+  if (leadId) {
+    await db.update(contactsTable).set({ leadId }).where(eq(contactsTable.id, contact.id));
+  }
 
   return { sent: 1, skipped: 0, remaining: remaining - 1, reason: null };
 }
