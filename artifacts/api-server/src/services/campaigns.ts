@@ -264,7 +264,7 @@ export async function dispatchNext(campaign: Campaign): Promise<DispatchOutcome>
   if (optOut) {
     await db
       .update(contactsTable)
-      .set({ status: "optout" })
+      .set({ status: "optout", sentAt: null })
       .where(eq(contactsTable.id, contact.id));
     await releaseClaim();
     return { ...base, skipped: 1, remaining: remaining - 1, reason: "Contato na lista de opt-out" };
