@@ -23,7 +23,35 @@ export const leadStageValues = [
 ] as const;
 
 export const customerTypeValues = ["CPF", "CNPJ"] as const;
-export const stateValues = ["PE", "CE"] as const;
+export const stateValues = [
+  "PE",
+  "CE",
+  "AL",
+  "BA",
+  "MA",
+  "PB",
+  "PI",
+  "RN",
+  "SE",
+  "AC",
+  "AM",
+  "AP",
+  "DF",
+  "ES",
+  "GO",
+  "MG",
+  "MS",
+  "MT",
+  "PA",
+  "PR",
+  "RJ",
+  "RO",
+  "RR",
+  "RS",
+  "SC",
+  "SP",
+  "TO",
+] as const;
 
 export const leadStageEnum = pgEnum("lead_stage", leadStageValues);
 export const customerTypeEnum = pgEnum("customer_type", customerTypeValues);

@@ -33,7 +33,7 @@ export function Footer() {
                    (81) 99972-5151
                 </a>
               </li>
-              <li>Pernambuco e Ceará</li>
+              <li>Nordeste</li>
             </ul>
           </div>
 

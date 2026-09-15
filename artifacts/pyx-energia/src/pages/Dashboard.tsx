@@ -10,6 +10,7 @@ import {
   useListLeads,
   useUpdateFollowUpTask,
   useUpdateLead,
+  BrazilState,
   type LeadStage,
 } from "@workspace/api-client-react";
 import { useClerk, useUser } from "@clerk/react";
@@ -33,6 +34,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { CampaignsPanel } from "@/components/CampaignsPanel";
 import { ConversationsPanel } from "@/components/ConversationsPanel";
+
+const brazilStates = Object.values(BrazilState);
 
 const stages: Array<{ value: LeadStage; label: string }> = [
   { value: "novo", label: "Novo" },
@@ -258,7 +261,7 @@ export default function Dashboard() {
   const { signOut } = useClerk();
   const [search, setSearch] = useState("");
   const [stage, setStage] = useState<LeadStage | "">("");
-  const [state, setState] = useState<"PE" | "CE" | "">("");
+  const [state, setState] = useState<BrazilState | "">("");
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
   const [tab, setTab] = useState<"leads" | "conversas" | "campanhas">("leads");
   const { data: kpis, isLoading: loadingKpis } = useGetDashboardKpis();
@@ -323,7 +326,7 @@ export default function Dashboard() {
             <div className="flex flex-col gap-2 sm:flex-row">
               <div className="relative"><Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar por nome ou telefone" className="h-10 w-full rounded-lg border border-input pl-9 pr-3 text-sm sm:w-64" /></div>
               <div className="relative"><Filter className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><select value={stage} onChange={(event) => setStage(event.target.value as LeadStage | "")} className="h-10 w-full appearance-none rounded-lg border border-input bg-white pl-9 pr-8 text-sm sm:w-40"><option value="">Todas as etapas</option>{stages.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></div>
-              <select value={state} onChange={(event) => setState(event.target.value as "PE" | "CE" | "")} className="h-10 rounded-lg border border-input bg-white px-3 text-sm"><option value="">PE + CE</option><option value="PE">Pernambuco</option><option value="CE">Ceará</option></select>
+              <select value={state} onChange={(event) => setState(event.target.value as BrazilState | "")} className="h-10 rounded-lg border border-input bg-white px-3 text-sm"><option value="">Todos os estados</option>{brazilStates.map((uf) => <option key={uf} value={uf}>{uf}</option>)}</select>
             </div>
           </div>
           {loadingLeads ? <div className="p-12 text-center text-sm text-muted-foreground">Carregando leads...</div> : filteredLeads.length === 0 ? <div className="p-5"><EmptyState text="Nenhum lead corresponde aos filtros atuais." /></div> : (

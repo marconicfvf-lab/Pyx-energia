@@ -47,7 +47,7 @@ export const CreateLeadBody = zod.object({
   "phone": zod.string().min(createLeadBodyPhoneMin),
   "customerType": zod.enum(['CPF', 'CNPJ']),
   "cpfCnpj": zod.string().min(createLeadBodyCpfCnpjMin),
-  "state": zod.enum(['PE', 'CE']),
+  "state": zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']),
   "city": zod.string().min(createLeadBodyCityMin),
   "distributor": zod.string().min(createLeadBodyDistributorMin),
   "averageBill": zod.number().min(createLeadBodyAverageBillMin),
@@ -64,7 +64,7 @@ export const CreateLeadResponse = zod.object({
   "phone": zod.string(),
   "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
   "cpfCnpj": zod.string().nullish(),
-  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "state": zod.union([zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']),zod.null()]).optional(),
   "city": zod.string().nullish(),
   "distributor": zod.string().nullish(),
   "averageBill": zod.number().nullish(),
@@ -87,7 +87,7 @@ export const CreateLeadResponse = zod.object({
 export const ListLeadsQueryParams = zod.object({
   "search": zod.coerce.string().optional(),
   "stage": zod.enum(['novo', 'qualificacao', 'fatura', 'proposta', 'documentos', 'assinatura', 'ativacao', 'ganho', 'perdido']).optional(),
-  "state": zod.enum(['PE', 'CE']).optional(),
+  "state": zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']).optional(),
   "customerType": zod.enum(['CPF', 'CNPJ']).optional()
 })
 
@@ -97,7 +97,7 @@ export const ListLeadsResponseItem = zod.object({
   "phone": zod.string(),
   "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
   "cpfCnpj": zod.string().nullish(),
-  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "state": zod.union([zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']),zod.null()]).optional(),
   "city": zod.string().nullish(),
   "distributor": zod.string().nullish(),
   "averageBill": zod.number().nullish(),
@@ -131,7 +131,7 @@ export const GetLeadResponse = zod.object({
   "phone": zod.string(),
   "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
   "cpfCnpj": zod.string().nullish(),
-  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "state": zod.union([zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']),zod.null()]).optional(),
   "city": zod.string().nullish(),
   "distributor": zod.string().nullish(),
   "averageBill": zod.number().nullish(),
@@ -198,7 +198,7 @@ export const UpdateLeadResponse = zod.object({
   "phone": zod.string(),
   "customerType": zod.union([zod.enum(['CPF', 'CNPJ']),zod.null()]).optional(),
   "cpfCnpj": zod.string().nullish(),
-  "state": zod.union([zod.enum(['PE', 'CE']),zod.null()]).optional(),
+  "state": zod.union([zod.enum(['PE', 'CE', 'AL', 'BA', 'MA', 'PB', 'PI', 'RN', 'SE', 'AC', 'AM', 'AP', 'DF', 'ES', 'GO', 'MG', 'MS', 'MT', 'PA', 'PR', 'RJ', 'RO', 'RR', 'RS', 'SC', 'SP', 'TO']),zod.null()]).optional(),
   "city": zod.string().nullish(),
   "distributor": zod.string().nullish(),
   "averageBill": zod.number().nullish(),
