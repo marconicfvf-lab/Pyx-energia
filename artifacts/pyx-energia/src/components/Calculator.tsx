@@ -179,7 +179,7 @@ export function Calculator() {
               onChange={(event) => setName(event.target.value)}
               placeholder="Nome completo"
               aria-label="Nome completo"
-              className="h-11 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+              className="h-11 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
             />
             <input
               value={phone}
@@ -187,14 +187,14 @@ export function Calculator() {
               placeholder="WhatsApp (DDD + número)"
               aria-label="WhatsApp"
               inputMode="tel"
-              className="h-11 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+              className="h-11 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
             />
             <div className="flex gap-2">
               <select
                 value={customerType}
                 onChange={(event) => setCustomerType(event.target.value as "CPF" | "CNPJ")}
                 aria-label="Tipo de cliente"
-                className="h-11 rounded-lg border border-input bg-white px-2 text-sm"
+                className="h-11 rounded-lg border border-input bg-white px-2 text-sm text-foreground"
               >
                 <option value="CPF">CPF</option>
                 <option value="CNPJ">CNPJ</option>
@@ -204,7 +204,7 @@ export function Calculator() {
                 onChange={(event) => setCpfCnpj(event.target.value)}
                 placeholder={customerType}
                 aria-label={customerType}
-                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
             <div className="flex gap-2">
@@ -212,7 +212,7 @@ export function Calculator() {
                 value={state}
                 onChange={(event) => setState(event.target.value as BrazilState)}
                 aria-label="Estado"
-                className="h-11 rounded-lg border border-input bg-white px-2 text-sm"
+                className="h-11 rounded-lg border border-input bg-white px-2 text-sm text-foreground"
               >
                 {BRAZIL_STATES.map((uf) => (
                   <option key={uf} value={uf}>
@@ -225,7 +225,7 @@ export function Calculator() {
                 onChange={(event) => setCity(event.target.value)}
                 placeholder="Cidade"
                 aria-label="Cidade"
-                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
           </div>
@@ -234,7 +234,7 @@ export function Calculator() {
             onChange={(event) => setDistributor(event.target.value)}
             placeholder="Distribuidora"
             aria-label="Distribuidora"
-            className="h-11 w-full rounded-lg border border-input bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+            className="h-11 w-full rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
           />
           <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <input
