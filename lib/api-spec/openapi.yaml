@@ -496,7 +496,36 @@ components:
       enum: [CPF, CNPJ]
     BrazilState:
       type: string
-      enum: [PE, CE]
+      enum:
+        [
+          PE,
+          CE,
+          AL,
+          BA,
+          MA,
+          PB,
+          PI,
+          RN,
+          SE,
+          AC,
+          AM,
+          AP,
+          DF,
+          ES,
+          GO,
+          MG,
+          MS,
+          MT,
+          PA,
+          PR,
+          RJ,
+          RO,
+          RR,
+          RS,
+          SC,
+          SP,
+          TO,
+        ]
     ActivityType:
       type: string
       enum: [nota, ligacao, whatsapp, email, mudanca_etapa]

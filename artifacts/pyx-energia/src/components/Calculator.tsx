@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
-import { useCreateLead } from "@workspace/api-client-react";
+import { BrazilState, useCreateLead } from "@workspace/api-client-react";
+
+const BRAZIL_STATES = Object.values(BrazilState);
 
 export function Calculator() {
   const [bill, setBill] = useState(2500);
@@ -11,7 +13,7 @@ export function Calculator() {
   const [phone, setPhone] = useState("");
   const [customerType, setCustomerType] = useState<"CPF" | "CNPJ">("CPF");
   const [cpfCnpj, setCpfCnpj] = useState("");
-  const [state, setState] = useState<"PE" | "CE">("PE");
+  const [state, setState] = useState<BrazilState>("PE");
   const [city, setCity] = useState("");
   const [distributor, setDistributor] = useState("Neoenergia");
   const [consentAccepted, setConsentAccepted] = useState(false);
@@ -208,12 +210,15 @@ export function Calculator() {
             <div className="flex gap-2">
               <select
                 value={state}
-                onChange={(event) => setState(event.target.value as "PE" | "CE")}
+                onChange={(event) => setState(event.target.value as BrazilState)}
                 aria-label="Estado"
                 className="h-11 rounded-lg border border-input bg-white px-2 text-sm"
               >
-                <option value="PE">PE</option>
-                <option value="CE">CE</option>
+                {BRAZIL_STATES.map((uf) => (
+                  <option key={uf} value={uf}>
+                    {uf}
+                  </option>
+                ))}
               </select>
               <input
                 value={city}
