@@ -4,7 +4,7 @@ import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Zap, Sun, ShieldCheck, Building2, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark } from "lucide-react";
+import { ArrowRight, Zap, Sun, ShieldCheck, Building2, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 export default function Home() {
@@ -52,12 +52,12 @@ export default function Home() {
                 </div>
                 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 tracking-tight">
-                  Reduza até <span className="text-white">32%</span> na sua conta de luz.
+                  Reduza até <span className="text-white">40%</span> na sua conta de luz.
                 </h1>
                 
                 <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed max-w-xl">
-                  Assine energia renovável sem burocracia. Sem investimento inicial, sem obras e sem instalar placas solares. 
-                  Economia para sua casa ou seu negócio, todos os meses.
+                  Assine energia renovável sem burocracia. Sem investimento inicial, sem obras e sem instalar placas solares.
+                  Economia todos os meses para contas de baixa tensão, na sua casa ou no seu negócio.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -136,7 +136,7 @@ export default function Home() {
                 {
                   step: "1",
                   title: "Assinatura digital",
-                  desc: "Analisamos sua conta atual (precisa ser acima de R$ 500) e criamos uma proposta personalizada com o percentual de desconto. Tudo assinado online."
+                  desc: "Analisamos sua conta atual (precisa ser acima de R$ 500) e criamos uma proposta personalizada com o percentual de desconto da sua faixa. Tudo assinado online."
                 },
                 {
                   step: "2",
@@ -146,7 +146,7 @@ export default function Home() {
                 {
                   step: "3",
                   title: "Economia no caixa",
-                  desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o valor total pago será até 32% menor que sua conta original."
+                  desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o valor total pago será até 40% menor que sua conta original."
                 }
               ].map((item, i) => (
                 <div key={i} className="relative z-10 bg-white p-8 rounded-2xl shadow-sm border border-primary/5 hover:border-primary/20 transition-colors">
@@ -155,6 +155,72 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-display font-bold mb-3">{item.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAIXAS DE DESCONTO */}
+        <section id="descontos" className="py-24 bg-white">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
+                Desconto fixo, do tamanho da sua conta
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Quanto maior a fatura, maior o desconto. Válido para unidades consumidoras de baixa tensão.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                { percent: "20%", range: "Contas de R$ 500 a R$ 3.000", note: "Casas, apartamentos e pequenos com\u00e9rcios." },
+                { percent: "32%", range: "Acima de R$ 3.000 at\u00e9 R$ 10.000", note: "Cl\u00ednicas, restaurantes e condom\u00ednios." },
+                { percent: "40%", range: "Acima de R$ 10.000", note: "Redes, ind\u00fastrias leves e agroneg\u00f3cio." },
+              ].map((tier, i) => (
+                <div
+                  key={i}
+                  className="rounded-3xl border border-primary/10 bg-muted/30 p-8 text-center hover:border-primary/30 transition-colors"
+                >
+                  <p className="text-5xl font-display font-bold text-primary mb-3">{tier.percent}</p>
+                  <p className="font-medium text-foreground mb-2">{tier.range}</p>
+                  <p className="text-sm text-muted-foreground">{tier.note}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-center text-sm text-muted-foreground mt-8">
+              Percentuais aplicados sobre a energia consumida, conforme análise da fatura.
+            </p>
+          </div>
+        </section>
+
+        {/* POR QUE A PYX */}
+        <section className="py-24 bg-muted/30">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6">
+                Energia mais barata sem mudar nada na sua rotina
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                A energia chega pelos mesmos fios, da mesma distribuidora. Muda só de onde ela vem e quanto você paga.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: Leaf, title: "Energia 100% renov\u00e1vel", desc: "Gerada em usinas solares conectadas \u00e0 rede da distribuidora." },
+                { icon: Smartphone, title: "Tudo pelo celular", desc: "Sem visita t\u00e9cnica, sem papelada e sem deslocamento." },
+                { icon: HardHat, title: "Sem obras ou instala\u00e7\u00e3o", desc: "Nada muda no seu im\u00f3vel: nenhuma placa, nenhum equipamento." },
+                { icon: BadgePercent, title: "Desconto fixo mensal", desc: "Voc\u00ea sabe quanto vai economizar antes de assinar." },
+              ].map((item, i) => (
+                <div key={i} className="bg-white rounded-2xl p-7 border border-primary/5 shadow-sm">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5">
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-display font-bold text-lg mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -254,6 +320,10 @@ export default function Home() {
                 {
                   q: "Posso cancelar quando quiser?",
                   a: "Sim. A assinatura possui condições flexíveis e pode ser cancelada mediante aviso prévio, sem as multas pesadas de financiamentos solares tradicionais."
+                },
+                {
+                  q: "Qual desconto eu recebo?",
+                  a: "Depende do valor médio da sua conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. O percentual final é confirmado após a análise da fatura."
                 },
                 {
                   q: "Minha conta é menor que R$ 500. Posso participar?",

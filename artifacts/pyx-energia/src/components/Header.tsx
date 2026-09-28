@@ -16,63 +16,65 @@ export function Header() {
 
   const navLinks = [
     { label: "Como Funciona", href: "#como-funciona" },
-    { label: "Vantagens", href: "#vantagens" },
+    { label: "Descontos", href: "#descontos" },
     { label: "Para Quem", href: "#para-quem" },
     { label: "FAQ", href: "#faq" },
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2 z-50">
-            <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-10 w-auto" />
-          </a>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/95 backdrop-blur-md shadow-sm py-3"
+            : "bg-transparent py-5"
+        }`}
+      >
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between">
+            <a href="#" className="flex items-center gap-2 z-50">
+              <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-10 w-auto" />
+            </a>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  isScrolled ? "text-foreground hover:text-primary" : "text-white/85 hover:text-white"
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    isScrolled ? "text-foreground hover:text-primary" : "text-white/85 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Button
+                onClick={() => {
+                  document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                variant="default"
+                className={`gap-2 ${
+                  isScrolled ? "" : "bg-white text-primary hover:bg-white/90"
                 }`}
               >
-                {link.label}
-              </a>
-            ))}
-            <Button
-              onClick={() => {
-                document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              variant="default"
-              className={`gap-2 ${
-                isScrolled ? "" : "bg-white text-primary hover:bg-white/90"
-              }`}
-            >
-              <Zap className="h-4 w-4" />
-              Simular Economia
-            </Button>
-          </nav>
+                <Zap className="h-4 w-4" />
+                Simular Economia
+              </Button>
+            </nav>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className={`md:hidden z-50 p-2 ${
-              isMobileMenuOpen || isScrolled ? "text-foreground" : "text-white"
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            {/* Mobile Menu Toggle */}
+            <button
+              className={`md:hidden z-50 p-2 ${
+                isMobileMenuOpen || isScrolled ? "text-foreground" : "text-white"
+              }`}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Nav */}
       <div
@@ -102,6 +104,6 @@ export function Header() {
           Simular Economia Agora
         </Button>
       </div>
-    </header>
+    </>
   );
 }
