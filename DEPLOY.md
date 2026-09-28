@@ -32,7 +32,6 @@ STATIC_DIR=artifacts/pyx-energia/dist/public PORT=8080 node artifacts/api-server
 | `WHATSAPP_PHONE_NUMBER_ID` / `WHATSAPP_ACCESS_TOKEN` | se `cloud` | Meta Cloud API |
 | `WHATSAPP_WEBHOOK_TOKEN` | recomendada | Valida `/api/webhooks/whatsapp` |
 | `GEMINI_API_KEY` / `GEMINI_MODEL` | não | Sem chave o robô usa o fluxo determinístico |
-| `PYX_DISCOUNT_PERCENT` / `PYX_MAX_DISCOUNT_PERCENT` | não | Desconto usado na estimativa |
 | `PYX_SALES_WHATSAPP` | não | Número comercial mostrado no fallback |
 | `CRON_SECRET` | em serverless | Habilita `GET`/`POST /api/cron/campaigns` |
 

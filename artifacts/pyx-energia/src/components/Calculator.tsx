@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
 import { BrazilState, useCreateLead } from "@workspace/api-client-react";
+import { discountPercentFor, estimateMonthlySavings } from "@/lib/pricing";
 
 const BRAZIL_STATES = Object.values(BrazilState);
 
@@ -20,8 +21,8 @@ export function Calculator() {
   const [formError, setFormError] = useState("");
   const createLead = useCreateLead();
 
-  const discountRate = 0.32; // up to 32%
-  const estimatedSavings = bill * discountRate;
+  const discountPercent = discountPercentFor(bill);
+  const estimatedSavings = estimateMonthlySavings(bill);
   const yearlySavings = estimatedSavings * 12;
 
   // Animate the savings number when bill changes
@@ -127,6 +128,10 @@ export function Calculator() {
             <span>R$ 500</span>
             <span>R$ 20.000+</span>
           </div>
+          <p className="mt-4 text-sm text-foreground">
+            Desconto aplicado nesta faixa:{" "}
+            <span className="font-semibold text-primary">{discountPercent}%</span>
+          </p>
         </div>
 
         <div className="bg-muted/50 rounded-2xl p-6 border border-primary/10 mb-8">
@@ -256,7 +261,7 @@ export function Calculator() {
           <ArrowRight className="w-5 h-5" />
         </Button>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          *Os valores apresentados são estimativas baseadas no desconto máximo de 32%. A proposta final dependerá da análise da sua fatura.
+          *Estimativas para contas de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. A proposta final dependerá da análise da sua fatura.
         </p>
       </div>
     </div>

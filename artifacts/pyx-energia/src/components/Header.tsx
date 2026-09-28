@@ -16,7 +16,7 @@ export function Header() {
 
   const navLinks = [
     { label: "Como Funciona", href: "#como-funciona" },
-    { label: "Vantagens", href: "#vantagens" },
+    { label: "Descontos", href: "#descontos" },
     { label: "Para Quem", href: "#para-quem" },
     { label: "FAQ", href: "#faq" },
   ];

@@ -1,17 +1,26 @@
-import { env } from "../lib/env";
-
 export interface SavingsEstimate {
   discountPercent: number;
   monthly: number;
   annual: number;
 }
 
-/**
- * Single source of truth for the discount offered to a lead. The rate stays in
- * configuration so the commercial team can change it without a deploy.
- */
+/** Faixas de desconto por valor médio da conta (baixa tensão). */
+export const DISCOUNT_TIERS = [
+  { maxBill: 3000, discountPercent: 20 },
+  { maxBill: 10000, discountPercent: 32 },
+  { maxBill: Number.POSITIVE_INFINITY, discountPercent: 40 },
+] as const;
+
+export const MAX_DISCOUNT_PERCENT = 40;
+
+export function discountPercentFor(averageBill: number): number {
+  const tier = DISCOUNT_TIERS.find((item) => averageBill <= item.maxBill);
+  return tier ? tier.discountPercent : MAX_DISCOUNT_PERCENT;
+}
+
+/** Single source of truth for the discount offered to a lead. */
 export function estimateSavings(averageBill: number): SavingsEstimate {
-  const discountPercent = Math.min(env.discountPercent, env.maxDiscountPercent);
+  const discountPercent = discountPercentFor(averageBill);
   const monthly = Math.round(averageBill * (discountPercent / 100) * 100) / 100;
   return { discountPercent, monthly, annual: Math.round(monthly * 12 * 100) / 100 };
 }

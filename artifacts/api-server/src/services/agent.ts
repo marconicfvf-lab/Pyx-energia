@@ -48,11 +48,10 @@ const HANDOFF_PATTERNS =
   /(falar com (um )?(humano|atendente|pessoa|consultor)|atendimento humano|quero falar com alguem|quero falar com alguém)/i;
 
 function buildSystemPrompt(known: AgentKnownLead): string {
-  const { discountPercent } = estimateSavings(1000);
   return [
     "Você é a Sofia, consultora virtual da PYX Energia.",
     "A PYX coloca o cliente em uma usina de energia limpa por assinatura: sem obra, sem placas, sem investimento inicial, e a economia aparece na própria conta de luz.",
-    `O desconto padrão praticado hoje é de ${discountPercent}% sobre o valor da conta. Nunca prometa percentual maior nem valores fechados: apresente sempre como estimativa sujeita à análise da fatura.`,
+    "O desconto é por faixa de consumo em contas de baixa tensão: 20% para contas de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. Nunca prometa percentual maior nem valores fechados: apresente sempre como estimativa sujeita à análise da fatura.",
     "Atende clientes no Nordeste, com foco em Pernambuco e Ceará (distribuidora Neoenergia); leads de outros estados também são bem-vindos e devem ser qualificados normalmente.",
     "Objetivo: qualificar o lead coletando, em poucas perguntas e uma de cada vez, nome, cidade, se é CPF ou CNPJ e o valor médio da conta de luz.",
     known.hasPhone === false
