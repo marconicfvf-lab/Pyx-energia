@@ -94,12 +94,12 @@ export function Calculator() {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-gray-100 max-w-2xl mx-auto relative overflow-hidden">
+    <div className="glass glow-ring rounded-[2rem] p-6 md:p-10 max-w-2xl mx-auto relative overflow-hidden">
       {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/15 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
 
       <div className="relative z-10">
-        <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
+        <h3 className="text-2xl md:text-3xl font-display font-normal text-foreground mb-2">
           Simule sua economia
         </h3>
         <p className="text-muted-foreground mb-8">
@@ -111,7 +111,7 @@ export function Calculator() {
             <label className="text-sm font-medium text-foreground">
               Qual o valor médio da sua conta de luz?
             </label>
-            <span className="text-2xl font-bold text-primary">
+            <span className="text-2xl font-display font-medium text-primary text-glow">
               {formatCurrency(bill)}
             </span>
           </div>
@@ -134,7 +134,7 @@ export function Calculator() {
           </p>
         </div>
 
-        <div className="bg-muted/50 rounded-2xl p-6 border border-primary/10 mb-8">
+        <div className="bg-background/60 rounded-2xl p-6 border border-primary/20 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="text-sm text-muted-foreground flex items-center gap-1.5 mb-1">
@@ -142,7 +142,7 @@ export function Calculator() {
                 <Info className="w-3.5 h-3.5" />
               </p>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl md:text-4xl font-display font-bold text-primary">
+                <span className="text-3xl md:text-4xl font-display font-medium text-primary text-glow">
                   {formatCurrency(animatedSavings)}
                 </span>
               </div>
@@ -153,7 +153,7 @@ export function Calculator() {
                 Economia em 1 ano
               </p>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-display font-bold text-secondary">
+                <span className="text-2xl font-display font-medium text-secondary">
                   {formatCurrency(yearlySavings)}
                 </span>
               </div>
@@ -184,7 +184,7 @@ export function Calculator() {
               onChange={(event) => setName(event.target.value)}
               placeholder="Nome completo"
               aria-label="Nome completo"
-              className="h-11 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+              className="h-11 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
             />
             <input
               value={phone}
@@ -192,14 +192,14 @@ export function Calculator() {
               placeholder="WhatsApp (DDD + número)"
               aria-label="WhatsApp"
               inputMode="tel"
-              className="h-11 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+              className="h-11 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
             />
             <div className="flex gap-2">
               <select
                 value={customerType}
                 onChange={(event) => setCustomerType(event.target.value as "CPF" | "CNPJ")}
                 aria-label="Tipo de cliente"
-                className="h-11 rounded-lg border border-input bg-white px-2 text-sm text-foreground"
+                className="h-11 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-2 text-sm text-foreground"
               >
                 <option value="CPF">CPF</option>
                 <option value="CNPJ">CNPJ</option>
@@ -209,7 +209,7 @@ export function Calculator() {
                 onChange={(event) => setCpfCnpj(event.target.value)}
                 placeholder={customerType}
                 aria-label={customerType}
-                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+                className="h-11 min-w-0 flex-1 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
               />
             </div>
             <div className="flex gap-2">
@@ -217,7 +217,7 @@ export function Calculator() {
                 value={state}
                 onChange={(event) => setState(event.target.value as BrazilState)}
                 aria-label="Estado"
-                className="h-11 rounded-lg border border-input bg-white px-2 text-sm text-foreground"
+                className="h-11 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-2 text-sm text-foreground"
               >
                 {BRAZIL_STATES.map((uf) => (
                   <option key={uf} value={uf}>
@@ -230,7 +230,7 @@ export function Calculator() {
                 onChange={(event) => setCity(event.target.value)}
                 placeholder="Cidade"
                 aria-label="Cidade"
-                className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+                className="h-11 min-w-0 flex-1 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
               />
             </div>
           </div>
@@ -239,7 +239,7 @@ export function Calculator() {
             onChange={(event) => setDistributor(event.target.value)}
             placeholder="Distribuidora"
             aria-label="Distribuidora"
-            className="h-11 w-full rounded-lg border border-input bg-white px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+            className="h-11 w-full rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
           />
           <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <input
@@ -256,7 +256,7 @@ export function Calculator() {
           {formError && <p className="text-sm font-medium text-destructive">{formError}</p>}
         </div>
 
-        <Button onClick={handleWhatsApp} disabled={createLead.isPending} size="lg" className="w-full gap-2 text-lg h-14">
+        <Button onClick={handleWhatsApp} disabled={createLead.isPending} size="lg" className="w-full gap-2 text-lg h-14 rounded-full glow-button">
           {createLead.isPending ? "Registrando..." : "Quero economizar agora"}
           <ArrowRight className="w-5 h-5" />
         </Button>
