@@ -19,6 +19,7 @@ export function Footer() {
               <li><a href="#vantagens" className="hover:text-primary transition-colors">Vantagens</a></li>
               <li><a href="#para-quem" className="hover:text-primary transition-colors">Para Quem é</a></li>
               <li><a href="#grupo" className="hover:text-primary transition-colors">Grupo PYX</a></li>
+              <li><a href="#depoimentos" className="hover:text-primary transition-colors">Depoimentos</a></li>
               <li><a href="#faq" className="hover:text-primary transition-colors">Dúvidas Frequentes</a></li>
             </ul>
           </div>

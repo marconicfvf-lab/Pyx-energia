@@ -4,7 +4,7 @@ import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
 import type { ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -44,7 +44,6 @@ const STATS = [
   { value: "0", prefix: "R$", suffix: "", label: "de investimento inicial" },
   { value: "0", prefix: "", suffix: "obras", label: "no seu imóvel ou empresa" },
   { value: "100", prefix: "", suffix: "%", label: "energia solar renovável" },
-  { value: "60", prefix: "até", suffix: "dias", label: "para ativar o desconto" },
 ];
 
 const STEPS = [
@@ -101,6 +100,10 @@ const FAQS = [
     a: "Você continuará conectado à Neoenergia. A diferença é que a fatura da Neoenergia virá zerada do consumo de energia (cobrando apenas taxas obrigatórias como iluminação pública), e a PYX faturará a energia consumida com o desconto aplicado. No total, a soma será menor que sua conta original.",
   },
   {
+    q: "Em quanto tempo o desconto começa?",
+    a: "O início depende dos prazos da distribuidora (Neoenergia) para cadastrar os créditos na sua unidade consumidora. A PYX acompanha todo o processo e avisa você assim que o desconto entrar na fatura.",
+  },
+  {
     q: "Posso cancelar quando quiser?",
     a: "Sim. A assinatura possui condições flexíveis e pode ser cancelada mediante aviso prévio, sem as multas pesadas de financiamentos solares tradicionais.",
   },
@@ -150,6 +153,27 @@ const GROUP_WORKS = [
   { src: "/obras/obra-4.webp", width: 1200, height: 675, name: "UFV Conecta 1", details: "3,9 MWp · Tracker" },
   { src: "/obras/obra-5.webp", width: 1200, height: 675, name: "UFV Conecta 2", details: "1,3 MWp · Tracker" },
   { src: "/obras/obra-6.webp", width: 1179, height: 656, name: "UFV Angelim", details: "1,3 MWp · Estrutura fixa" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "Minha conta era R$ 4.200/mês. Com a PYX, caiu para R$ 2.940. São R$ 1.260 por mês que ficam no caixa. Processo foi simples demais.",
+    name: "Carlos Mendonça",
+    role: "Proprietário — Supermercado Mendonça",
+    city: "Caruaru, PE",
+  },
+  {
+    quote: "Fiquei desconfiada no início, mas o desconto veio certinho, como estava na proposta. Sem obras, sem dor de cabeça. Recomendo para todo empresário de PE.",
+    name: "Ana Beatriz Lima",
+    role: "Gestora — Clínica Vida Plena",
+    city: "Recife, PE",
+  },
+  {
+    quote: "No agro a conta de energia é pesada. Economizei R$ 2.100 no primeiro mês. Já indiquei para três vizinhos da região.",
+    name: "José Ferreira",
+    role: "Produtor Rural",
+    city: "Petrolina, PE",
+  },
 ];
 
 export default function Home() {
@@ -214,7 +238,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Zap className="w-5 h-5 text-accent" />
-                    <span>Ativação em até 60 dias</span>
+                    <span>Sem obras e sem investimento</span>
                   </div>
                 </div>
               </div>
@@ -249,9 +273,9 @@ export default function Home() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-              {STATS.map((stat, i) => (
-                <div key={i} className={`top-line glass rounded-3xl p-6 md:p-8 ${i === STATS.length - 1 ? "col-span-2 lg:col-span-1" : ""}`}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {STATS.map((stat) => (
+                <div key={stat.label} className="top-line glass rounded-3xl p-6 md:p-8">
                   <p className="flex items-baseline gap-1.5 font-display text-primary">
                     {stat.prefix && <span className="text-base md:text-lg font-light">{stat.prefix}</span>}
                     <span className="text-5xl md:text-6xl font-medium text-glow">{stat.value}</span>
@@ -480,6 +504,39 @@ export default function Home() {
                   </figure>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* DEPOIMENTOS */}
+        <section id="depoimentos" className="relative py-24 md:py-32 scroll-mt-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-12">
+              <Eyebrow>Clientes satisfeitos</Eyebrow>
+              <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-4">
+                Quem já economiza com a <span className="text-primary text-glow font-normal">PYX</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {TESTIMONIALS.map((testimonial) => (
+                <figure key={testimonial.name} className="glass top-line rounded-3xl p-8 flex flex-col">
+                  <div className="flex gap-1">
+                    <span className="sr-only">5 de 5 estrelas</span>
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <Star key={index} className="h-4 w-4 fill-accent text-accent" aria-hidden="true" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 flex-1 text-lg leading-relaxed text-foreground">
+                    “{testimonial.quote}”
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-white/10 pt-5">
+                    <p className="font-display font-medium text-white">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="mt-1 text-xs text-primary">{testimonial.city}</p>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </section>
