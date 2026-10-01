@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import { ShieldCheck, Zap } from "lucide-react";
 
 export function Footer() {
   return (
@@ -55,7 +55,7 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} PYX Energia. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-2"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Aneel_logo.png" alt="Aneel" className="h-4 opacity-50 grayscale invert" /> Regulamentado</span>
+            <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Regulamentado pela ANEEL</span>
           </div>
         </div>
       </div>
