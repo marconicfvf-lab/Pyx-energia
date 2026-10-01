@@ -49,11 +49,11 @@ const BUSINESS_REASONS = [
   "Conta em média tensão? O grupo PYX também faz a migração para o mercado livre de energia.",
 ];
 
-function getInitialSegment(): LeadSegment {
+function getInitialSegment(): LeadSegment | "" {
   const requested = new URLSearchParams(window.location.search).get("seg");
   return SEGMENTS.some((segment) => segment.value === requested)
     ? (requested as LeadSegment)
-    : "outro";
+    : "";
 }
 
 function formatCurrency(value: number): string {
@@ -70,7 +70,7 @@ export default function Empresas() {
   const [jobTitle, setJobTitle] = useState("");
   const [company, setCompany] = useState("");
   const [phone, setPhone] = useState("");
-  const [segment, setSegment] = useState<LeadSegment>(getInitialSegment);
+  const [segment, setSegment] = useState<LeadSegment | "">(getInitialSegment);
   const [state, setState] = useState<BrazilState>("PE");
   const [city, setCity] = useState("");
   const [bill, setBill] = useState("");
@@ -87,6 +87,18 @@ export default function Empresas() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError("");
+
+    if (
+      !name.trim() ||
+      !jobTitle.trim() ||
+      !company.trim() ||
+      !phone.trim() ||
+      !segment ||
+      !city.trim()
+    ) {
+      setFormError("Preencha nome, cargo, empresa, WhatsApp, segmento e cidade.");
+      return;
+    }
 
     const averageBill = Number(bill);
     const parsedUnitCount = unitCount.trim() ? Number(unitCount) : undefined;
@@ -167,7 +179,7 @@ export default function Empresas() {
                 PYX Empresas
               </p>
               <h1 className="mb-6 font-display text-4xl font-light tracking-tight md:text-6xl">
-                Conta de luz acima de R$ 5 mil? Sua empresa pode economizar até{" "}
+                Conta de luz acima de {"R$\u00a05\u00a0mil"}? Sua empresa pode economizar até{" "}
                 <span className="text-primary text-glow">40%.</span>
               </h1>
               <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
@@ -240,8 +252,37 @@ export default function Empresas() {
                   Quanto sua empresa pode economizar
                 </h2>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[620px] text-left text-sm">
+              <div className="space-y-3 md:hidden">
+                {SAMPLE_BILLS.map((sampleBill) => {
+                  const monthlySavings = estimateMonthlySavings(sampleBill);
+                  return (
+                    <article
+                      key={sampleBill}
+                      className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"
+                    >
+                      <h3 className="font-medium text-foreground">
+                        {formatCurrency(sampleBill)}
+                      </h3>
+                      <dl className="mt-3 space-y-2 text-sm">
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-muted-foreground">Desconto</dt>
+                          <dd className="text-primary">{discountPercentFor(sampleBill)}%</dd>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-muted-foreground">Economia/mês</dt>
+                          <dd>{formatCurrency(monthlySavings)}</dd>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-muted-foreground">Economia/ano</dt>
+                          <dd>{formatCurrency(monthlySavings * 12)}</dd>
+                        </div>
+                      </dl>
+                    </article>
+                  );
+                })}
+              </div>
+              <div className="hidden md:block">
+                <table className="w-full text-left text-sm">
                   <thead>
                     <tr className="border-b border-white/10 text-muted-foreground">
                       <th className="px-3 py-4 font-medium">Conta mensal</th>
@@ -330,7 +371,7 @@ export default function Empresas() {
                     </a>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                  <form onSubmit={handleSubmit} noValidate className="space-y-5">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <label className="space-y-2 text-sm font-medium text-foreground">
                         Nome
@@ -386,9 +427,12 @@ export default function Empresas() {
                         <select
                           required
                           value={segment}
-                          onChange={(event) => setSegment(event.target.value as LeadSegment)}
+                          onChange={(event) =>
+                            setSegment(event.target.value as LeadSegment | "")
+                          }
                           className="h-11 w-full rounded-xl border border-white/10 bg-background/60 px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
                         >
+                          <option value="" disabled>Selecione</option>
                           {SEGMENTS.map((item) => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                           ))}

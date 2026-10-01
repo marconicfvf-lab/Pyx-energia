@@ -46,20 +46,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", publicRouter);
 
-const clerkAuthMiddleware = clerkMiddleware((req) => ({
-  publishableKey: publishableKeyFromHost(
-    getClerkProxyHost(req) ?? "",
-    process.env.CLERK_PUBLISHABLE_KEY,
-  ),
-}));
-
-app.use((req, res, next) => {
-  if (req.method === "POST" && req.path === "/api/leads") {
-    next();
-    return;
-  }
-  clerkAuthMiddleware(req, res, next);
-});
+app.use(
+  clerkMiddleware((req) => ({
+    publishableKey: publishableKeyFromHost(
+      getClerkProxyHost(req) ?? "",
+      process.env.CLERK_PUBLISHABLE_KEY,
+    ),
+  })),
+);
 
 app.use("/api", router);
 
