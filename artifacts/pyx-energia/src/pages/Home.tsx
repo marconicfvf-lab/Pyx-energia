@@ -475,7 +475,7 @@ export default function Home() {
                     />
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-5 pb-5 pt-12">
                       <p className="font-display text-base font-medium text-white">{work.name}</p>
-                      <p className="mt-1 text-xs font-medium uppercase tracking-wider text-primary">{work.details}</p>
+                      <p className="mt-1 text-xs font-medium tracking-wide text-primary">{work.details}</p>
                     </figcaption>
                   </figure>
                 ))}
