@@ -4,7 +4,7 @@ import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent, FileCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -112,6 +112,33 @@ const FAQS = [
     q: "Minha conta é menor que R$ 500. Posso participar?",
     a: "Nossa equipe analisa cada unidade consumidora para confirmar a elegibilidade e o benefício. Envie sua conta para receber uma avaliação sem compromisso.",
   },
+];
+
+const GROUP_SERVICES = [
+  {
+    icon: HardHat,
+    title: "EPC de usinas solares",
+    description: "Engenharia, fornecimento e construção de usinas fotovoltaicas, do telhado à usina de solo.",
+  },
+  {
+    icon: FileCheck,
+    title: "Projetos e pareceres de acesso",
+    description: "Projetos elétricos e solicitação de parecer de acesso junto à distribuidora, com toda a documentação técnica.",
+  },
+  {
+    icon: ArrowLeftRight,
+    title: "Transição para o mercado livre",
+    description: "Análise de viabilidade, adequação e acompanhamento completo na migração para o Mercado Livre de Energia.",
+  },
+];
+
+const GROUP_WORKS = [
+  { src: "/obras/obra-1.webp", width: 960, height: 720, alt: "Usina em telhado — Recife, PE", caption: "Usina em telhado — Recife, PE" },
+  { src: "/obras/obra-2.webp", width: 1200, height: 675, alt: "Fazenda solar — Sertão, PE", caption: "Fazenda solar — Sertão, PE" },
+  { src: "/obras/obra-3.webp", width: 1200, height: 675, alt: "Usina de grande porte — PE", caption: "Usina de grande porte — PE" },
+  { src: "/obras/obra-4.webp", width: 1200, height: 675, alt: "Parque solar — Nordeste", caption: "Parque solar — Nordeste" },
+  { src: "/obras/obra-5.webp", width: 1200, height: 675, alt: "Usina fotovoltaica — PE", caption: "Usina fotovoltaica — PE" },
+  { src: "/obras/obra-6.webp", width: 1179, height: 656, alt: "Instalação de módulos — PE", caption: "Instalação de módulos — PE" },
 ];
 
 export default function Home() {
@@ -376,6 +403,57 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* GRUPO PYX */}
+        <section id="grupo" className="relative py-24 md:py-32 scroll-mt-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl mb-14">
+              <Eyebrow>Grupo PYX</Eyebrow>
+              <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
+                Do projeto à usina, <span className="text-primary font-normal">um grupo completo</span>
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Além da energia por assinatura, o grupo PYX conta com uma EPCista própria, que projeta e constrói usinas fotovoltaicas, e com uma equipe que acompanha sua empresa na migração para o mercado livre de energia.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {GROUP_SERVICES.map((service) => (
+                <div key={service.title} className="glass rounded-3xl p-7 md:p-8">
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary">
+                    <service.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-3 text-xl font-display font-normal">{service.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-20">
+              <h3 className="mb-8 text-3xl md:text-4xl font-display font-light tracking-tight">
+                Obras executadas pelo grupo
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {GROUP_WORKS.map((work) => (
+                  <figure key={work.src} className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-card">
+                    <img
+                      src={work.src}
+                      alt={work.alt}
+                      width={work.width}
+                      height={work.height}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-5 pb-5 pt-12 text-sm font-medium text-white">
+                      {work.caption}
+                    </figcaption>
+                  </figure>
+                ))}
               </div>
             </div>
           </div>
