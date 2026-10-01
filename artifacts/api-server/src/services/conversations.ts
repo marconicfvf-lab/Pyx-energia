@@ -231,6 +231,7 @@ export async function handleInbound(input: {
     input.channel === "whatsapp" ? "whatsapp" : "chat-site",
   );
 
+  let phoneAttached = false;
   if (lead && phone && isPendingPhone(lead.phone)) {
     const [conflict] = await db
       .select({ id: leadsTable.id })
@@ -240,6 +241,7 @@ export async function handleInbound(input: {
     if (!conflict) {
       await db.update(leadsTable).set({ phone }).where(eq(leadsTable.id, lead.id));
       lead.phone = phone;
+      phoneAttached = true;
     }
   }
 
@@ -264,6 +266,7 @@ export async function handleInbound(input: {
 
   if (lead) {
     const updates: Partial<typeof leadsTable.$inferInsert> = {};
+    let updatedLead: Lead | undefined;
     if (result.extracted.name && lead.name === "Contato sem nome") {
       updates.name = result.extracted.name;
     }
@@ -281,14 +284,14 @@ export async function handleInbound(input: {
       updates.estimatedAnnualSavings = savings.annual;
     }
     if (Object.keys(updates).length > 0) {
-      const [updatedLead] = await db
+      [updatedLead] = await db
         .update(leadsTable)
         .set(updates)
         .where(eq(leadsTable.id, lead.id))
         .returning();
-      if (updates.averageBill !== undefined && updatedLead) {
-        await flagHighValueLead(updatedLead);
-      }
+    }
+    if (updates.averageBill !== undefined || phoneAttached) {
+      await flagHighValueLead(updatedLead ?? lead);
     }
     await db.insert(activitiesTable).values({
       leadId: lead.id,

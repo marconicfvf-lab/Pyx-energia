@@ -41,7 +41,13 @@ function buildAlertText(lead: Lead): string {
 }
 
 export async function flagHighValueLead(lead: Lead): Promise<void> {
-  if (lead.averageBill == null || lead.averageBill < HIGH_VALUE_BILL) return;
+  if (
+    lead.phone.startsWith("site:") ||
+    lead.averageBill == null ||
+    lead.averageBill < HIGH_VALUE_BILL
+  ) {
+    return;
+  }
 
   try {
     const flaggedLead = await db.transaction(async (tx) => {
@@ -50,7 +56,12 @@ export async function flagHighValueLead(lead: Lead): Promise<void> {
         .from(leadsTable)
         .where(eq(leadsTable.id, lead.id))
         .for("update");
-      if (!currentLead || currentLead.averageBill == null || currentLead.averageBill < HIGH_VALUE_BILL) {
+      if (
+        !currentLead ||
+        currentLead.phone.startsWith("site:") ||
+        currentLead.averageBill == null ||
+        currentLead.averageBill < HIGH_VALUE_BILL
+      ) {
         return null;
       }
 

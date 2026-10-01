@@ -5,7 +5,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
 
@@ -177,6 +177,29 @@ const TESTIMONIALS = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    let attempts = 0;
+    let frame = 0;
+    const scrollToHash = () => {
+      const target = document.getElementById(hash.slice(1));
+      if (target) {
+        target.scrollIntoView();
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < 60) {
+        frame = window.requestAnimationFrame(scrollToHash);
+      }
+    };
+
+    frame = window.requestAnimationFrame(scrollToHash);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="pyx-landing min-h-screen bg-background text-foreground flex flex-col font-sans">
       <Header />
