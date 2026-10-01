@@ -5,7 +5,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent } from "lucide-react";
-import { useEffect, useRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
 
@@ -115,20 +115,6 @@ const FAQS = [
 ];
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      heroRef.current.style.setProperty("--mouse-x", `${x}`);
-      heroRef.current.style.setProperty("--mouse-y", `${y}`);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
     <div className="pyx-landing min-h-screen bg-background text-foreground flex flex-col font-sans">
       <Header />
@@ -136,21 +122,17 @@ export default function Home() {
       <main className="flex-1">
         {/* HERO */}
         <section
-          ref={heroRef}
           className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28"
-          style={{
-            backgroundImage: `radial-gradient(circle at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), hsl(152 90% 50% / 0.10) 0%, transparent 40%)`,
-          }}
         >
           <div className="pointer-events-none absolute inset-0 pyx-grid" />
-          <div className="pointer-events-none absolute -top-40 -left-40 h-[560px] w-[560px] rounded-full bg-primary/20 blur-[140px]" />
-          <div className="pointer-events-none absolute top-20 right-[-10%] h-[520px] w-[520px] rounded-full bg-accent/15 blur-[150px]" />
+          <div className="pointer-events-none absolute -top-40 -left-40 h-[560px] w-[560px] bg-[radial-gradient(closest-side,hsl(var(--primary)/0.20),transparent)]" />
+          <div className="pointer-events-none absolute top-20 right-[-10%] h-[520px] w-[520px] bg-[radial-gradient(closest-side,hsl(var(--accent)/0.15),transparent)]" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
 
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-center">
               <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground backdrop-blur">
+                <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-70"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -220,7 +202,7 @@ export default function Home() {
 
         {/* NÚMEROS */}
         <section className="relative py-24 md:py-32 overflow-hidden">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[160px]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,hsl(var(--primary)/0.10),transparent)]" />
           <div className="container mx-auto px-4 md:px-6 relative">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <Eyebrow>A conta fecha</Eyebrow>
@@ -276,7 +258,7 @@ export default function Home() {
 
         {/* FAIXAS DE DESCONTO */}
         <section id="descontos" className="relative py-24 md:py-32 scroll-mt-20 overflow-hidden">
-          <div className="pointer-events-none absolute right-[-15%] top-10 h-[500px] w-[500px] rounded-full bg-accent/10 blur-[150px]" />
+          <div className="pointer-events-none absolute right-[-15%] top-10 h-[500px] w-[500px] bg-[radial-gradient(closest-side,hsl(var(--accent)/0.10),transparent)]" />
           <div className="container mx-auto px-4 md:px-6 relative">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <Eyebrow>Faixas de desconto</Eyebrow>
@@ -373,7 +355,7 @@ export default function Home() {
               <div className="relative">
                 <div className="relative aspect-square md:aspect-[4/3] overflow-hidden rounded-[2rem] border border-white/10 bg-card">
                   <div className="pointer-events-none absolute inset-0 pyx-grid" />
-                  <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-[90px]" />
+                  <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,hsl(var(--accent)/0.25),transparent)]" />
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/20" />
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5" />
                   <div className="relative flex h-full flex-col items-center justify-center p-8 pb-20 md:pb-8 text-center">
@@ -428,7 +410,7 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/30 bg-card px-6 py-20 md:px-16 text-center">
               <div className="pointer-events-none absolute inset-0 pyx-grid" />
-              <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[780px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/30 blur-[120px]" />
+              <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[780px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,hsl(var(--primary)/0.30),transparent)]" />
               <div className="relative z-10">
                 <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
                   Pronto para transformar sua despesa em <span className="text-primary text-glow font-normal">investimento</span>?
