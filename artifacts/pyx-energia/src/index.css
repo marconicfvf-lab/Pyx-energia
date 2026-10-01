@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -161,4 +161,93 @@ html {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
+}
+
+.pyx-landing {
+  color-scheme: dark;
+
+  --background: 150 22% 3%;
+  --foreground: 140 20% 96%;
+
+  --border: 150 14% 14%;
+  --input: 150 14% 18%;
+  --ring: 152 90% 50%;
+
+  --card: 150 18% 6%;
+  --card-foreground: 140 20% 96%;
+  --card-border: 150 14% 14%;
+
+  --popover: 150 18% 6%;
+  --popover-foreground: 140 20% 96%;
+  --popover-border: 150 14% 14%;
+
+  --primary: 152 90% 50%;
+  --primary-foreground: 150 30% 4%;
+
+  --secondary: 43 78% 62%;
+  --secondary-foreground: 150 30% 4%;
+
+  --muted: 150 14% 9%;
+  --muted-foreground: 145 8% 64%;
+
+  --accent: 43 78% 62%;
+  --accent-foreground: 150 30% 4%;
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 28px hsl(var(--primary) / 0.55);
+  }
+  .text-gradient-pyx {
+    background-image: linear-gradient(100deg, hsl(var(--primary)) 10%, hsl(var(--accent)) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.45),
+      0 0 48px -10px hsl(var(--primary) / 0.55);
+  }
+  .glow-button {
+    box-shadow: 0 0 32px -6px hsl(var(--primary) / 0.7);
+  }
+  .glass {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--foreground) / 0.08);
+  }
+  .pyx-grid {
+    background-image:
+      linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 35%, black 15%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 35%, black 15%, transparent 70%);
+  }
+  .top-line {
+    position: relative;
+  }
+  .top-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.9), transparent);
+  }
+  .animate-marquee {
+    animation: pyx-marquee 40s linear infinite;
+  }
+}
+
+@keyframes pyx-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
 }

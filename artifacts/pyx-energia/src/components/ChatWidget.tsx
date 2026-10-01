@@ -56,7 +56,7 @@ export function ChatWidget() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-white shadow-xl transition hover:brightness-110"
+        className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_0_32px_-6px_hsl(var(--primary)/0.7)] transition hover:brightness-110"
         aria-label="Abrir chat com a PYX Energia"
       >
         <MessageCircle className="h-5 w-5" />
@@ -66,32 +66,32 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex h-[min(560px,80vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-2xl">
-      <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
+    <div className="fixed bottom-5 right-5 z-40 flex h-[min(560px,80vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-card shadow-2xl">
+      <div className="flex items-center justify-between bg-primary px-4 py-3 text-primary-foreground">
         <div>
           <p className="text-sm font-semibold">Sofia · PYX Energia</p>
-          <p className="text-xs text-white/80">Resposta na hora, todos os dias</p>
+          <p className="text-xs text-primary-foreground/70">Resposta na hora, todos os dias</p>
         </div>
-        <button onClick={() => setOpen(false)} aria-label="Fechar chat" className="rounded-lg p-1.5 hover:bg-white/10">
+        <button onClick={() => setOpen(false)} aria-label="Fechar chat" className="rounded-lg p-1.5 hover:bg-black/10">
           <X className="h-5 w-5" />
         </button>
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto bg-[#f5faf7] p-4">
+      <div className="flex-1 space-y-3 overflow-y-auto bg-background p-4">
         {lines.map((line, index) => (
           <div
             key={index}
             className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${
               line.from === "lead"
-                ? "ml-auto bg-primary text-white"
-                : "bg-white text-foreground shadow-sm"
+                ? "ml-auto bg-primary text-primary-foreground"
+                : "bg-muted text-foreground"
             }`}
           >
             {line.text}
           </div>
         ))}
         {sendMessage.isPending && (
-          <div className="max-w-[85%] rounded-2xl bg-white px-3.5 py-2.5 text-sm text-muted-foreground shadow-sm">
+          <div className="max-w-[85%] rounded-2xl bg-muted px-3.5 py-2.5 text-sm text-muted-foreground">
             Sofia está digitando...
           </div>
         )}
@@ -107,13 +107,13 @@ export function ChatWidget() {
           }}
           placeholder="Digite sua mensagem"
           aria-label="Mensagem"
-          className="h-11 min-w-0 flex-1 rounded-lg border border-input px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+          className="h-11 min-w-0 flex-1 rounded-lg border border-white/10 bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/30"
         />
         <button
           onClick={submit}
           disabled={sendMessage.isPending}
           aria-label="Enviar mensagem"
-          className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-white disabled:opacity-50"
+          className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-primary-foreground disabled:opacity-50"
         >
           <Send className="h-4 w-4" />
         </button>
