@@ -145,7 +145,7 @@ const GROUP_STATS = [
 
 const GROUP_WORKS = [
   { src: "/obras/obra-1.webp", width: 960, height: 720, name: "Caxangá Golf & Country Club", details: "370 kWp · Telhado · Recife, PE" },
-  { src: "/obras/obra-2.webp", width: 1200, height: 675, name: "UFV IMIP 5", details: "5 MWp · Tracker" },
+  { src: "/obras/obra-2.webp", width: 1200, height: 675, name: "UFV IMIP", details: "5,5 MWp · Tracker · Vertentes, PE" },
   { src: "/obras/obra-3.webp", width: 1200, height: 675, name: "UFV Trinity Energia Petrolândia", details: "3,2 MWp · Tracker · Petrolândia, PE" },
   { src: "/obras/obra-4.webp", width: 1200, height: 675, name: "UFV Conecta 1", details: "3,9 MWp · Tracker" },
   { src: "/obras/obra-5.webp", width: 1200, height: 675, name: "UFV Conecta 2", details: "1,3 MWp · Tracker" },
