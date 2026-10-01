@@ -54,7 +54,7 @@ export function Header() {
           <div
             className={`flex items-center justify-between rounded-full border px-3 py-2 pl-5 transition-all duration-300 ${
               isScrolled
-                ? "border-white/10 bg-black/60 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+                ? "border-white/10 bg-black/85 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]"
                 : "border-transparent bg-transparent"
             }`}
           >
