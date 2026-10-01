@@ -68,6 +68,9 @@ paths:
         - name: customerType
           in: query
           schema: { $ref: "#/components/schemas/CustomerType" }
+        - name: minBill
+          in: query
+          schema: { type: number, minimum: 0 }
       responses:
         "200":
           description: Leads
@@ -494,6 +497,9 @@ components:
     CustomerType:
       type: string
       enum: [CPF, CNPJ]
+    LeadSegment:
+      type: string
+      enum: [farmacia, clinica, mercado, outro]
     BrazilState:
       type: string
       enum:
@@ -541,6 +547,13 @@ components:
             - $ref: "#/components/schemas/CustomerType"
             - type: "null"
         cpfCnpj: { type: ["string", "null"] }
+        company: { type: ["string", "null"] }
+        jobTitle: { type: ["string", "null"] }
+        segment:
+          oneOf:
+            - $ref: "#/components/schemas/LeadSegment"
+            - type: "null"
+        unitCount: { type: ["integer", "null"] }
         state:
           oneOf:
             - $ref: "#/components/schemas/BrazilState"
@@ -560,12 +573,16 @@ components:
         notes: { type: ["string", "null"] }
     LeadInput:
       type: object
-      required: [name, phone, customerType, cpfCnpj, state, city, distributor, averageBill, estimatedMonthlySavings, estimatedAnnualSavings, source, consentAccepted, consentText]
+      required: [name, phone, customerType, state, city, averageBill, estimatedMonthlySavings, estimatedAnnualSavings, source, consentAccepted, consentText]
       properties:
         name: { type: string, minLength: 2 }
         phone: { type: string, minLength: 8 }
         customerType: { $ref: "#/components/schemas/CustomerType" }
         cpfCnpj: { type: string, minLength: 5 }
+        company: { type: string, minLength: 2 }
+        jobTitle: { type: string, minLength: 2 }
+        segment: { $ref: "#/components/schemas/LeadSegment" }
+        unitCount: { type: integer, minimum: 1 }
         state: { $ref: "#/components/schemas/BrazilState" }
         city: { type: string, minLength: 2 }
         distributor: { type: string, minLength: 2 }

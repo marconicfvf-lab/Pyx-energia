@@ -14,4 +14,8 @@ search?: string;
 stage?: LeadStage;
 state?: BrazilState;
 customerType?: CustomerType;
+/**
+ * @minimum 0
+ */
+minBill?: number;
 };

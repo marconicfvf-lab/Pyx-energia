@@ -247,6 +247,12 @@ export default function Home() {
                 <Calculator />
               </div>
             </div>
+            <a
+              href="/empresas"
+              className="mt-14 flex items-center justify-between gap-4 rounded-2xl border border-primary/25 bg-primary/[0.06] px-6 py-5 text-sm font-medium text-foreground transition-colors hover:border-primary/50 hover:bg-primary/[0.1] md:text-base"
+            >
+              Conta acima de R$ 5 mil? Conheça o atendimento empresarial →
+            </a>
           </div>
         </section>
 

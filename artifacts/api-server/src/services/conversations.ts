@@ -13,6 +13,7 @@ import {
   type Message,
 } from "@workspace/db";
 import { runAgent, type AgentTurn } from "./agent";
+import { flagHighValueLead } from "./highValue";
 import { extractPhone } from "./phone";
 import { estimateSavings } from "./pricing";
 import { sendWhatsApp } from "./whatsapp";
@@ -280,7 +281,14 @@ export async function handleInbound(input: {
       updates.estimatedAnnualSavings = savings.annual;
     }
     if (Object.keys(updates).length > 0) {
-      await db.update(leadsTable).set(updates).where(eq(leadsTable.id, lead.id));
+      const [updatedLead] = await db
+        .update(leadsTable)
+        .set(updates)
+        .where(eq(leadsTable.id, lead.id))
+        .returning();
+      if (updates.averageBill !== undefined && updatedLead) {
+        await flagHighValueLead(updatedLead);
+      }
     }
     await db.insert(activitiesTable).values({
       leadId: lead.id,

@@ -51,6 +51,13 @@ const stages: Array<{ value: LeadStage; label: string }> = [
 
 const stageLabel = (stage: string) =>
   stages.find((item) => item.value === stage)?.label ?? stage;
+const segmentLabels: Record<string, string> = {
+  farmacia: "Farmácia",
+  clinica: "Clínica",
+  mercado: "Supermercado/mercadinho",
+  outro: "Outro",
+};
+const segmentLabel = (segment: string) => segmentLabels[segment] ?? segment;
 const currency = (value: number | null | undefined) =>
   value === null || value === undefined
     ? "—"
@@ -175,6 +182,10 @@ function LeadDetailPanel({
           <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Documento</span><p className="font-semibold">{lead.cpfCnpj ? `${lead.customerType} · ${lead.cpfCnpj}` : "—"}</p></div>
           <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Local</span><p className="font-semibold">{[lead.city, lead.state].filter(Boolean).join(", ") || "—"}</p></div>
           <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Conta média</span><p className="font-semibold">{currency(lead.averageBill)}</p></div>
+          {lead.company && <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Empresa</span><p className="font-semibold">{lead.company}</p></div>}
+          {lead.jobTitle && <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Cargo</span><p className="font-semibold">{lead.jobTitle}</p></div>}
+          {lead.segment && <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Segmento</span><p className="font-semibold">{segmentLabel(lead.segment)}</p></div>}
+          {lead.unitCount != null && <div className="rounded-xl bg-muted/50 p-3"><span className="text-muted-foreground">Unidades</span><p className="font-semibold">{lead.unitCount}</p></div>}
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -262,6 +273,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [stage, setStage] = useState<LeadStage | "">("");
   const [state, setState] = useState<BrazilState | "">("");
+  const [minBill, setMinBill] = useState<5000 | 10000 | undefined>(undefined);
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
   const [tab, setTab] = useState<"leads" | "conversas" | "campanhas">("leads");
   const { data: kpis, isLoading: loadingKpis } = useGetDashboardKpis();
@@ -269,6 +281,7 @@ export default function Dashboard() {
     search: search || undefined,
     stage: stage || undefined,
     state: state || undefined,
+    minBill,
   });
   const filteredLeads = useMemo(() => leads, [leads]);
 
@@ -327,6 +340,16 @@ export default function Dashboard() {
               <div className="relative"><Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar por nome ou telefone" className="h-10 w-full rounded-lg border border-input pl-9 pr-3 text-sm sm:w-64" /></div>
               <div className="relative"><Filter className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><select value={stage} onChange={(event) => setStage(event.target.value as LeadStage | "")} className="h-10 w-full appearance-none rounded-lg border border-input bg-white pl-9 pr-8 text-sm sm:w-40"><option value="">Todas as etapas</option>{stages.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></div>
               <select value={state} onChange={(event) => setState(event.target.value as BrazilState | "")} className="h-10 rounded-lg border border-input bg-white px-3 text-sm"><option value="">Todos os estados</option>{brazilStates.map((uf) => <option key={uf} value={uf}>{uf}</option>)}</select>
+              <select
+                value={minBill ?? ""}
+                onChange={(event) => setMinBill(event.target.value === "5000" ? 5000 : event.target.value === "10000" ? 10000 : undefined)}
+                className="h-10 rounded-lg border border-input bg-white px-3 text-sm"
+                aria-label="Filtrar por valor da conta"
+              >
+                <option value="">Todas as contas</option>
+                <option value="5000">Acima de R$ 5 mil</option>
+                <option value="10000">Acima de R$ 10 mil</option>
+              </select>
             </div>
           </div>
           {loadingLeads ? <div className="p-12 text-center text-sm text-muted-foreground">Carregando leads...</div> : filteredLeads.length === 0 ? <div className="p-5"><EmptyState text="Nenhum lead corresponde aos filtros atuais." /></div> : (
@@ -334,16 +357,24 @@ export default function Dashboard() {
               <table className="w-full min-w-[760px] text-left text-sm">
                 <thead className="bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground"><tr><th className="px-5 py-3 font-semibold">Lead</th><th className="px-5 py-3 font-semibold">Local</th><th className="px-5 py-3 font-semibold">Conta média</th><th className="px-5 py-3 font-semibold">Etapa</th><th className="px-5 py-3 font-semibold">Próximo contato</th><th className="px-5 py-3" /></tr></thead>
                 <tbody className="divide-y divide-border/60">
-                  {filteredLeads.map((lead) => (
+                  {filteredLeads.map((lead) => {
+                    const averageBill = lead.averageBill ?? null;
+                    const priority = averageBill !== null && averageBill >= 10000
+                      ? "Prioridade"
+                      : averageBill !== null && averageBill >= 5000
+                        ? "Alto consumo"
+                        : null;
+                    return (
                     <tr key={lead.id} className="cursor-pointer transition-colors hover:bg-muted/30" onClick={() => setSelectedLeadId(lead.id)}>
-                      <td className="px-5 py-4"><p className="font-semibold">{lead.name}</p><p className="text-xs text-muted-foreground">{lead.phone}</p></td>
+                      <td className="px-5 py-4"><p className="font-semibold">{lead.name}</p>{(lead.jobTitle || lead.company) && <p className="text-xs font-medium text-foreground/80">{[lead.jobTitle, lead.company].filter(Boolean).join(" · ")}</p>}<p className="text-xs text-muted-foreground">{lead.phone}</p></td>
                       <td className="px-5 py-4"><p>{lead.city ?? "—"}</p><p className="text-xs text-muted-foreground">{[lead.state, lead.distributor].filter(Boolean).join(" · ") || "Em qualificação"}</p></td>
-                      <td className="px-5 py-4"><p className="font-medium">{currency(lead.averageBill)}</p><p className="text-xs text-primary">{lead.estimatedMonthlySavings ? `economiza ${currency(lead.estimatedMonthlySavings)}/mês` : "economia a calcular"}</p></td>
+                      <td className="px-5 py-4"><p className="flex flex-wrap items-center gap-2 font-medium">{currency(lead.averageBill)}{priority && <span className="inline-flex rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">{priority}</span>}</p><p className="text-xs text-primary">{lead.estimatedMonthlySavings ? `economiza ${currency(lead.estimatedMonthlySavings)}/mês` : "economia a calcular"}</p></td>
                       <td className="px-5 py-4"><span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${lead.stage === "ganho" ? "bg-primary/10 text-primary" : lead.stage === "perdido" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>{stageLabel(lead.stage)}</span></td>
                       <td className="px-5 py-4 text-muted-foreground">{lead.nextFollowUpAt ? dateTime(lead.nextFollowUpAt) : "—"}</td>
                       <td className="px-5 py-4"><ChevronRight className="h-4 w-4 text-muted-foreground" /></td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

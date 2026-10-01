@@ -32,6 +32,16 @@ export const CustomerType = {
   CNPJ: 'CNPJ',
 } as const;
 
+export type LeadSegment = typeof LeadSegment[keyof typeof LeadSegment];
+
+
+export const LeadSegment = {
+  farmacia: 'farmacia',
+  clinica: 'clinica',
+  mercado: 'mercado',
+  outro: 'outro',
+} as const;
+
 export type BrazilState = typeof BrazilState[keyof typeof BrazilState];
 
 
@@ -83,6 +93,13 @@ export interface Lead {
   customerType?: CustomerType | null;
   /** @nullable */
   cpfCnpj?: string | null;
+  /** @nullable */
+  company?: string | null;
+  /** @nullable */
+  jobTitle?: string | null;
+  segment?: LeadSegment | null;
+  /** @nullable */
+  unitCount?: number | null;
   state?: BrazilState | null;
   /** @nullable */
   city?: string | null;
@@ -115,12 +132,19 @@ export interface LeadInput {
   phone: string;
   customerType: CustomerType;
   /** @minLength 5 */
-  cpfCnpj: string;
+  cpfCnpj?: string;
+  /** @minLength 2 */
+  company?: string;
+  /** @minLength 2 */
+  jobTitle?: string;
+  segment?: LeadSegment;
+  /** @minimum 1 */
+  unitCount?: number;
   state: BrazilState;
   /** @minLength 2 */
   city: string;
   /** @minLength 2 */
-  distributor: string;
+  distributor?: string;
   /** @minimum 0 */
   averageBill: number;
   /** @minimum 0 */
@@ -463,6 +487,10 @@ search?: string;
 stage?: LeadStage;
 state?: BrazilState;
 customerType?: CustomerType;
+/**
+ * @minimum 0
+ */
+minBill?: number;
 };
 
 export type WhatsappWebhookParams = {

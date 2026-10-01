@@ -7,6 +7,7 @@
  */
 import type { BrazilState } from './brazilState';
 import type { CustomerType } from './customerType';
+import type { LeadSegment } from './leadSegment';
 import type { LeadStage } from './leadStage';
 
 export interface Lead {
@@ -16,6 +17,13 @@ export interface Lead {
   customerType?: CustomerType | null;
   /** @nullable */
   cpfCnpj?: string | null;
+  /** @nullable */
+  company?: string | null;
+  /** @nullable */
+  jobTitle?: string | null;
+  segment?: LeadSegment | null;
+  /** @nullable */
+  unitCount?: number | null;
   state?: BrazilState | null;
   /** @nullable */
   city?: string | null;
