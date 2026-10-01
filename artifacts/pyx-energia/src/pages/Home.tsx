@@ -144,12 +144,12 @@ const GROUP_STATS = [
 ];
 
 const GROUP_WORKS = [
-  { src: "/obras/obra-1.webp", width: 960, height: 720, alt: "Usina em telhado — Recife, PE", caption: "Usina em telhado — Recife, PE" },
-  { src: "/obras/obra-2.webp", width: 1200, height: 675, alt: "Fazenda solar — Sertão, PE", caption: "Fazenda solar — Sertão, PE" },
-  { src: "/obras/obra-3.webp", width: 1200, height: 675, alt: "Usina de grande porte — PE", caption: "Usina de grande porte — PE" },
-  { src: "/obras/obra-4.webp", width: 1200, height: 675, alt: "Parque solar — Nordeste", caption: "Parque solar — Nordeste" },
-  { src: "/obras/obra-5.webp", width: 1200, height: 675, alt: "Usina fotovoltaica — PE", caption: "Usina fotovoltaica — PE" },
-  { src: "/obras/obra-6.webp", width: 1179, height: 656, alt: "Instalação de módulos — PE", caption: "Instalação de módulos — PE" },
+  { src: "/obras/obra-1.webp", width: 960, height: 720, name: "Caxangá Golf & Country Club", details: "370 kWp · Telhado · Recife, PE" },
+  { src: "/obras/obra-2.webp", width: 1200, height: 675, name: "UFV MIP 5", details: "5 MWp · Tracker" },
+  { src: "/obras/obra-3.webp", width: 1200, height: 675, name: "UFV Trinity Energia Petrolândia", details: "3,2 MWp · Tracker · Petrolândia, PE" },
+  { src: "/obras/obra-4.webp", width: 1200, height: 675, name: "UFV Conecta 1", details: "3,9 MWp · Tracker" },
+  { src: "/obras/obra-5.webp", width: 1200, height: 675, name: "UFV Conecta 2", details: "1,3 MWp · Tracker" },
+  { src: "/obras/obra-6.webp", width: 1179, height: 656, name: "UFV Angelim", details: "1,3 MWp · Estrutura fixa" },
 ];
 
 export default function Home() {
@@ -466,15 +466,16 @@ export default function Home() {
                   <figure key={work.src} className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-card">
                     <img
                       src={work.src}
-                      alt={work.alt}
+                      alt={`${work.name} — ${work.details}`}
                       width={work.width}
                       height={work.height}
                       loading="lazy"
                       decoding="async"
                       className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-5 pb-5 pt-12 text-sm font-medium text-white">
-                      {work.caption}
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-5 pb-5 pt-12">
+                      <p className="font-display text-base font-medium text-white">{work.name}</p>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-wider text-primary">{work.details}</p>
                     </figcaption>
                   </figure>
                 ))}
