@@ -4,7 +4,7 @@ import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent, FileCheck } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
 import type { ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -121,6 +121,11 @@ const GROUP_SERVICES = [
     description: "Engenharia, fornecimento e construção de usinas fotovoltaicas, do telhado à usina de solo.",
   },
   {
+    icon: Handshake,
+    title: "M&A de usinas solares",
+    description: "Compra e venda de usinas prontas, com análise técnica, documental e financeira de cada ativo.",
+  },
+  {
     icon: FileCheck,
     title: "Projetos e pareceres de acesso",
     description: "Projetos elétricos e solicitação de parecer de acesso junto à distribuidora, com toda a documentação técnica.",
@@ -130,6 +135,12 @@ const GROUP_SERVICES = [
     title: "Transição para o mercado livre",
     description: "Análise de viabilidade, adequação e acompanhamento completo na migração para o Mercado Livre de Energia.",
   },
+];
+
+const GROUP_STATS = [
+  { prefix: "+", value: "10", suffix: "anos", label: "no mercado de energia" },
+  { prefix: "+", value: "30", suffix: "MWp", label: "instalados como EPCista" },
+  { prefix: "", value: "M&A", suffix: "", label: "compra e venda de usinas prontas" },
 ];
 
 const GROUP_WORKS = [
@@ -417,11 +428,24 @@ export default function Home() {
                 Do projeto à usina, <span className="text-primary font-normal">um grupo completo</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Além da energia por assinatura, o grupo PYX conta com uma EPCista própria, que projeta e constrói usinas fotovoltaicas, e com uma equipe que acompanha sua empresa na migração para o mercado livre de energia.
+                Com mais de 10 anos no mercado de energia e mais de 30 MWp instalados como EPCista, o grupo PYX projeta e constrói usinas fotovoltaicas, atua forte no M&A de compra e venda de usinas prontas e em pareceres de acesso, e acompanha sua empresa na migração para o mercado livre de energia.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {GROUP_STATS.map((stat, i) => (
+                <div key={i} className="top-line glass rounded-3xl p-6 md:p-8">
+                  <p className="flex items-baseline gap-1.5 font-display text-primary">
+                    {stat.prefix && <span className="text-base md:text-lg font-light">{stat.prefix}</span>}
+                    <span className="text-5xl md:text-6xl font-medium text-glow">{stat.value}</span>
+                    {stat.suffix && <span className="text-lg md:text-xl font-light">{stat.suffix}</span>}
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {GROUP_SERVICES.map((service) => (
                 <div key={service.title} className="glass rounded-3xl p-7 md:p-8">
                   <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary">
