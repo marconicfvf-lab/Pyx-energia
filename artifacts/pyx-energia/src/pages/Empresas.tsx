@@ -180,12 +180,16 @@ export default function Empresas() {
               </p>
               <h1 className="mb-6 font-display text-4xl font-light tracking-tight md:text-6xl">
                 Conta de luz acima de {"R$\u00a05\u00a0mil"}? Sua empresa pode economizar até{" "}
-                <span className="text-primary text-glow">40%.</span>
+                <span className="text-primary text-glow">40%*.</span>
               </h1>
               <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                 Para redes de farmácias, clínicas, supermercados e mercadinhos com contas em baixa
                 tensão. Sem obra, sem investimento e sem trocar de distribuidora — atendimento
                 direto com um especialista.
+              </p>
+              <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+                *Desconto de 40% para contas de baixa tensão (B3) acima de R$ 10 mil, em conta única ou
+                somando as contas das unidades.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -311,8 +315,9 @@ export default function Empresas() {
                 </table>
               </div>
               <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-                Estimativas para contas de baixa tensão. A proposta final depende da análise das
-                faturas.
+                Estimativas para contas de baixa tensão (B3). Acima de R$ 10 mil, o desconto de 40%
+                vale para conta única ou para a soma das contas das unidades. A proposta final
+                depende da análise das faturas.
               </p>
             </div>
           </div>
