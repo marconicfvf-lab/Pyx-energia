@@ -16,6 +16,24 @@ import { Button } from "@/components/ui/button";
 const DEFAULT_TEMPLATE =
   "Oi {{nome}}, aqui é a Sofia da PYX Energia. Em {{cidade}} já reduzimos a conta de luz de vários clientes sem obra e sem investimento. Quer que eu simule quanto {{negocio}} economizaria?";
 
+const READY_TEMPLATES = [
+  {
+    name: "Farmácias",
+    message:
+      "Oi {{nome}}, tudo bem? Aqui é da PYX Energia. Redes de farmácia em {{cidade}} estão reduzindo até 40% da conta de luz com energia solar por assinatura, sem obra e sem investimento. Posso fazer uma simulação para {{negocio}}? Responda SIM.",
+  },
+  {
+    name: "Clínicas",
+    message:
+      "Oi {{nome}}, tudo bem? Aqui é da PYX Energia. Clínicas em {{cidade}} estão reduzindo até 40% da conta de luz com energia solar por assinatura, sem obra e sem investimento. Posso fazer uma simulação para {{negocio}}? Responda SIM.",
+  },
+  {
+    name: "Mercadinhos",
+    message:
+      "Oi {{nome}}, tudo bem? Aqui é da PYX Energia. Supermercados e mercadinhos em {{cidade}} estão reduzindo até 40% da conta de luz — freezer e câmara fria ligados 24h pesam muito. Sem obra e sem investimento. Posso simular para {{negocio}}? Responda SIM.",
+  },
+];
+
 function ContactList({ campaignId }: { campaignId: number }) {
   const { data: contacts = [] } = useListCampaignContacts(campaignId);
   const totals = contacts.reduce<Record<string, number>>((acc, contact) => {
@@ -67,6 +85,25 @@ export function CampaignsPanel() {
           horário comercial, limite diário, intervalo entre mensagens e a palavra SAIR.
         </p>
         <div className="mt-4 space-y-3">
+          <div>
+            <p className="mb-2 text-sm font-semibold">Modelos prontos</p>
+            <div className="flex flex-wrap gap-2">
+              {READY_TEMPLATES.map((readyTemplate) => (
+                <Button
+                  key={readyTemplate.name}
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setName(readyTemplate.name);
+                    setTemplate(readyTemplate.message);
+                  }}
+                >
+                  {readyTemplate.name}
+                </Button>
+              ))}
+            </div>
+          </div>
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}

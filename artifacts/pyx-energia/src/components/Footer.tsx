@@ -15,12 +15,13 @@ export function Footer() {
           <div>
             <h4 className="font-display font-normal text-sm uppercase tracking-[0.25em] mb-6">Navegação</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><a href="#como-funciona" className="hover:text-primary transition-colors">Como Funciona</a></li>
-              <li><a href="#vantagens" className="hover:text-primary transition-colors">Vantagens</a></li>
-              <li><a href="#para-quem" className="hover:text-primary transition-colors">Para Quem é</a></li>
-              <li><a href="#grupo" className="hover:text-primary transition-colors">Grupo PYX</a></li>
-              <li><a href="#depoimentos" className="hover:text-primary transition-colors">Depoimentos</a></li>
-              <li><a href="#faq" className="hover:text-primary transition-colors">Dúvidas Frequentes</a></li>
+              <li><a href="/#como-funciona" className="hover:text-primary transition-colors">Como Funciona</a></li>
+              <li><a href="/#vantagens" className="hover:text-primary transition-colors">Vantagens</a></li>
+              <li><a href="/#para-quem" className="hover:text-primary transition-colors">Para Quem é</a></li>
+              <li><a href="/#grupo" className="hover:text-primary transition-colors">Grupo PYX</a></li>
+              <li><a href="/#depoimentos" className="hover:text-primary transition-colors">Depoimentos</a></li>
+              <li><a href="/#faq" className="hover:text-primary transition-colors">Dúvidas Frequentes</a></li>
+              <li><a href="/empresas" className="hover:text-primary transition-colors">Para empresas</a></li>
             </ul>
           </div>
 

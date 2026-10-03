@@ -2,6 +2,7 @@ import { createInsertSchema } from "drizzle-zod";
 import {
   pgEnum,
   pgTable,
+  integer,
   real,
   serial,
   text,
@@ -67,6 +68,10 @@ export const leadsTable = pgTable(
     // site agent start with almost nothing and get enriched during qualification.
     customerType: customerTypeEnum("customer_type"),
     cpfCnpj: text("cpf_cnpj"),
+    company: text("company"),
+    jobTitle: text("job_title"),
+    segment: text("segment"),
+    unitCount: integer("unit_count"),
     state: stateEnum("state"),
     city: text("city"),
     distributor: text("distributor"),

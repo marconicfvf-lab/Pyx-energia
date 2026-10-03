@@ -38,6 +38,7 @@ export * from './healthStatus';
 export * from './lead';
 export * from './leadDetail';
 export * from './leadInput';
+export * from './leadSegment';
 export * from './leadStage';
 export * from './leadUpdate';
 export * from './listConversationsParams';
