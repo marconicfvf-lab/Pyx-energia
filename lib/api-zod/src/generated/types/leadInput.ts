@@ -7,6 +7,7 @@
  */
 import type { BrazilState } from './brazilState';
 import type { CustomerType } from './customerType';
+import type { LeadSegment } from './leadSegment';
 
 export interface LeadInput {
   /** @minLength 2 */
@@ -15,12 +16,19 @@ export interface LeadInput {
   phone: string;
   customerType: CustomerType;
   /** @minLength 5 */
-  cpfCnpj: string;
+  cpfCnpj?: string;
+  /** @minLength 2 */
+  company?: string;
+  /** @minLength 2 */
+  jobTitle?: string;
+  segment?: LeadSegment;
+  /** @minimum 1 */
+  unitCount?: number;
   state: BrazilState;
   /** @minLength 2 */
   city: string;
   /** @minLength 2 */
-  distributor: string;
+  distributor?: string;
   /** @minimum 0 */
   averageBill: number;
   /** @minimum 0 */

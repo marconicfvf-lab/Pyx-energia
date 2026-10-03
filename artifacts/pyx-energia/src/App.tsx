@@ -16,6 +16,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
+import Empresas from "@/pages/Empresas";
 import { Redirect, Route, Switch, useLocation, Router as WouterRouter } from "wouter";
 
 const queryClient = new QueryClient();
@@ -145,6 +146,7 @@ function Routes() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={HomeRedirect} />
+        <Route path="/empresas" component={Empresas} />
         <Route path="/painel" component={ProtectedDashboard} />
         <Route path="/sign-in/*?" component={SignInPage} />
         <Route path="/sign-up/*?" component={SignUpPage} />

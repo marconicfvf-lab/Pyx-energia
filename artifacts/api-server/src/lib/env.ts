@@ -2,6 +2,8 @@ function str(name: string, fallback = ""): string {
   return process.env[name]?.trim() || fallback;
 }
 
+const salesWhatsapp = str("PYX_SALES_WHATSAPP", "5581999725151");
+
 export const env = {
   /** "evolution" | "cloud" | "log" (log only records, never sends). */
   whatsappProvider: str("WHATSAPP_PROVIDER", "log"),
@@ -13,7 +15,9 @@ export const env = {
   webhookToken: str("WHATSAPP_WEBHOOK_TOKEN"),
   geminiApiKey: str("GEMINI_API_KEY"),
   geminiModel: str("GEMINI_MODEL", "gemini-3.6-flash"),
-  salesWhatsapp: str("PYX_SALES_WHATSAPP", "5581999725151"),
+  salesWhatsapp,
+  alertWhatsapp: str("PYX_ALERT_WHATSAPP", salesWhatsapp),
+  appUrl: str("APP_URL", "https://pyxenergia.com"),
   /** Shared secret for the scheduled dispatch endpoint; empty disables it. */
   cronSecret: str("CRON_SECRET"),
   /** Directory with the built SPA; empty means the API serves no static files. */

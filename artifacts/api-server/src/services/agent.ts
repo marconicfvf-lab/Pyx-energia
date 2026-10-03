@@ -2,6 +2,7 @@ import { env } from "../lib/env";
 import { logger } from "../lib/logger";
 import { stripPhones } from "./phone";
 import { estimateSavings, formatBRL, parseBillAmount } from "./pricing";
+import { HIGH_VALUE_BILL } from "./highValue";
 
 /** Bills below this are typos or the model echoing something else, not a bill. */
 const MIN_PLAUSIBLE_BILL = 30;
@@ -54,6 +55,8 @@ function buildSystemPrompt(known: AgentKnownLead): string {
     "O desconto é por faixa de consumo em contas de baixa tensão: 20% para contas de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. Nunca prometa percentual maior nem valores fechados: apresente sempre como estimativa sujeita à análise da fatura.",
     "Atende clientes no Nordeste, com foco em Pernambuco e Ceará (distribuidora Neoenergia); leads de outros estados também são bem-vindos e devem ser qualificados normalmente.",
     "Objetivo: qualificar o lead coletando, em poucas perguntas e uma de cada vez, nome, cidade, se é CPF ou CNPJ e o valor médio da conta de luz.",
+    "Se for empresa com várias unidades (rede de farmácias, clínicas, supermercados), pergunte o valor somado das contas de todas as unidades.",
+    "Para contas a partir de R$ 5.000, diga que um especialista da PYX vai entrar em contato para uma proposta personalizada e peça as faturas.",
     known.hasPhone === false
       ? "Você ainda não tem o WhatsApp deste lead: depois de apresentar a economia estimada, peça o número de WhatsApp com DDD para enviar a proposta."
       : "Você já tem o WhatsApp do lead; não peça o número novamente.",
@@ -269,7 +272,7 @@ function scriptedReply(
     };
   }
   return {
-    reply: `Com uma conta de ${formatBRL(averageBill)}, a economia estimada é de ${formatBRL(savings.monthly)} por mês (${formatBRL(savings.annual)} por ano), com ${savings.discountPercent}% de desconto. Me envia uma foto da última fatura que eu fecho a proposta exata.`,
+    reply: `Com uma conta de ${formatBRL(averageBill)}, a economia estimada é de ${formatBRL(savings.monthly)} por mês (${formatBRL(savings.annual)} por ano), com ${savings.discountPercent}% de desconto. Me envia uma foto da última fatura que eu fecho a proposta exata.${averageBill >= HIGH_VALUE_BILL ? " Como sua conta é de alto consumo, um especialista da PYX vai entrar em contato para uma proposta personalizada." : ""}`,
     extracted,
     handoff: false,
     qualified: true,

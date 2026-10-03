@@ -1,5 +1,5 @@
 import { Router, type IRouter, type Request } from "express";
-import { and, asc, count, desc, eq, ilike, lte, or, sum } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, ilike, lte, or, sum } from "drizzle-orm";
 import { db, activitiesTable, followUpTasksTable, leadsTable } from "@workspace/db";
 import {
   CreateLeadActivityBody,
@@ -27,6 +27,7 @@ import {
   UpdateLeadResponse,
 } from "@workspace/api-zod";
 import { requireAuth } from "../middlewares/requireAuth";
+import { flagHighValueLead } from "../services/highValue";
 
 const router: IRouter = Router();
 const LGPD_CONSENT =
@@ -58,10 +59,14 @@ router.post("/leads", async (req, res): Promise<void> => {
       name: parsed.data.name,
       phone: parsed.data.phone,
       customerType: parsed.data.customerType,
-      cpfCnpj: parsed.data.cpfCnpj,
+      ...(parsed.data.cpfCnpj !== undefined ? { cpfCnpj: parsed.data.cpfCnpj } : {}),
+      ...(parsed.data.company !== undefined ? { company: parsed.data.company } : {}),
+      ...(parsed.data.jobTitle !== undefined ? { jobTitle: parsed.data.jobTitle } : {}),
+      ...(parsed.data.segment !== undefined ? { segment: parsed.data.segment } : {}),
+      ...(parsed.data.unitCount !== undefined ? { unitCount: parsed.data.unitCount } : {}),
       state: parsed.data.state,
       city: parsed.data.city,
-      distributor: parsed.data.distributor,
+      ...(parsed.data.distributor !== undefined ? { distributor: parsed.data.distributor } : {}),
       averageBill: parsed.data.averageBill,
       estimatedMonthlySavings: parsed.data.estimatedMonthlySavings,
       estimatedAnnualSavings: parsed.data.estimatedAnnualSavings,
@@ -70,6 +75,7 @@ router.post("/leads", async (req, res): Promise<void> => {
       consentText: parsed.data.consentText,
     })
     .returning();
+  if (lead) await flagHighValueLead(lead);
   res.status(201).json(CreateLeadResponse.parse(lead));
 });
 
@@ -90,6 +96,9 @@ router.get("/leads", async (req, res): Promise<void> => {
   if (query.data.state) filters.push(eq(leadsTable.state, query.data.state));
   if (query.data.customerType) {
     filters.push(eq(leadsTable.customerType, query.data.customerType));
+  }
+  if (query.data.minBill !== undefined) {
+    filters.push(gte(leadsTable.averageBill, query.data.minBill));
   }
   const leads = await db
     .select()
