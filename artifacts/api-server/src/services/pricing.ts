@@ -18,10 +18,22 @@ export function discountPercentFor(averageBill: number): number {
   return tier ? tier.discountPercent : MAX_DISCOUNT_PERCENT;
 }
 
+/**
+ * O desconto incide só sobre a energia compensada: a taxa mínima de
+ * disponibilidade (trifásica, 100 kWh) segue com a distribuidora.
+ */
+export const ESTIMATED_TARIFF_PER_KWH = 1;
+export const DEFAULT_MINIMUM_KWH = 100;
+
+export function compensatedEnergyValue(averageBill: number): number {
+  return Math.max(0, averageBill - DEFAULT_MINIMUM_KWH * ESTIMATED_TARIFF_PER_KWH);
+}
+
 /** Single source of truth for the discount offered to a lead. */
 export function estimateSavings(averageBill: number): SavingsEstimate {
   const discountPercent = discountPercentFor(averageBill);
-  const monthly = Math.round(averageBill * (discountPercent / 100) * 100) / 100;
+  const compensated = compensatedEnergyValue(averageBill);
+  const monthly = Math.round(compensated * (discountPercent / 100) * 100) / 100;
   return { discountPercent, monthly, annual: Math.round(monthly * 12 * 100) / 100 };
 }
 
