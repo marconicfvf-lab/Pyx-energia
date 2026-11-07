@@ -109,7 +109,7 @@ const FAQS = [
   },
   {
     q: "Qual desconto eu recebo?",
-    a: "Depende do valor médio da sua conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. O percentual final é confirmado após a análise da fatura.",
+    a: "Depende do valor médio da sua conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. O desconto incide sobre a energia compensada (a taxa mínima de disponibilidade e a iluminação pública não entram). O percentual final é confirmado após a análise da fatura.",
   },
   {
     q: "Minha conta é menor que R$ 500. Posso participar?",
@@ -377,7 +377,7 @@ export default function Home() {
             </div>
 
             <p className="text-center text-sm text-muted-foreground mt-12">
-              Percentuais aplicados sobre a energia consumida, conforme análise da fatura.
+              Percentuais aplicados sobre a energia compensada, conforme análise da fatura. A taxa mínima de disponibilidade e a iluminação pública continuam na conta da distribuidora.
             </p>
           </div>
         </section>

@@ -3,12 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
 import { BrazilState, useCreateLead } from "@workspace/api-client-react";
-import { discountPercentFor, estimateMonthlySavings } from "@/lib/pricing";
+import {
+  availabilityCost,
+  compensatedEnergyValue,
+  ConnectionType,
+  DEFAULT_CONNECTION,
+  discountPercentFor,
+  estimateMonthlySavings,
+  MINIMUM_KWH_BY_CONNECTION,
+} from "@/lib/pricing";
 
 const BRAZIL_STATES = Object.values(BrazilState);
 
+const CONNECTION_OPTIONS: { value: ConnectionType; label: string }[] = [
+  { value: "monofasica", label: "Monofásica" },
+  { value: "bifasica", label: "Bifásica" },
+  { value: "trifasica", label: "Trifásica" },
+];
+
 export function Calculator() {
   const [bill, setBill] = useState(2500);
+  const [connection, setConnection] = useState<ConnectionType>(DEFAULT_CONNECTION);
   const [animatedSavings, setAnimatedSavings] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -22,7 +37,9 @@ export function Calculator() {
   const createLead = useCreateLead();
 
   const discountPercent = discountPercentFor(bill);
-  const estimatedSavings = estimateMonthlySavings(bill);
+  const compensatedEnergy = compensatedEnergyValue(bill, connection);
+  const minimumCharge = availabilityCost(connection);
+  const estimatedSavings = estimateMonthlySavings(bill, connection);
   const yearlySavings = estimatedSavings * 12;
 
   // Animate the savings number when bill changes
@@ -128,10 +145,39 @@ export function Calculator() {
             <span>R$ 500</span>
             <span>R$ 20.000+</span>
           </div>
-          <p className="mt-4 text-sm text-foreground">
-            Desconto aplicado nesta faixa:{" "}
-            <span className="font-semibold text-primary">{discountPercent}%</span>
-          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <label htmlFor="calculator-connection" className="text-sm font-medium text-foreground">
+              Tipo de ligação
+            </label>
+            <select
+              id="calculator-connection"
+              value={connection}
+              onChange={(event) => setConnection(event.target.value as ConnectionType)}
+              className="h-10 rounded-xl border border-white/10 bg-background/60 px-3 text-sm text-foreground"
+            >
+              {CONNECTION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <dl className="mt-4 space-y-1.5 text-sm">
+            <div className="flex justify-between gap-4">
+              <dt className="text-muted-foreground">
+                Taxa mínima ({MINIMUM_KWH_BY_CONNECTION[connection]} kWh, sem desconto)
+              </dt>
+              <dd className="text-foreground">{formatCurrency(minimumCharge)}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-muted-foreground">Energia compensada estimada</dt>
+              <dd className="text-foreground">{formatCurrency(compensatedEnergy)}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-foreground">Desconto sobre a energia compensada</dt>
+              <dd className="font-semibold text-primary">{discountPercent}%</dd>
+            </div>
+          </dl>
         </div>
 
         <div className="bg-background/60 rounded-2xl p-6 border border-primary/20 mb-8">
@@ -261,7 +307,7 @@ export function Calculator() {
           <ArrowRight className="w-5 h-5" />
         </Button>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          *Estimativas para contas de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. A proposta final dependerá da análise da sua fatura.
+          *Estimativas para contas de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000, aplicados sobre a energia compensada. A taxa mínima de disponibilidade e a iluminação pública continuam na conta da distribuidora. Valores estimados com tarifa média de R$ 1,00/kWh; a proposta final dependerá da análise da sua fatura.
         </p>
       </div>
     </div>

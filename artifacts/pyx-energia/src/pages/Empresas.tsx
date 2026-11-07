@@ -317,7 +317,8 @@ export default function Empresas() {
               <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
                 Estimativas para contas de baixa tensão (B3). Acima de R$ 10 mil, o desconto de 40%
                 vale para conta única ou para a soma das contas das unidades. A proposta final
-                depende da análise das faturas.
+                depende da análise das faturas. O desconto incide sobre a energia compensada: a taxa
+                mínima de disponibilidade e a iluminação pública seguem na conta da distribuidora.
               </p>
             </div>
           </div>
