@@ -3,6 +3,7 @@
   "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "PORT=5000 BASE_PATH=/ pnpm run build",
   "outputDirectory": "artifacts/pyx-energia/dist/public",
+  "ignoreCommand": "[ \"$VERCEL_PROJECT_PRODUCTION_URL\" = \"pyx-empresas.vercel.app\" ]",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
