@@ -50,12 +50,12 @@ const STEPS = [
   {
     step: "01",
     title: "Assinatura digital",
-    desc: "Analisamos sua conta atual (precisa ser acima de R$ 500) e criamos uma proposta personalizada com o percentual de desconto da sua faixa. Tudo assinado online.",
+    desc: "Analisamos sua conta atual (precisa ser acima de R$ 500) e criamos uma proposta personalizada com o percentual de desconto da sua faixa. A assinatura é feita online, com as nossas usinas parceiras.",
   },
   {
     step: "02",
     title: "Injeção de créditos",
-    desc: "Nossas usinas geram energia limpa e injetam na rede da concessionária. Os créditos são alocados diretamente no CPF ou CNPJ da unidade consumidora.",
+    desc: "Nossas usinas solares parceiras geram energia limpa e injetam na rede da concessionária. Os créditos são alocados diretamente no CPF ou CNPJ da unidade consumidora.",
   },
   {
     step: "03",
@@ -72,7 +72,7 @@ const TIERS = [
 ];
 
 const BENEFITS = [
-  { icon: Leaf, title: "Energia 100% renovável", desc: "Gerada em usinas solares conectadas à rede da distribuidora." },
+  { icon: Leaf, title: "Energia 100% renovável", desc: "Gerada pelas nossas usinas solares parceiras, conectadas à rede da distribuidora." },
   { icon: Smartphone, title: "Tudo pelo celular", desc: "Sem visita técnica, sem papelada e sem deslocamento." },
   { icon: HardHat, title: "Sem obras ou instalação", desc: "Nada muda no seu imóvel: nenhuma placa, nenhum equipamento." },
   { icon: BadgePercent, title: "Desconto fixo mensal", desc: "Você sabe quanto vai economizar antes de assinar." },
@@ -90,7 +90,7 @@ const AUDIENCES = [
 const FAQS = [
   {
     q: "Vou precisar fazer alguma obra ou instalar placas solares?",
-    a: "Não. Absolutamente nenhuma. A energia é gerada em nossas usinas solares remotas e injetada na rede da distribuidora (Neoenergia). Você não precisa de espaço, obras ou instalações.",
+    a: "Não. Absolutamente nenhuma. A energia é gerada nas nossas usinas solares parceiras e injetada na rede da distribuidora (Neoenergia). Você não precisa de espaço, obras ou instalações.",
   },
   {
     q: "Qual o investimento inicial?",
@@ -579,7 +579,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-4">
                 Dúvidas Frequentes
               </h2>
-              <p className="text-muted-foreground">Tudo o que você precisa saber sobre a assinatura de energia PYX.</p>
+              <p className="text-muted-foreground">Tudo o que você precisa saber sobre a assinatura de energia com as usinas parceiras da PYX.</p>
             </div>
 
             <Accordion type="single" collapsible className="w-full glass rounded-3xl px-5 py-2 md:px-8 md:py-4">
