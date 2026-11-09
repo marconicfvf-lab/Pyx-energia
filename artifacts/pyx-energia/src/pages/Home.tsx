@@ -55,7 +55,7 @@ const STEPS = [
   {
     step: "02",
     title: "Injeção de créditos",
-    desc: "Nossas usinas geram energia limpa e injetam na rede da concessionária. Os créditos são alocados diretamente no CPF ou CNPJ da unidade consumidora.",
+    desc: "Usinas solares parceiras geram energia limpa e injetam na rede da concessionária. A PYX intermedeia a sua adesão a essas usinas, e os créditos são alocados diretamente no CPF ou CNPJ da unidade consumidora.",
   },
   {
     step: "03",
@@ -72,7 +72,7 @@ const TIERS = [
 ];
 
 const BENEFITS = [
-  { icon: Leaf, title: "Energia 100% renovável", desc: "Gerada em usinas solares conectadas à rede da distribuidora." },
+  { icon: Leaf, title: "Energia 100% renovável", desc: "Gerada por usinas solares parceiras, conectadas à rede da distribuidora." },
   { icon: Smartphone, title: "Tudo pelo celular", desc: "Sem visita técnica, sem papelada e sem deslocamento." },
   { icon: HardHat, title: "Sem obras ou instalação", desc: "Nada muda no seu imóvel: nenhuma placa, nenhum equipamento." },
   { icon: BadgePercent, title: "Desconto fixo mensal", desc: "Você sabe quanto vai economizar antes de assinar." },
@@ -90,7 +90,7 @@ const AUDIENCES = [
 const FAQS = [
   {
     q: "Vou precisar fazer alguma obra ou instalar placas solares?",
-    a: "Não. Absolutamente nenhuma. A energia é gerada em nossas usinas solares remotas e injetada na rede da distribuidora (Neoenergia). Você não precisa de espaço, obras ou instalações.",
+    a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da distribuidora (Neoenergia). A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
   },
   {
     q: "Qual o investimento inicial?",
@@ -323,7 +323,7 @@ export default function Home() {
                 </h2>
               </div>
               <p className="text-lg text-muted-foreground max-w-xl">
-                Nós geramos energia em nossas fazendas solares e injetamos na rede da concessionária local. Os créditos gerados são transferidos para a sua conta. Simples assim.
+                Usinas solares parceiras geram a energia e injetam na rede da concessionária local. A PYX intermedeia a sua adesão a essas usinas, e os créditos são alocados na sua unidade consumidora. Simples assim.
               </p>
             </div>
 
