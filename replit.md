@@ -31,7 +31,7 @@ Landing page de conversão da PYX Energia para empresas de Pernambuco interessad
 
 - A primeira versão é estática e direciona leads qualificados ao WhatsApp.
 - Toda economia exibida pelo simulador é apresentada como estimativa.
-- A promessa comercial deve permanecer consistente em “até 32%”.
+- A promessa comercial deve permanecer consistente em “até 40%”.
 
 ## Product
 

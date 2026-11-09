@@ -65,9 +65,10 @@ const STEPS = [
 ];
 
 const TIERS = [
-  { label: "Faixa 1", percent: "20%", range: "Contas de R$ 500 a R$ 3.000", note: "Casas, apartamentos e pequenos comércios." },
-  { label: "Faixa 2", percent: "32%", range: "Acima de R$ 3.000 até R$ 10.000", note: "Clínicas, restaurantes e condomínios." },
-  { label: "Faixa 3", percent: "40%", range: "Acima de R$ 10.000", note: "Redes, indústrias leves e agronegócio.", highlight: true },
+  { label: "Faixa 1", percent: "25%", range: "Contas de R$ 500 a R$ 3.000", note: "Casas, apartamentos e pequenos comércios." },
+  { label: "Faixa 2", percent: "30%", range: "Acima de R$ 3.000 até R$ 5.000", note: "Escritórios, lojas e clínicas." },
+  { label: "Faixa 3", percent: "35%", range: "Acima de R$ 5.000 até R$ 10.000", note: "Restaurantes, condomínios e supermercados." },
+  { label: "Faixa 4", percent: "40%", range: "Acima de R$ 10.000", note: "Pode somar filiais, negócios ou imóveis do mesmo cliente.", highlight: true },
 ];
 
 const BENEFITS = [
@@ -109,7 +110,7 @@ const FAQS = [
   },
   {
     q: "Qual desconto eu recebo?",
-    a: "Depende do valor médio da sua conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 32% acima de R$ 3.000 até R$ 10.000 e 40% acima de R$ 10.000. O desconto incide sobre a energia compensada (a taxa mínima de disponibilidade e a iluminação pública não entram). O percentual final é confirmado após a análise da fatura.",
+    a: "Depende do valor médio da sua conta de baixa tensão: 25% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. O desconto incide sobre a energia compensada (a taxa mínima de disponibilidade e a iluminação pública não entram). O percentual final é confirmado após a análise da fatura.",
   },
   {
     q: "Minha conta é menor que R$ 500. Posso participar?",
@@ -355,12 +356,12 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
               {TIERS.map((tier) => (
                 <div
                   key={tier.label}
                   className={`relative rounded-3xl p-8 md:p-10 text-center transition-all duration-300 hover:-translate-y-1 ${
-                    tier.highlight ? "glow-ring bg-primary/[0.06] md:-my-4 md:py-14" : "glass hover:border-primary/30"
+                    tier.highlight ? "glow-ring bg-primary/[0.06] lg:-my-4 lg:py-14" : "glass hover:border-primary/30"
                   }`}
                 >
                   {tier.highlight && (
@@ -377,7 +378,7 @@ export default function Home() {
             </div>
 
             <p className="text-center text-sm text-muted-foreground mt-12">
-              Percentuais aplicados sobre a energia compensada, conforme análise da fatura. A taxa mínima de disponibilidade e a iluminação pública continuam na conta da distribuidora.
+              Percentuais aplicados sobre a energia compensada, conforme análise da fatura. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. A taxa mínima de disponibilidade e a iluminação pública continuam na conta da distribuidora.
             </p>
           </div>
         </section>

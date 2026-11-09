@@ -3,8 +3,9 @@
  * backend (artifacts/api-server/src/services/pricing.ts).
  */
 export const DISCOUNT_TIERS = [
-  { maxBill: 3000, discountPercent: 20 },
-  { maxBill: 10000, discountPercent: 32 },
+  { maxBill: 3000, discountPercent: 25 },
+  { maxBill: 5000, discountPercent: 30 },
+  { maxBill: 10000, discountPercent: 35 },
   { maxBill: Number.POSITIVE_INFINITY, discountPercent: 40 },
 ] as const;
 

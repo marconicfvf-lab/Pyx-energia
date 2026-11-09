@@ -189,7 +189,7 @@ export default function Empresas() {
               </p>
               <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
                 *Desconto de 40% para contas de baixa tensão (B3) acima de R$ 10 mil, em conta única ou
-                somando as contas das unidades.
+                somando as contas de filiais, negócios ou imóveis do mesmo cliente.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -316,7 +316,8 @@ export default function Empresas() {
               </div>
               <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
                 Estimativas para contas de baixa tensão (B3). Acima de R$ 10 mil, o desconto de 40%
-                vale para conta única ou para a soma das contas das unidades. A proposta final
+                vale para conta única ou para a soma das contas de filiais, negócios ou imóveis do
+                mesmo cliente. A proposta final
                 depende da análise das faturas. O desconto incide sobre a energia compensada: a taxa
                 mínima de disponibilidade e a iluminação pública seguem na conta da distribuidora.
               </p>
