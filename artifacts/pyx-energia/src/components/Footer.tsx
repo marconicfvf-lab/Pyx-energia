@@ -34,6 +34,17 @@ export function Footer() {
                    (81) 99972-5151
                 </a>
               </li>
+              <li>
+                <a href="mailto:contato@pyxenergia.com" className="hover:text-primary transition-colors">
+                  contato@pyxenergia.com
+                </a>
+              </li>
+              <li>
+                <span className="block text-xs uppercase tracking-[0.2em] mb-1">Envie sua conta</span>
+                <a href="mailto:comercial@pyxenergia.com" className="hover:text-primary transition-colors">
+                  comercial@pyxenergia.com
+                </a>
+              </li>
               <li>Nordeste</li>
             </ul>
           </div>

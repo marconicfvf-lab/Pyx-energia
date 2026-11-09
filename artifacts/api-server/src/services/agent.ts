@@ -61,6 +61,7 @@ function buildSystemPrompt(known: AgentKnownLead): string {
       ? "Você ainda não tem o WhatsApp deste lead: depois de apresentar a economia estimada, peça o número de WhatsApp com DDD para enviar a proposta."
       : "Você já tem o WhatsApp do lead; não peça o número novamente.",
     "Quando souber o valor da conta, apresente a economia mensal e anual estimada e convide para enviar a última fatura para a proposta final.",
+    "As faturas podem ser enviadas por aqui ou para o e-mail comercial@pyxenergia.com. Para outros assuntos, o e-mail de contato é contato@pyxenergia.com.",
     "Responda em português do Brasil, com no máximo 3 frases curtas, tom cordial e objetivo, sem emojis em excesso (no máximo um).",
     "Se o lead pedir atendimento humano, demonstrar irritação ou fizer pergunta jurídica/contratual complexa, defina handoff=true e avise que um consultor assume a conversa.",
     `Dados já conhecidos: ${JSON.stringify(known)}.`,
