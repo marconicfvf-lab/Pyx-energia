@@ -31,7 +31,18 @@ export function Footer() {
               <li>
                 <a href="https://wa.me/5581999725151" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors flex items-center gap-2">
                   <span className="w-5 h-5 flex items-center justify-center bg-primary rounded-full text-primary-foreground text-[10px] shrink-0">W</span>
-                   (81) 99972-5151
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a href="mailto:contato@pyxenergia.com" className="hover:text-primary transition-colors">
+                  contato@pyxenergia.com
+                </a>
+              </li>
+              <li>
+                <span className="block text-xs uppercase tracking-[0.2em] mb-1">Envie sua conta</span>
+                <a href="mailto:comercial@pyxenergia.com" className="hover:text-primary transition-colors">
+                  comercial@pyxenergia.com
                 </a>
               </li>
               <li>Nordeste</li>

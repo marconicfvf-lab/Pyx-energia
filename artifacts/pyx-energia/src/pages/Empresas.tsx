@@ -208,6 +208,13 @@ export default function Empresas() {
                   Falar no WhatsApp
                 </a>
               </div>
+              <p className="mt-5 text-sm text-muted-foreground">
+                Prefere e-mail? Envie as contas de luz para{" "}
+                <a href="mailto:comercial@pyxenergia.com" className="text-primary hover:text-primary/80">
+                  comercial@pyxenergia.com
+                </a>
+                .
+              </p>
             </div>
           </div>
         </section>
@@ -366,6 +373,13 @@ export default function Empresas() {
                     <CheckCircle2 className="mx-auto mb-5 h-12 w-12 text-primary" />
                     <p className="text-lg font-medium leading-relaxed text-foreground">
                       Recebemos seus dados! Um especialista da PYX vai falar com você pelo WhatsApp.
+                    </p>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      Se quiser adiantar, envie as contas de luz para{" "}
+                      <a href="mailto:comercial@pyxenergia.com" className="text-primary hover:text-primary/80">
+                        comercial@pyxenergia.com
+                      </a>
+                      .
                     </p>
                     <a
                       href={`https://wa.me/5581999725151?text=${encodeURIComponent("Olá! Enviei meus dados no site e gostaria de conversar sobre uma proposta empresarial.")}`}

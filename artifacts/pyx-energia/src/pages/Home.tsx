@@ -114,7 +114,7 @@ const FAQS = [
   },
   {
     q: "Minha conta é menor que R$ 500. Posso participar?",
-    a: "Nossa equipe analisa cada unidade consumidora para confirmar a elegibilidade e o benefício. Envie sua conta para receber uma avaliação sem compromisso.",
+    a: "Nossa equipe analisa cada unidade consumidora para confirmar a elegibilidade e o benefício. Envie sua conta para comercial@pyxenergia.com ou pelo WhatsApp para receber uma avaliação sem compromisso.",
   },
 ];
 

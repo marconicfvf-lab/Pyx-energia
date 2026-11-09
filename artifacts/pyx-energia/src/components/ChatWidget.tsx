@@ -5,6 +5,7 @@ import { useSendChatMessage } from "@workspace/api-client-react";
 interface ChatLine {
   from: "lead" | "sofia";
   text: string;
+  link?: { href: string; label: string };
 }
 
 const STORAGE_KEY = "pyx-chat-session";
@@ -45,7 +46,8 @@ export function ChatWidget() {
             ...current,
             {
               from: "sofia",
-              text: "Tive um problema para responder agora. Chame a gente no WhatsApp (81) 99972-5151 que continuamos por lá.",
+              text: "Tive um problema para responder agora. Chame a gente no WhatsApp que continuamos por lá.",
+              link: { href: "https://wa.me/5581999725151", label: "Abrir WhatsApp" },
             },
           ]),
       },
@@ -88,6 +90,16 @@ export function ChatWidget() {
             }`}
           >
             {line.text}
+            {line.link && (
+              <a
+                href={line.link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 block font-semibold text-primary underline-offset-2 hover:underline"
+              >
+                {line.link.label}
+              </a>
+            )}
           </div>
         ))}
         {sendMessage.isPending && (
