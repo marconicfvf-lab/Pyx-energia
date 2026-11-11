@@ -39,9 +39,9 @@ const MARQUEE_ITEMS = [
   "Atendimento no Nordeste",
 ];
 
-const PARTNER_PLANTS = [
+const PARTNER_PLANTS: { name: string; logo?: string }[] = [
   { name: "FIT Economia de Energia", logo: "/parceiras/fit.webp" },
-  { name: "Connecta Energia", logo: "/parceiras/connecta.webp" },
+  { name: "Conecta Energia" },
   { name: "Evolua Energia", logo: "/parceiras/evolua.webp" },
   { name: "Eletron Energy", logo: "/parceiras/eletron.webp" },
   { name: "Kroma Energia", logo: "/parceiras/kroma.svg" },
@@ -308,12 +308,18 @@ export default function Home() {
             <ul className="flex w-max items-center animate-marquee">
               {[...PARTNER_PLANTS, ...PARTNER_PLANTS].map((plant, i) => (
                 <li key={i} aria-hidden={i >= PARTNER_PLANTS.length || undefined} className="flex h-16 items-center px-8 md:px-12">
-                  <img
-                    src={plant.logo}
-                    alt={i < PARTNER_PLANTS.length ? plant.name : ""}
-                    loading="lazy"
-                    className="h-8 md:h-10 w-auto max-w-[180px] object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
-                  />
+                  {plant.logo ? (
+                    <img
+                      src={plant.logo}
+                      alt={i < PARTNER_PLANTS.length ? plant.name : ""}
+                      loading="lazy"
+                      className="h-8 md:h-10 w-auto max-w-[180px] object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+                    />
+                  ) : (
+                    <span className="whitespace-nowrap font-display text-lg md:text-xl font-semibold uppercase tracking-[0.15em] text-white opacity-70 transition-opacity hover:opacity-100">
+                      {plant.name}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
