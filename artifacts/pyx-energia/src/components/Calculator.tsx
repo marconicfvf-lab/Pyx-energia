@@ -307,7 +307,7 @@ export function Calculator() {
           <ArrowRight className="w-5 h-5" />
         </Button>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          *Estimativas para contas de baixa tensão: 25% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000, aplicados sobre a energia compensada. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. Da base do desconto ficam de fora a taxa mínima de disponibilidade, a iluminação pública municipal e os impostos; a bandeira tarifária entra na base. O desconto máximo depende da usina disponível para a região: 40% apenas em Pernambuco acima de R$ 10 mil, e 35% no Ceará. Valores estimados com tarifa média de R$ 1,0821/kWh; a proposta final dependerá da análise da sua fatura.
+          *Estimativas para contas de baixa tensão: 25% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000, aplicados sobre a energia compensada. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. Da base do desconto ficam de fora a taxa mínima de disponibilidade, a iluminação pública municipal e os impostos; a bandeira tarifária entra na base. Contas acima de R$ 10 mil têm 40% de desconto em Pernambuco e no Ceará. Valores estimados com tarifa média de R$ 1,0821/kWh; a proposta final dependerá da análise da sua fatura.
         </p>
       </div>
     </div>
