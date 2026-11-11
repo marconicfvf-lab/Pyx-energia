@@ -218,7 +218,7 @@ export function Calculator() {
           </div>
           <div className="flex items-center gap-2 text-sm text-foreground">
             <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-            <span>Energia 100% limpa injetada direto na rede da Neoenergia</span>
+            <span>Energia 100% limpa, gerada por usinas solares parceiras, injetada na rede da Neoenergia</span>
           </div>
         </div>
 
