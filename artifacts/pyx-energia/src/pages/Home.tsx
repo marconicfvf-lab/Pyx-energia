@@ -39,6 +39,16 @@ const MARQUEE_ITEMS = [
   "Atendimento no Nordeste",
 ];
 
+const PARTNER_PLANTS = [
+  { name: "FIT Economia de Energia", logo: "/parceiras/fit.webp" },
+  { name: "Connecta Energia", logo: "/parceiras/connecta.webp" },
+  { name: "Evolua Energia", logo: "/parceiras/evolua.webp" },
+  { name: "Eletron Energy", logo: "/parceiras/eletron.webp" },
+  { name: "Kroma Energia", logo: "/parceiras/kroma.svg" },
+  { name: "Trinity", logo: "/parceiras/trinity.webp" },
+  { name: "Casaforte Investimentos", logo: "/parceiras/casaforte.webp" },
+];
+
 const STATS = [
   { value: "40", prefix: "até", suffix: "%", label: "de desconto na conta de luz" },
   { value: "0", prefix: "R$", suffix: "", label: "de investimento inicial" },
@@ -283,6 +293,30 @@ export default function Home() {
                 <Zap className="h-4 w-4 text-primary" />
               </span>
             ))}
+          </div>
+        </section>
+
+        {/* USINAS PARCEIRAS */}
+        <section aria-labelledby="usinas-parceiras" className="relative py-16 md:py-20 overflow-hidden">
+          <div className="container mx-auto px-4 md:px-6 text-center mb-10">
+            <Eyebrow>Usinas parceiras</Eyebrow>
+            <h2 id="usinas-parceiras" className="text-2xl md:text-4xl font-display font-light tracking-tight">
+              Conectamos você às usinas parceiras da PYX
+            </h2>
+          </div>
+          <div className="relative [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <ul className="flex w-max items-center animate-marquee">
+              {[...PARTNER_PLANTS, ...PARTNER_PLANTS].map((plant, i) => (
+                <li key={i} aria-hidden={i >= PARTNER_PLANTS.length || undefined} className="flex h-16 items-center px-8 md:px-12">
+                  <img
+                    src={plant.logo}
+                    alt={i < PARTNER_PLANTS.length ? plant.name : ""}
+                    loading="lazy"
+                    className="h-8 md:h-10 w-auto max-w-[180px] object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
