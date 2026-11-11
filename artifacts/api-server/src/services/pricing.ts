@@ -20,14 +20,20 @@ export function discountPercentFor(averageBill: number): number {
 }
 
 /**
- * O desconto incide só sobre a energia compensada: a taxa mínima de
- * disponibilidade (trifásica, 100 kWh) segue com a distribuidora.
+ * O desconto incide só sobre a energia compensada. Saem da base a taxa mínima
+ * de disponibilidade (trifásica, 100 kWh), a iluminação pública municipal e os
+ * impostos. A bandeira tarifária PERMANECE na base (regra do Marconi, 11/11/2026).
+ *
+ * Tarifa calibrada em R$ 1,0821/kWh — média real de 9 faturas Neoenergia.
+ * NON_ENERGY_SHARE estima IP + impostos para o simulador, que não lê a fatura.
  */
-export const ESTIMATED_TARIFF_PER_KWH = 1;
+export const ESTIMATED_TARIFF_PER_KWH = 1.0821;
 export const DEFAULT_MINIMUM_KWH = 100;
+export const NON_ENERGY_SHARE = 0.08;
 
 export function compensatedEnergyValue(averageBill: number): number {
-  return Math.max(0, averageBill - DEFAULT_MINIMUM_KWH * ESTIMATED_TARIFF_PER_KWH);
+  const naoEnergia = averageBill * NON_ENERGY_SHARE;
+  return Math.max(0, averageBill - DEFAULT_MINIMUM_KWH * ESTIMATED_TARIFF_PER_KWH - naoEnergia);
 }
 
 /** Single source of truth for the discount offered to a lead. */
