@@ -45,7 +45,7 @@ export function Footer() {
                   comercial@pyxenergia.com
                 </a>
               </li>
-              <li>AL, BA, CE, PA, PE, PI, RN e SE</li>
+              <li>AL, BA, CE, GO, PA, PE, PI, RN e SE</li>
             </ul>
           </div>
 

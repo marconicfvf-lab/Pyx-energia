@@ -37,7 +37,7 @@ const MARQUEE_ITEMS = [
   "Regulamentado pela ANEEL",
   "Lei 14.300",
   "Casas e empresas",
-  "Atendimento no Nordeste e no Pará",
+  "Atendimento em 9 estados",
 ];
 
 const PARTNER_PLANTS: { name: string; logo?: string }[] = [
@@ -102,6 +102,7 @@ const COVERAGE = [
   { uf: "AL", state: "Alagoas", distributor: "Equatorial Alagoas" },
   { uf: "BA", state: "Bahia", distributor: "Neoenergia Coelba" },
   { uf: "CE", state: "Ceará", distributor: "Enel Ceará" },
+  { uf: "GO", state: "Goiás", distributor: "Equatorial Goiás" },
   { uf: "PA", state: "Pará", distributor: "Equatorial Pará" },
   { uf: "PE", state: "Pernambuco", distributor: "Neoenergia Pernambuco" },
   { uf: "PI", state: "Piauí", distributor: "Equatorial Piauí" },
@@ -120,7 +121,7 @@ const FAQS = [
   },
   {
     q: "Em quais estados a PYX atende?",
-    a: "Alagoas, Bahia, Ceará, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe, nas áreas das distribuidoras Equatorial, Neoenergia, Enel e Energisa desses estados.",
+    a: "Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe, nas áreas das distribuidoras Equatorial, Neoenergia, Enel e Energisa desses estados.",
   },
   {
     q: "Preciso avisar a distribuidora?",
@@ -550,7 +551,7 @@ export default function Home() {
                   Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-10">
-                  Atendemos 8 estados do Nordeste e do Norte: Alagoas, Bahia, Ceará, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Confira no mapa a distribuidora de cada um.
+                  Atendemos 9 estados do Nordeste, do Norte e do Centro-Oeste: Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Confira no mapa a distribuidora de cada um.
                 </p>
                 <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
                   Simular minha economia
