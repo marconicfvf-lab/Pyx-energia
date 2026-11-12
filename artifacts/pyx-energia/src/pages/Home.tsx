@@ -103,6 +103,14 @@ const FAQS = [
     a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da distribuidora (Neoenergia). A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
   },
   {
+    q: "O que é o marketplace da PYX?",
+    a: "É a plataforma da PYX que reúne usinas solares parceiras em um só lugar. A PYX analisa a sua conta, conecta a sua unidade consumidora a uma usina parceira e cuida da adesão. A energia é gerada pelas usinas parceiras, não pela PYX.",
+  },
+  {
+    q: "Preciso avisar a Neoenergia?",
+    a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a Neoenergia segue responsável pelo fornecimento.",
+  },
+  {
     q: "Qual o investimento inicial?",
     a: "Zero. Você não paga taxa de adesão, não compra equipamentos e não tem mensalidade de serviço. Você apenas assina e passa a pagar a energia com desconto.",
   },
@@ -233,7 +241,7 @@ export default function Home() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-70"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                   </span>
-                  Energia solar por assinatura
+                  Marketplace de energia solar por assinatura
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.05] mb-7 tracking-tight">
@@ -299,10 +307,13 @@ export default function Home() {
         {/* USINAS PARCEIRAS */}
         <section aria-labelledby="usinas-parceiras" className="relative py-16 md:py-20 overflow-hidden">
           <div className="container mx-auto px-4 md:px-6 text-center mb-10">
-            <Eyebrow>Usinas parceiras</Eyebrow>
+            <Eyebrow>Marketplace PYX</Eyebrow>
             <h2 id="usinas-parceiras" className="text-2xl md:text-4xl font-display font-light tracking-tight">
               Conectamos você às usinas parceiras da PYX
             </h2>
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+              A PYX é um marketplace de energia solar: reúne usinas parceiras em um só lugar e conecta a sua conta de luz a elas.
+            </p>
           </div>
           <div className="relative [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <ul className="flex w-max items-center animate-marquee">
