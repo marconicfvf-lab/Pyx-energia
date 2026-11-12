@@ -4,7 +4,7 @@ import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, MapPin, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -36,7 +36,7 @@ const MARQUEE_ITEMS = [
   "Regulamentado pela ANEEL",
   "Lei 14.300",
   "Casas e empresas",
-  "Atendimento no Nordeste",
+  "Atendimento no Nordeste e no Pará",
 ];
 
 const PARTNER_PLANTS: { name: string; logo?: string }[] = [
@@ -97,30 +97,44 @@ const AUDIENCES = [
   { icon: Wheat, label: "Agronegócio & Fazendas" },
 ];
 
+const COVERAGE = [
+  { uf: "AL", state: "Alagoas", distributor: "Equatorial Alagoas" },
+  { uf: "BA", state: "Bahia", distributor: "Neoenergia Coelba" },
+  { uf: "CE", state: "Ceará", distributor: "Enel Ceará" },
+  { uf: "PA", state: "Pará", distributor: "Equatorial Pará" },
+  { uf: "PE", state: "Pernambuco", distributor: "Neoenergia Pernambuco" },
+  { uf: "PI", state: "Piauí", distributor: "Equatorial Piauí" },
+  { uf: "RN", state: "Rio Grande do Norte", distributor: "Neoenergia Cosern" },
+];
+
 const FAQS = [
   {
     q: "Vou precisar fazer alguma obra ou instalar placas solares?",
-    a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da distribuidora (Neoenergia). A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
+    a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da sua distribuidora. A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
   },
   {
     q: "O que é o marketplace da PYX?",
     a: "É a plataforma da PYX que reúne usinas solares parceiras em um só lugar. A PYX analisa a sua conta, conecta a sua unidade consumidora a uma usina parceira e cuida da adesão. A energia é gerada pelas usinas parceiras, não pela PYX.",
   },
   {
-    q: "Preciso avisar a Neoenergia?",
-    a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a Neoenergia segue responsável pelo fornecimento.",
+    q: "Em quais estados a PYX atende?",
+    a: "Alagoas, Bahia, Ceará, Pará, Pernambuco, Piauí e Rio Grande do Norte, nas áreas das distribuidoras Equatorial, Neoenergia e Enel desses estados.",
+  },
+  {
+    q: "Preciso avisar a distribuidora?",
+    a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a distribuidora segue responsável pelo fornecimento.",
   },
   {
     q: "Qual o investimento inicial?",
     a: "Zero. Você não paga taxa de adesão, não compra equipamentos e não tem mensalidade de serviço. Você apenas assina e passa a pagar a energia com desconto.",
   },
   {
-    q: "O que acontece com a minha conta da Neoenergia?",
-    a: "Você continuará conectado à Neoenergia. A diferença é que a fatura da Neoenergia virá zerada do consumo de energia (cobrando apenas taxas obrigatórias como iluminação pública), e a PYX faturará a energia consumida com o desconto aplicado. No total, a soma será menor que sua conta original.",
+    q: "O que acontece com a minha conta da distribuidora?",
+    a: "Você continuará conectado à sua distribuidora. A diferença é que a fatura da distribuidora virá zerada do consumo de energia (cobrando apenas taxas obrigatórias como iluminação pública), e a PYX faturará a energia consumida com o desconto aplicado. No total, a soma será menor que sua conta original.",
   },
   {
     q: "Em quanto tempo o desconto começa?",
-    a: "O início depende dos prazos da distribuidora (Neoenergia) para cadastrar os créditos na sua unidade consumidora. A PYX acompanha todo o processo e avisa você assim que o desconto entrar na fatura.",
+    a: "O início depende dos prazos da distribuidora para cadastrar os créditos na sua unidade consumidora. A PYX acompanha todo o processo e avisa você assim que o desconto entrar na fatura.",
   },
   {
     q: "Posso cancelar quando quiser?",
@@ -521,6 +535,43 @@ export default function Home() {
             >
               Conta acima de R$ 5 mil? Conheça o atendimento empresarial →
             </a>
+          </div>
+        </section>
+
+        {/* COBERTURA */}
+        <section id="cobertura" className="relative py-24 md:py-32 scroll-mt-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <Eyebrow>Cobertura</Eyebrow>
+              <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
+                Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Atendemos 7 estados do Nordeste e do Norte. Confira se a sua distribuidora está na lista.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {COVERAGE.map((item) => (
+                <div key={item.uf} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-primary/40 hover:bg-primary/[0.05]">
+                  <div className="w-12 h-12 shrink-0 rounded-full bg-primary/15 flex items-center justify-center text-primary font-display font-semibold">
+                    {item.uf}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-medium">{item.state}</p>
+                    <p className="flex items-center gap-1 text-sm text-muted-foreground">
+                      <MapPin className="w-3.5 h-3.5 shrink-0" />
+                      {item.distributor}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
+                Simular minha economia
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </section>
 
