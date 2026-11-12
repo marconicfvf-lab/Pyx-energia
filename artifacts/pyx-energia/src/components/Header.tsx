@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Descontos", href: "#descontos" },
   { label: "Para Quem", href: "#para-quem" },
   { label: "Cobertura", href: "#cobertura" },
+  { label: "Indique e Ganhe", href: "#indique" },
   { label: "Grupo", href: "#grupo" },
   { label: "FAQ", href: "#faq" },
 ];
