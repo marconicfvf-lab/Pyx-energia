@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
+import { CoverageMap } from "@/components/CoverageMap";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
@@ -36,7 +37,7 @@ const MARQUEE_ITEMS = [
   "Regulamentado pela ANEEL",
   "Lei 14.300",
   "Casas e empresas",
-  "Atendimento no Nordeste",
+  "Atendimento em 9 estados",
 ];
 
 const PARTNER_PLANTS: { name: string; logo?: string }[] = [
@@ -97,30 +98,46 @@ const AUDIENCES = [
   { icon: Wheat, label: "Agronegócio & Fazendas" },
 ];
 
+const COVERAGE = [
+  { uf: "AL", state: "Alagoas", distributor: "Equatorial Alagoas" },
+  { uf: "BA", state: "Bahia", distributor: "Neoenergia Coelba" },
+  { uf: "CE", state: "Ceará", distributor: "Enel Ceará" },
+  { uf: "GO", state: "Goiás", distributor: "Equatorial Goiás" },
+  { uf: "PA", state: "Pará", distributor: "Equatorial Pará" },
+  { uf: "PE", state: "Pernambuco", distributor: "Neoenergia Pernambuco" },
+  { uf: "PI", state: "Piauí", distributor: "Equatorial Piauí" },
+  { uf: "RN", state: "Rio Grande do Norte", distributor: "Neoenergia Cosern" },
+  { uf: "SE", state: "Sergipe", distributor: "Energisa Sergipe" },
+];
+
 const FAQS = [
   {
     q: "Vou precisar fazer alguma obra ou instalar placas solares?",
-    a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da distribuidora (Neoenergia). A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
+    a: "Não. Absolutamente nenhuma. A energia é gerada em usinas solares parceiras e injetada na rede da sua distribuidora. A PYX intermedeia a sua adesão a essas usinas. Você não precisa de espaço, obras ou instalações.",
   },
   {
     q: "O que é o marketplace da PYX?",
     a: "É a plataforma da PYX que reúne usinas solares parceiras em um só lugar. A PYX analisa a sua conta, conecta a sua unidade consumidora a uma usina parceira e cuida da adesão. A energia é gerada pelas usinas parceiras, não pela PYX.",
   },
   {
-    q: "Preciso avisar a Neoenergia?",
-    a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a Neoenergia segue responsável pelo fornecimento.",
+    q: "Em quais estados a PYX atende?",
+    a: "Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe, nas áreas das distribuidoras Equatorial, Neoenergia, Enel e Energisa desses estados.",
+  },
+  {
+    q: "Preciso avisar a distribuidora?",
+    a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a distribuidora segue responsável pelo fornecimento.",
   },
   {
     q: "Qual o investimento inicial?",
     a: "Zero. Você não paga taxa de adesão, não compra equipamentos e não tem mensalidade de serviço. Você apenas assina e passa a pagar a energia com desconto.",
   },
   {
-    q: "O que acontece com a minha conta da Neoenergia?",
-    a: "Você continuará conectado à Neoenergia. A diferença é que a fatura da Neoenergia virá zerada do consumo de energia (cobrando apenas taxas obrigatórias como iluminação pública), e a PYX faturará a energia consumida com o desconto aplicado. No total, a soma será menor que sua conta original.",
+    q: "O que acontece com a minha conta da distribuidora?",
+    a: "Você continuará conectado à sua distribuidora. A diferença é que a fatura da distribuidora virá zerada do consumo de energia (cobrando apenas taxas obrigatórias como iluminação pública), e a PYX faturará a energia consumida com o desconto aplicado. No total, a soma será menor que sua conta original.",
   },
   {
     q: "Em quanto tempo o desconto começa?",
-    a: "O início depende dos prazos da distribuidora (Neoenergia) para cadastrar os créditos na sua unidade consumidora. A PYX acompanha todo o processo e avisa você assim que o desconto entrar na fatura.",
+    a: "O início depende dos prazos da distribuidora para cadastrar os créditos na sua unidade consumidora. A PYX acompanha todo o processo e avisa você assim que o desconto entrar na fatura.",
   },
   {
     q: "Posso cancelar quando quiser?",
@@ -521,6 +538,28 @@ export default function Home() {
             >
               Conta acima de R$ 5 mil? Conheça o atendimento empresarial →
             </a>
+          </div>
+        </section>
+
+        {/* COBERTURA */}
+        <section id="cobertura" className="relative py-24 md:py-32 scroll-mt-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              <div>
+                <Eyebrow>Cobertura</Eyebrow>
+                <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
+                  Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
+                </h2>
+                <p className="text-lg text-muted-foreground mb-10">
+                  Atendemos 9 estados do Nordeste, do Norte e do Centro-Oeste: Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Confira no mapa a distribuidora de cada um.
+                </p>
+                <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
+                  Simular minha economia
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+              <CoverageMap coverage={COVERAGE} />
+            </div>
           </div>
         </section>
 

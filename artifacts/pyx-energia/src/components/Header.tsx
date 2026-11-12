@@ -6,6 +6,7 @@ const navLinks = [
   { label: "Como Funciona", href: "#como-funciona" },
   { label: "Descontos", href: "#descontos" },
   { label: "Para Quem", href: "#para-quem" },
+  { label: "Cobertura", href: "#cobertura" },
   { label: "Grupo", href: "#grupo" },
   { label: "FAQ", href: "#faq" },
 ];
@@ -67,7 +68,7 @@ export function Header() {
             </a>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+            <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 return (
@@ -91,7 +92,7 @@ export function Header() {
 
             <Button
               onClick={scrollToSimulator}
-              className="hidden md:inline-flex h-11 gap-2 rounded-full px-5 glow-button"
+              className="hidden lg:inline-flex h-11 gap-2 rounded-full px-5 glow-button"
             >
               <Zap className="h-4 w-4" />
               Simular Economia
@@ -99,7 +100,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden z-50 p-2 text-foreground"
+              className="lg:hidden z-50 p-2 text-foreground"
               aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -113,7 +114,7 @@ export function Header() {
       <div
         className={`fixed inset-0 bg-background z-40 transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        } md:hidden flex flex-col items-center justify-center gap-8`}
+        } lg:hidden flex flex-col items-center justify-center gap-8`}
       >
         <div className="pointer-events-none absolute inset-0 pyx-grid opacity-60" />
         {navLinks.map((link) => (
