@@ -2,9 +2,10 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Calculator } from "@/components/Calculator";
 import { ChatWidget } from "@/components/ChatWidget";
+import { CoverageMap } from "@/components/CoverageMap";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, MapPin, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -541,36 +542,21 @@ export default function Home() {
         {/* COBERTURA */}
         <section id="cobertura" className="relative py-24 md:py-32 scroll-mt-20">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <Eyebrow>Cobertura</Eyebrow>
-              <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
-                Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Atendemos 7 estados do Nordeste e do Norte. Confira se a sua distribuidora está na lista.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {COVERAGE.map((item) => (
-                <div key={item.uf} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-primary/40 hover:bg-primary/[0.05]">
-                  <div className="w-12 h-12 shrink-0 rounded-full bg-primary/15 flex items-center justify-center text-primary font-display font-semibold">
-                    {item.uf}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-medium">{item.state}</p>
-                    <p className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <MapPin className="w-3.5 h-3.5 shrink-0" />
-                      {item.distributor}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
-                Simular minha economia
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              <div>
+                <Eyebrow>Cobertura</Eyebrow>
+                <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
+                  Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
+                </h2>
+                <p className="text-lg text-muted-foreground mb-10">
+                  Atendemos 7 estados do Nordeste e do Norte: Alagoas, Bahia, Ceará, Pará, Pernambuco, Piauí e Rio Grande do Norte. Confira no mapa a distribuidora de cada um.
+                </p>
+                <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
+                  Simular minha economia
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+              <CoverageMap coverage={COVERAGE} />
             </div>
           </div>
         </section>
