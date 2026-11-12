@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Descontos", href: "#descontos" },
   { label: "Para Quem", href: "#para-quem" },
   { label: "Cobertura", href: "#cobertura" },
+  { label: "Indique e Ganhe", href: "#indique" },
   { label: "Grupo", href: "#grupo" },
   { label: "FAQ", href: "#faq" },
 ];
@@ -68,14 +69,14 @@ export function Header() {
             </a>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+            <nav className="hidden xl:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 return (
                   <a
                     key={link.label}
                     href={link.href}
-                    className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-white/[0.07] text-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -92,7 +93,7 @@ export function Header() {
 
             <Button
               onClick={scrollToSimulator}
-              className="hidden lg:inline-flex h-11 gap-2 rounded-full px-5 glow-button"
+              className="hidden xl:inline-flex h-11 gap-2 rounded-full px-5 glow-button"
             >
               <Zap className="h-4 w-4" />
               Simular Economia
@@ -100,7 +101,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden z-50 p-2 text-foreground"
+              className="xl:hidden z-50 p-2 text-foreground"
               aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -114,7 +115,7 @@ export function Header() {
       <div
         className={`fixed inset-0 bg-background z-40 transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        } lg:hidden flex flex-col items-center justify-center gap-8`}
+        } xl:hidden flex flex-col items-center justify-center gap-8`}
       >
         <div className="pointer-events-none absolute inset-0 pyx-grid opacity-60" />
         {navLinks.map((link) => (

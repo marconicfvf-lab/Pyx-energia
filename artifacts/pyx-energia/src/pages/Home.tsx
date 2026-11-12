@@ -5,7 +5,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { CoverageMap } from "@/components/CoverageMap";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake, Gift, Briefcase, Wallet, CalendarClock, Users } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 
 const WHATSAPP_URL = "https://wa.me/5581999725151";
@@ -110,6 +110,18 @@ const COVERAGE = [
   { uf: "SE", state: "Sergipe", distributor: "Energisa Sergipe" },
 ];
 
+const REFERRAL_STEPS = [
+  "Envie pelo WhatsApp o contato de quem você quer indicar.",
+  "A PYX faz a análise da conta e todo o atendimento.",
+  "Contrato fechado, você recebe a sua comissão.",
+];
+
+const REPRESENTATIVE_PERKS = [
+  { icon: Wallet, text: "Comissão sobre cada cliente que você fechar" },
+  { icon: CalendarClock, text: "Você faz seus horários e monta sua carteira" },
+  { icon: Users, text: "Indique novos representantes e ganhe em cima também" },
+];
+
 const FAQS = [
   {
     q: "Vou precisar fazer alguma obra ou instalar placas solares?",
@@ -126,6 +138,14 @@ const FAQS = [
   {
     q: "Preciso avisar a distribuidora?",
     a: "Não. A PYX e a usina parceira cuidam da adesão junto à distribuidora. A energia continua chegando pelos mesmos fios e postes, e a distribuidora segue responsável pelo fornecimento.",
+  },
+  {
+    q: "Como funciona o Indique e Ganhe?",
+    a: "Você indica uma casa, empresa ou novo representante pelo WhatsApp da PYX. A PYX cuida da análise e do atendimento e, quando o contrato é fechado, você recebe uma comissão.",
+  },
+  {
+    q: "Como me tornar um representante PYX?",
+    a: "Chame a PYX no WhatsApp pelo botão \"Quero ser representante\". Você trabalha por conta própria, com seus horários e sua carteira de clientes, e ganha comissão sobre cada contrato fechado.",
   },
   {
     q: "Qual o investimento inicial?",
@@ -564,6 +584,78 @@ export default function Home() {
         </section>
 
         {/* GRUPO PYX */}
+        {/* INDIQUE E GANHE + REPRESENTANTES */}
+        <section id="indique" className="relative py-24 md:py-32 scroll-mt-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl mb-14">
+              <Eyebrow>Ganhe com a PYX</Eyebrow>
+              <h2 className="text-4xl md:text-6xl font-display font-light tracking-tight mb-6">
+                Indique, venda e <span className="text-gradient-pyx font-normal">ganhe junto</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Conhece alguém que paga caro na conta de luz? Indique e ganhe. Quer ter o seu próprio negócio? Seja um representante PYX.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <div className="top-line glass rounded-3xl p-7 md:p-10 flex flex-col">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary">
+                  <Gift className="h-6 w-6" />
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-display font-normal">Indique e Ganhe</h3>
+                <p className="mb-8 text-muted-foreground">
+                  Indique uma casa, empresa ou um novo representante. Quando o contrato fechar, você ganha em cima.
+                </p>
+                <ol className="mb-10 space-y-4">
+                  {REFERRAL_STEPS.map((step, i) => (
+                    <li key={i} className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-display font-semibold text-primary">
+                        {i + 1}
+                      </span>
+                      <span className="pt-1 text-sm md:text-base">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+                <Button
+                  className="mt-auto h-12 w-full sm:w-fit rounded-full px-8 gap-2 glow-button"
+                  onClick={() => openWhatsApp("Olá! Quero indicar um cliente para a PYX pelo Indique e Ganhe.")}
+                >
+                  Quero indicar
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="top-line glass rounded-3xl p-7 md:p-10 flex flex-col">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary">
+                  <Briefcase className="h-6 w-6" />
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-display font-normal">Seja um Representante PYX</h3>
+                <p className="mb-8 text-muted-foreground">
+                  Venda energia solar por assinatura com o marketplace da PYX e trabalhe para você mesmo.
+                </p>
+                <ul className="mb-10 space-y-4">
+                  {REPRESENTATIVE_PERKS.map((perk) => (
+                    <li key={perk.text} className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                        <perk.icon className="h-4 w-4" />
+                      </span>
+                      <span className="pt-1 text-sm md:text-base">{perk.text}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  variant="outline"
+                  className="mt-auto h-12 w-full sm:w-fit rounded-full px-8 gap-2 border-primary/40 hover:bg-primary/10"
+                  onClick={() => openWhatsApp("Olá! Quero ser representante da PYX Energia.")}
+                >
+                  Quero ser representante
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="grupo" className="relative py-24 md:py-32 scroll-mt-20">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mb-14">
