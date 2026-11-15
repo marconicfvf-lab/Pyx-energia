@@ -28,6 +28,7 @@ import {
 } from "@workspace/api-zod";
 import { requireAuth } from "../middlewares/requireAuth";
 import { flagHighValueLead } from "../services/highValue";
+import { enviarLeadParaSkip } from "../services/skipCrm";
 
 const router: IRouter = Router();
 const LGPD_CONSENT =
@@ -76,6 +77,27 @@ router.post("/leads", async (req, res): Promise<void> => {
     })
     .returning();
   if (lead) await flagHighValueLead(lead);
+
+  // Replica no CRM do Skip — é onde o funil e a prospecção vivem.
+  // Best effort: falha aqui não impede o lead de existir no site.
+  if (lead) {
+    void enviarLeadParaSkip({
+      name: lead.name,
+      phone: lead.phone,
+      company: lead.company,
+      jobTitle: lead.jobTitle,
+      state: lead.state,
+      city: lead.city,
+      distributor: lead.distributor,
+      averageBill: lead.averageBill,
+      estimatedMonthlySavings: lead.estimatedMonthlySavings,
+      segment: lead.segment,
+      unitCount: lead.unitCount,
+      source: lead.source,
+      cpfCnpj: lead.cpfCnpj,
+    });
+  }
+
   res.status(201).json(CreateLeadResponse.parse(lead));
 });
 
