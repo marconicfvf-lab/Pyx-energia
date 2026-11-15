@@ -18,6 +18,14 @@ export const env = {
   salesWhatsapp,
   alertWhatsapp: str("PYX_ALERT_WHATSAPP", salesWhatsapp),
   appUrl: str("APP_URL", "https://pyxenergia.com"),
+  /**
+   * CRM do Skip (PocketBase). Quando preenchida, todo lead do site é replicado
+   * lá — é onde a prospecção e o funil acontecem. Vazia = só o banco do site.
+   */
+  skipCrmUrl: str(
+    "SKIP_CRM_URL",
+    "https://pyx-energia-solar-d0756.shrd01.internal.goskip.dev",
+  ),
   /** Shared secret for the scheduled dispatch endpoint; empty disables it. */
   cronSecret: str("CRON_SECRET"),
   /** Directory with the built SPA; empty means the API serves no static files. */
