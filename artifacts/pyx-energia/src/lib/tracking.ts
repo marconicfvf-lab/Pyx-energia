@@ -3,6 +3,7 @@
 // variáveis de ambiente VITE_* (Vercel). Sem ID, nada é carregado.
 
 const META_PIXEL_ID = (import.meta.env.VITE_META_PIXEL_ID as string | undefined)?.trim();
+const GTM_ID = (import.meta.env.VITE_GTM_ID as string | undefined)?.trim();
 const GA4_ID = (import.meta.env.VITE_GA4_ID as string | undefined)?.trim();
 const GADS_ID = (import.meta.env.VITE_GOOGLE_ADS_ID as string | undefined)?.trim();
 const GADS_LEAD_LABEL = (import.meta.env.VITE_GADS_LEAD_LABEL as string | undefined)?.trim();
@@ -23,7 +24,7 @@ const w = window as Win;
 let loaded = false;
 
 export function trackingConfigured(): boolean {
-  return Boolean(META_PIXEL_ID || GA4_ID || GADS_ID);
+  return Boolean(META_PIXEL_ID || GTM_ID || GA4_ID || GADS_ID);
 }
 
 export function getConsent(): "granted" | "denied" | null {
@@ -56,12 +57,20 @@ function loadScripts(): void {
   loaded = true;
 
   const googleId = GA4_ID || GADS_ID;
-  if (googleId) {
+  if (GTM_ID || googleId) {
     w.dataLayer = w.dataLayer || [];
-    w.gtag = function gtag(...args: unknown[]) {
-      (w.dataLayer as unknown[]).push(args);
+    // O GTM e o gtag exigem o objeto "arguments" (não um array) no dataLayer.
+    w.gtag = function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      (w.dataLayer as unknown[]).push(arguments);
     };
     w.gtag("js", new Date());
+  }
+  if (GTM_ID) {
+    (w.dataLayer as unknown[]).push({ "gtm.start": Date.now(), event: "gtm.js" });
+    loadScript(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_ID)}`);
+  }
+  if (googleId && w.gtag) {
     if (GA4_ID) w.gtag("config", GA4_ID);
     if (GADS_ID) w.gtag("config", GADS_ID);
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(googleId)}`);
