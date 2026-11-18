@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef } from "react";
+import { type ReactNode, Suspense, lazy, useEffect, useRef } from "react";
 import {
   ClerkProvider,
   Show,
@@ -13,11 +13,11 @@ import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/reac
 import { ErrorBoundary } from "@/components/error-boundary";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
+const NotFound = lazy(() => import("@/pages/not-found"));
 import Home from "@/pages/Home";
-import Dashboard from "@/pages/Dashboard";
-import Empresas from "@/pages/Empresas";
-import Privacidade from "@/pages/Privacidade";
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Empresas = lazy(() => import("@/pages/Empresas"));
+const Privacidade = lazy(() => import("@/pages/Privacidade"));
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { trackPageView } from "@/lib/tracking";
 import { Redirect, Route, Switch, useLocation, Router as WouterRouter } from "wouter";
@@ -147,6 +147,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 function Routes() {
   return (
     <RoutedErrorBoundary>
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
       <Switch>
         <Route path="/" component={HomeRedirect} />
         <Route path="/empresas" component={Empresas} />
@@ -156,6 +157,7 @@ function Routes() {
         <Route path="/sign-up/*?" component={SignUpPage} />
         <Route component={NotFound} />
       </Switch>
+      </Suspense>
     </RoutedErrorBoundary>
   );
 }

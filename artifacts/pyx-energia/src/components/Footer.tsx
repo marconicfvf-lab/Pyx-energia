@@ -8,7 +8,7 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
-            <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-16 w-auto mb-6" />
+            <img src="/brand/pyx-logo.png" alt="PYX Energia" width="46" height="64" loading="lazy" decoding="async" className="h-16 w-auto mb-6" />
             <p className="text-muted-foreground text-sm leading-relaxed">
               Energia renovável por assinatura para casas e empresas. Reduza sua conta sem investir nada, sem obras e sem burocracia.
             </p>
