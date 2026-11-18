@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake, Gift, Briefcase, Wallet, CalendarClock, Users } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
-
-const WHATSAPP_URL = "https://wa.me/5581999725151";
+import { openWhatsApp as openWhatsAppTracked } from "@/lib/whatsapp";
 
 function openWhatsApp(text: string) {
-  window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(text)}`, "_blank");
+  openWhatsAppTracked("home", text);
 }
 
 function scrollToSimulator() {

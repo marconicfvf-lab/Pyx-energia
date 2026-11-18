@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useSendChatMessage } from "@workspace/api-client-react";
+import { whatsappUrl } from "@/lib/whatsapp";
+import { trackWhatsAppClick } from "@/lib/tracking";
 
 interface ChatLine {
   from: "lead" | "sofia";
@@ -47,7 +49,7 @@ export function ChatWidget() {
             {
               from: "sofia",
               text: "Tive um problema para responder agora. Chame a gente no WhatsApp que continuamos por lá.",
-              link: { href: "https://wa.me/5581999725151", label: "Abrir WhatsApp" },
+              link: { href: whatsappUrl(), label: "Abrir WhatsApp" },
             },
           ]),
       },
@@ -93,6 +95,7 @@ export function ChatWidget() {
             {line.link && (
               <a
                 href={line.link.href}
+                onClick={() => trackWhatsAppClick("chat")}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-2 block font-semibold text-primary underline-offset-2 hover:underline"
