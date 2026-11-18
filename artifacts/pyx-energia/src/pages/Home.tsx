@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake, Gift, Briefcase, Wallet, CalendarClock, Users } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
-
-const WHATSAPP_URL = "https://wa.me/5581999725151";
+import { openWhatsApp as openWhatsAppTracked } from "@/lib/whatsapp";
 
 function openWhatsApp(text: string) {
-  window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(text)}`, "_blank");
+  openWhatsAppTracked("home", text);
 }
 
 function scrollToSimulator() {
@@ -37,7 +36,7 @@ const MARQUEE_ITEMS = [
   "Regulamentado pela ANEEL",
   "Lei 14.300",
   "Casas e empresas",
-  "Atendimento em 9 estados",
+  "Foco no Nordeste",
 ];
 
 const PARTNER_PLANTS: { name: string; logo?: string }[] = [
@@ -133,7 +132,7 @@ const FAQS = [
   },
   {
     q: "Em quais estados a PYX atende?",
-    a: "Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe, nas áreas das distribuidoras Equatorial, Neoenergia, Enel e Energisa desses estados.",
+    a: "Nosso foco é o Nordeste: Alagoas, Bahia, Ceará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Também atendemos Goiás e Pará, nas áreas das distribuidoras Equatorial, Neoenergia, Enel e Energisa desses estados.",
   },
   {
     q: "Preciso avisar a distribuidora?",
@@ -571,7 +570,7 @@ export default function Home() {
                   Onde a PYX <span className="text-gradient-pyx font-normal">atende</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-10">
-                  Atendemos 9 estados do Nordeste, do Norte e do Centro-Oeste: Alagoas, Bahia, Ceará, Goiás, Pará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Confira no mapa a distribuidora de cada um.
+                  Nosso foco é o Nordeste: Alagoas, Bahia, Ceará, Pernambuco, Piauí, Rio Grande do Norte e Sergipe. Também atendemos Goiás e Pará. Confira no mapa a distribuidora de cada um.
                 </p>
                 <Button className="h-12 rounded-full px-8 gap-2 glow-button" onClick={scrollToSimulator}>
                   Simular minha economia

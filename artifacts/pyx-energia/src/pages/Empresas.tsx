@@ -3,6 +3,8 @@ import { ArrowRight, Building2, CheckCircle2, MessageCircle, Stethoscope, Store,
 import { BrazilState, LeadSegment, useCreateLead } from "@workspace/api-client-react";
 import { Footer } from "@/components/Footer";
 import { discountPercentFor, estimateMonthlySavings } from "@/lib/pricing";
+import { trackLead, trackWhatsAppClick, withAttribution } from "@/lib/tracking";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 const WHATSAPP_MESSAGE =
   "Olá! Sou gestor de uma empresa e quero uma proposta para contas de energia acima de R$ 5 mil.";
@@ -139,13 +141,16 @@ export default function Empresas() {
           averageBill,
           estimatedMonthlySavings: monthlySavings,
           estimatedAnnualSavings: monthlySavings * 12,
-          source: leadSource,
+          source: withAttribution(leadSource),
           consentAccepted: true,
           consentText: CONSENT_TEXT,
         },
       },
       {
-        onSuccess: () => setSubmitted(true),
+        onSuccess: () => {
+          trackLead("empresas", averageBill);
+          setSubmitted(true);
+        },
         onError: () => setFormError("Não foi possível registrar seus dados. Tente novamente."),
       },
     );
@@ -159,7 +164,8 @@ export default function Empresas() {
             <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-12 w-auto" />
           </a>
           <a
-            href={`https://wa.me/5581999725151?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+            href={whatsappUrl(WHATSAPP_MESSAGE)}
+            onClick={() => trackWhatsAppClick("empresas")}
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-10 items-center gap-2 rounded-full border border-primary/30 px-4 text-sm font-medium text-foreground transition-colors hover:bg-primary/10"
@@ -199,7 +205,8 @@ export default function Empresas() {
                   Quero uma proposta <ArrowRight className="h-4 w-4" />
                 </a>
                 <a
-                  href={`https://wa.me/5581999725151?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+                  href={whatsappUrl(WHATSAPP_MESSAGE)}
+            onClick={() => trackWhatsAppClick("empresas")}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-7 font-medium text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5"
@@ -382,7 +389,8 @@ export default function Empresas() {
                       .
                     </p>
                     <a
-                      href={`https://wa.me/5581999725151?text=${encodeURIComponent("Olá! Enviei meus dados no site e gostaria de conversar sobre uma proposta empresarial.")}`}
+                      href={whatsappUrl("Olá! Enviei meus dados no site e gostaria de conversar sobre uma proposta empresarial.")}
+                      onClick={() => trackWhatsAppClick("empresas-pos-envio")}
                       target="_blank"
                       rel="noreferrer"
                       className="glow-button mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 font-medium text-primary-foreground"
@@ -538,7 +546,8 @@ export default function Empresas() {
 
       <Footer />
       <a
-        href={`https://wa.me/5581999725151?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+        href={whatsappUrl(WHATSAPP_MESSAGE)}
+            onClick={() => trackWhatsAppClick("empresas")}
         target="_blank"
         rel="noreferrer"
         aria-label="Falar com a PYX pelo WhatsApp"

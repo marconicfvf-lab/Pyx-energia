@@ -17,6 +17,9 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import Empresas from "@/pages/Empresas";
+import Privacidade from "@/pages/Privacidade";
+import { ConsentBanner } from "@/components/ConsentBanner";
+import { trackPageView } from "@/lib/tracking";
 import { Redirect, Route, Switch, useLocation, Router as WouterRouter } from "wouter";
 
 const queryClient = new QueryClient();
@@ -147,6 +150,7 @@ function Routes() {
       <Switch>
         <Route path="/" component={HomeRedirect} />
         <Route path="/empresas" component={Empresas} />
+        <Route path="/privacidade" component={Privacidade} />
         <Route path="/painel" component={ProtectedDashboard} />
         <Route path="/sign-in/*?" component={SignInPage} />
         <Route path="/sign-up/*?" component={SignUpPage} />
@@ -190,10 +194,26 @@ function AppWithAuth() {
   );
 }
 
+function PageTracker() {
+  const [location] = useLocation();
+  const first = useRef(true);
+  useEffect(() => {
+    // O primeiro PageView já sai no carregamento do pixel; só navegações internas.
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    trackPageView(location);
+  }, [location]);
+  return null;
+}
+
 function App() {
   return (
     <WouterRouter base={basePath}>
       <AppWithAuth />
+      <PageTracker />
+      <ConsentBanner />
       <Toaster />
     </WouterRouter>
   );

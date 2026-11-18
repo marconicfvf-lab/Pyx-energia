@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
+import { trackLead, withAttribution } from "@/lib/tracking";
+import { openWhatsApp } from "@/lib/whatsapp";
 import { BrazilState, useCreateLead } from "@workspace/api-client-react";
 import {
   availabilityCost,
@@ -95,7 +97,7 @@ export function Calculator() {
           averageBill: bill,
           estimatedMonthlySavings: estimatedSavings,
           estimatedAnnualSavings: yearlySavings,
-          source: "calculator",
+          source: withAttribution("calculator"),
           consentAccepted: true,
           consentText:
             "Autorizo a PYX Energia a tratar meus dados para contato comercial e simulação de economia, conforme a LGPD.",
@@ -103,7 +105,8 @@ export function Calculator() {
       },
       {
         onSuccess: () => {
-          window.open(`https://wa.me/5581999725151?text=${encodeURIComponent(text)}`, "_blank");
+          trackLead("calculator", bill);
+          openWhatsApp("calculator", text);
         },
         onError: () => setFormError("Não foi possível registrar seus dados. Tente novamente."),
       },
