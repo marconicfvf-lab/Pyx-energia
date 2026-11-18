@@ -62,7 +62,7 @@ export function Header() {
             }`}
           >
             <a href="#" className="flex items-center gap-3 z-50">
-              <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-10 w-auto" />
+              <img src="/brand/pyx-logo.png" alt="PYX Energia" width="29" height="40" fetchPriority="high" decoding="async" className="h-10 w-auto" />
               <span className="hidden sm:block text-[11px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
                 Energia
               </span>

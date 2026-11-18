@@ -532,7 +532,7 @@ export default function Home() {
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/20" />
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5" />
                   <div className="relative flex h-full flex-col items-center justify-center p-8 pb-20 md:pb-8 text-center">
-                    <img src="/brand/pyx-logo.png" alt="" aria-hidden="true" className="mb-6 h-40 md:h-48 w-auto drop-shadow-[0_0_40px_rgba(232,193,87,0.35)]" />
+                    <img src="/brand/pyx-logo.png" alt="" aria-hidden="true" width="115" height="160" loading="lazy" decoding="async" className="mb-6 h-40 md:h-48 w-auto drop-shadow-[0_0_40px_rgba(232,193,87,0.35)]" />
                     <h3 className="text-2xl md:text-3xl font-display font-light mb-2">Energia Inteligente</h3>
                     <p className="text-muted-foreground">Economia para sua casa ou empresa, com energia renovável.</p>
                   </div>
