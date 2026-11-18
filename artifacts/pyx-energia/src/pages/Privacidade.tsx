@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { Footer } from "@/components/Footer";
 
-const COMPANY_NAME = (import.meta.env.VITE_COMPANY_NAME as string | undefined)?.trim();
-const COMPANY_CNPJ = (import.meta.env.VITE_COMPANY_CNPJ as string | undefined)?.trim();
+const COMPANY_NAME =
+  (import.meta.env.VITE_COMPANY_NAME as string | undefined)?.trim() || "MV Investimentos e Participações Ltda";
+const COMPANY_CNPJ =
+  (import.meta.env.VITE_COMPANY_CNPJ as string | undefined)?.trim() || "57.705.818/0001-27";
 
 export default function Privacidade() {
   useEffect(() => {

@@ -31,7 +31,7 @@ const MARQUEE_ITEMS = [
   "Sem obras",
   "Sem investimento inicial",
   "Contas de baixa tensão",
-  "Desconto de até 40%",
+  "Desconto de 25% a 40%",
   "100% digital",
   "Regulamentado pela ANEEL",
   "Lei 14.300",
@@ -70,7 +70,7 @@ const STEPS = [
   {
     step: "03",
     title: "Economia no caixa",
-    desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o valor total pago será até 40% menor que sua conta original.",
+    desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o desconto vai de 25% a 40%, conforme o valor da sua conta, e incide sobre a energia compensada.",
   },
 ];
 
@@ -281,7 +281,7 @@ export default function Home() {
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.05] mb-7 tracking-tight">
-                  Reduza até <span className="font-semibold text-primary text-glow">40%</span>
+                  Reduza de <span className="font-semibold text-primary text-glow">25% a 40%</span>
                   <br className="hidden sm:block" /> na sua conta de luz.
                 </h1>
 
