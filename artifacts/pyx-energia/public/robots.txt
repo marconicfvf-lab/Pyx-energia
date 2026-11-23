@@ -4,5 +4,6 @@ Disallow: /painel
 Disallow: /api/
 Disallow: /sign-in
 Disallow: /sign-up
+Disallow: /spa.html
 
 Sitemap: https://pyxenergia.com/sitemap.xml

@@ -13,6 +13,8 @@ if (!rawPort) {
   );
 }
 
+const isSsrBuild = process.argv.includes("--ssr");
+
 const port = Number(rawPort);
 
 if (Number.isNaN(port) || port <= 0) {
@@ -47,6 +49,9 @@ export default defineConfig({
         ]
       : []),
   ],
+  ssr: {
+    noExternal: [/@workspace\//],
+  },
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
@@ -63,6 +68,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
+    copyPublicDir: !isSsrBuild,
   },
   server: {
     port,

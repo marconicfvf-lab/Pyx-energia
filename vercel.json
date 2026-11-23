@@ -3,8 +3,21 @@
   "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "PORT=5000 BASE_PATH=/ pnpm run build",
   "outputDirectory": "artifacts/pyx-energia/dist/public",
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.pyxenergia.com" }],
+      "destination": "https://pyxenergia.com/$1",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/painel", "destination": "/spa.html" },
+    { "source": "/sign-in", "destination": "/spa.html" },
+    { "source": "/sign-in/(.*)", "destination": "/spa.html" },
+    { "source": "/sign-up", "destination": "/spa.html" },
+    { "source": "/sign-up/(.*)", "destination": "/spa.html" }
   ]
 }

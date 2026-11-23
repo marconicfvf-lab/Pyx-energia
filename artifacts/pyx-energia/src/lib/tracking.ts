@@ -20,7 +20,7 @@ type Win = Window & {
   _fbq?: unknown;
 };
 
-const w = window as Win;
+const w: Win | undefined = typeof window === "undefined" ? undefined : (window as Win);
 let loaded = false;
 
 export function trackingConfigured(): boolean {
@@ -29,6 +29,7 @@ export function trackingConfigured(): boolean {
 
 export function getConsent(): "granted" | "denied" | null {
   try {
+    if (typeof localStorage === "undefined") return null;
     const value = localStorage.getItem(CONSENT_KEY);
     return value === "granted" || value === "denied" ? value : null;
   } catch {
@@ -53,7 +54,7 @@ function loadScript(src: string): void {
 }
 
 function loadScripts(): void {
-  if (loaded || getConsent() !== "granted") return;
+  if (!w || loaded || getConsent() !== "granted") return;
   loaded = true;
 
   const googleId = GA4_ID || GADS_ID;
@@ -105,9 +106,9 @@ export function initTracking(): void {
 
 export function trackPageView(path: string): void {
   if (getConsent() !== "granted") return;
-  w.gtag?.("event", "page_view", { page_path: path });
+  w?.gtag?.("event", "page_view", { page_path: path });
   // O PageView inicial do Meta já é disparado no carregamento; navegações internas:
-  if (loaded && document.readyState === "complete") w.fbq?.("track", "PageView");
+  if (loaded && document.readyState === "complete") w?.fbq?.("track", "PageView");
 }
 
 /** Guarda UTMs e IDs de clique (gclid/fbclid) da primeira visita com anúncio. */
@@ -150,21 +151,21 @@ export function withAttribution(source: string): string {
 
 function gadsConversion(label: string | undefined, value?: number): void {
   if (!GADS_ID || !label) return;
-  w.gtag?.("event", "conversion", { send_to: `${GADS_ID}/${label}`, value, currency: "BRL" });
+  w?.gtag?.("event", "conversion", { send_to: `${GADS_ID}/${label}`, value, currency: "BRL" });
 }
 
 /** Lead cadastrado (formulário do simulador ou da página de empresas). */
 export function trackLead(origin: string, monthlyBill?: number): void {
   if (getConsent() !== "granted") return;
-  w.fbq?.("track", "Lead", { content_name: origin, value: monthlyBill, currency: "BRL" });
-  w.gtag?.("event", "generate_lead", { origin, value: monthlyBill, currency: "BRL" });
+  w?.fbq?.("track", "Lead", { content_name: origin, value: monthlyBill, currency: "BRL" });
+  w?.gtag?.("event", "generate_lead", { origin, value: monthlyBill, currency: "BRL" });
   gadsConversion(GADS_LEAD_LABEL, monthlyBill);
 }
 
 /** Clique para falar no WhatsApp. */
 export function trackWhatsAppClick(origin: string): void {
   if (getConsent() !== "granted") return;
-  w.fbq?.("track", "Contact", { content_name: origin });
-  w.gtag?.("event", "whatsapp_click", { origin });
+  w?.fbq?.("track", "Contact", { content_name: origin });
+  w?.gtag?.("event", "whatsapp_click", { origin });
   gadsConversion(GADS_WHATSAPP_LABEL);
 }

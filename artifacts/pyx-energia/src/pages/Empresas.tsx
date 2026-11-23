@@ -3,6 +3,7 @@ import { ArrowRight, Building2, CheckCircle2, MessageCircle, Stethoscope, Store,
 import { BrazilState, LeadSegment, useCreateLead } from "@workspace/api-client-react";
 import { Footer } from "@/components/Footer";
 import { discountPercentFor, estimateMonthlySavings } from "@/lib/pricing";
+import { pages, usePageMeta } from "@/lib/seo";
 import { trackLead, trackWhatsAppClick, withAttribution } from "@/lib/tracking";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -52,6 +53,7 @@ const BUSINESS_REASONS = [
 ];
 
 function getInitialSegment(): LeadSegment | "" {
+  if (typeof window === "undefined") return "";
   const requested = new URLSearchParams(window.location.search).get("seg");
   return SEGMENTS.some((segment) => segment.value === requested)
     ? (requested as LeadSegment)
@@ -67,6 +69,7 @@ function formatCurrency(value: number): string {
 }
 
 export default function Empresas() {
+  usePageMeta(pages.empresas);
   const createLead = useCreateLead();
   const [name, setName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
