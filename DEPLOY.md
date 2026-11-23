@@ -26,7 +26,7 @@ STATIC_DIR=artifacts/pyx-energia/dist/public PORT=8080 node artifacts/api-server
 | `PORT` | sim | Porta HTTP |
 | `STATIC_DIR` | em host único | Pasta do build do site |
 | `CLERK_PUBLISHABLE_KEY` / `CLERK_SECRET_KEY` | sim | Login do painel |
-| `VITE_CLERK_PUBLISHABLE_KEY` | sim (build) | Mesma publishable key |
+| `VITE_CLERK_PUBLISHABLE_KEY` | sim (build) | Mesma publishable key. No domínio pyxenergia.com use a chave de produção (`pk_live_...`), não `pk_test_...`. As páginas públicas não carregam o Clerk; `/sign-in`, `/sign-up` e `/painel` dependem dessa chave. |
 | `WHATSAPP_PROVIDER` | não | `evolution`, `cloud` ou `log` (padrão) |
 | `EVOLUTION_API_URL` / `EVOLUTION_API_KEY` / `EVOLUTION_INSTANCE` | se `evolution` | Evolution API |
 | `WHATSAPP_PHONE_NUMBER_ID` / `WHATSAPP_ACCESS_TOKEN` | se `cloud` | Meta Cloud API |
@@ -58,6 +58,12 @@ cada 5 minutos. Configure no GitHub:
 - variável `APP_URL` (Settings → Secrets and variables → Actions → Variables),
   ex.: `https://pyxenergia.com`;
 - secret `CRON_SECRET` com o mesmo valor usado no host.
+
+## Indexação
+
+O build gera HTML pré-renderizado para `/`, `/empresas` e `/privacidade`, com title, description e canonical próprios. `www.pyxenergia.com` responde 301 para `https://pyxenergia.com`.
+
+Depois do deploy, no Google Search Console da propriedade `https://pyxenergia.com`, envie o sitemap `https://pyxenergia.com/sitemap.xml`.
 
 ## Migrações
 

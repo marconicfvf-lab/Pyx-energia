@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { ArrowRight, ArrowLeftRight, Zap, ShieldCheck, Stethoscope, Store, Utensils, Wheat, TrendingDown, House, Landmark, Smartphone, Star, Leaf, HardHat, BadgePercent, FileCheck, Handshake, Gift, Briefcase, Wallet, CalendarClock, Users } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { openWhatsApp as openWhatsAppTracked } from "@/lib/whatsapp";
+import { pages, usePageMeta } from "@/lib/seo";
 
 function openWhatsApp(text: string) {
   openWhatsAppTracked("home", text);
@@ -232,6 +233,7 @@ const TESTIMONIALS = [
 ];
 
 export default function Home() {
+  usePageMeta(pages.home);
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;

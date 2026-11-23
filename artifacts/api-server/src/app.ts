@@ -59,10 +59,31 @@ app.use("/api", router);
 
 if (env.staticDir) {
   const staticDir = path.resolve(env.staticDir);
+  const prerendered: Record<string, string> = {
+    "/": "index.html",
+    "/empresas": "empresas/index.html",
+    "/privacidade": "privacidade/index.html",
+  };
   app.use(express.static(staticDir));
-  // Client-side routing: any non-API path renders the SPA shell.
-  app.get(/^(?!\/api\/).*/, (_req, res) => {
-    res.sendFile(path.join(staticDir, "index.html"));
+  app.get(/^(?!\/api\/).*/, (req, res) => {
+    const pathname = req.path.replace(/\/+$/, "") || "/";
+    const isAuth =
+      pathname === "/painel" ||
+      pathname.startsWith("/painel/") ||
+      pathname === "/sign-in" ||
+      pathname.startsWith("/sign-in/") ||
+      pathname === "/sign-up" ||
+      pathname.startsWith("/sign-up/");
+    if (isAuth) {
+      res.sendFile(path.join(staticDir, "spa.html"));
+      return;
+    }
+    const page = prerendered[pathname];
+    if (page) {
+      res.sendFile(path.join(staticDir, page));
+      return;
+    }
+    res.status(404).sendFile(path.join(staticDir, "404.html"));
   });
 }
 

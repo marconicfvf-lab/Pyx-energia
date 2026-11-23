@@ -15,6 +15,8 @@ import {
   MINIMUM_KWH_BY_CONNECTION,
 } from "@/lib/pricing";
 
+const SLIDER_MIN = 500;
+const SLIDER_MAX = 20000;
 const BRAZIL_STATES = Object.values(BrazilState);
 
 const CONNECTION_OPTIONS: { value: ConnectionType; label: string }[] = [
@@ -25,6 +27,7 @@ const CONNECTION_OPTIONS: { value: ConnectionType; label: string }[] = [
 
 export function Calculator() {
   const [bill, setBill] = useState(2500);
+  const [billFocused, setBillFocused] = useState(false);
   const [connection, setConnection] = useState<ConnectionType>(DEFAULT_CONNECTION);
   const [animatedSavings, setAnimatedSavings] = useState(0);
   const [name, setName] = useState("");
@@ -127,21 +130,41 @@ export function Calculator() {
         </p>
 
         <div className="mb-10">
-          <div className="flex justify-between items-end mb-4">
-            <label className="text-sm font-medium text-foreground">
+          <div className="flex justify-between items-end mb-4 gap-4">
+            <label htmlFor="calculator-bill" className="text-sm font-medium text-foreground">
               Qual o valor médio da sua conta de luz?
             </label>
-            <span className="text-2xl font-display font-medium text-primary text-glow">
-              {formatCurrency(bill)}
+            <span className="flex items-baseline gap-1 text-2xl font-display font-medium text-primary text-glow">
+              <span className="text-base">R$</span>
+              <input
+                id="calculator-bill"
+                inputMode="numeric"
+                autoComplete="off"
+                value={
+                  billFocused
+                    ? bill ? String(bill) : ""
+                    : new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(bill)
+                }
+                onFocus={() => setBillFocused(true)}
+                onBlur={() => {
+                  setBillFocused(false);
+                  if (bill < SLIDER_MIN) setBill(SLIDER_MIN);
+                }}
+                onChange={(event) => {
+                  const digits = event.target.value.replace(/\D/g, "");
+                  setBill(digits ? Math.min(Number(digits), 1_000_000) : 0);
+                }}
+                className="w-36 bg-transparent text-right outline-none border-b border-transparent focus:border-primary/50"
+              />
             </span>
           </div>
           <Slider
-            defaultValue={[2500]}
-            max={20000}
-            min={500}
+            max={SLIDER_MAX}
+            min={SLIDER_MIN}
             step={100}
-            value={[bill]}
-            onValueChange={(val) => setBill(val[0])}
+            value={[Math.min(SLIDER_MAX, Math.max(SLIDER_MIN, Math.round((bill || SLIDER_MIN) / 100) * 100))]}
+            onValueChange={(val) => setBill(val[0] ?? SLIDER_MIN)}
+            aria-label="Ajustar o valor médio da conta de luz"
             className="my-6"
           />
           <div className="flex justify-between text-xs text-muted-foreground mt-2">
