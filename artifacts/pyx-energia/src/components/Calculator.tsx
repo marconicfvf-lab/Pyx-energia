@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
@@ -6,13 +6,12 @@ import { trackLead, withAttribution } from "@/lib/tracking";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { BrazilState, useCreateLead } from "@workspace/api-client-react";
 import {
-  availabilityCost,
-  compensatedEnergyValue,
   ConnectionType,
   DEFAULT_CONNECTION,
-  discountPercentFor,
-  estimateMonthlySavings,
+  formatCurrency,
   MINIMUM_KWH_BY_CONNECTION,
+  parseBillInput,
+  quoteSavings,
 } from "@/lib/pricing";
 
 const SLIDER_MIN = 500;
@@ -29,7 +28,6 @@ export function Calculator() {
   const [bill, setBill] = useState(2500);
   const [billFocused, setBillFocused] = useState(false);
   const [connection, setConnection] = useState<ConnectionType>(DEFAULT_CONNECTION);
-  const [animatedSavings, setAnimatedSavings] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [customerType, setCustomerType] = useState<"CPF" | "CNPJ">("CPF");
@@ -41,40 +39,15 @@ export function Calculator() {
   const [formError, setFormError] = useState("");
   const createLead = useCreateLead();
 
-  const discountPercent = discountPercentFor(bill);
-  const compensatedEnergy = compensatedEnergyValue(bill, connection);
-  const minimumCharge = availabilityCost(connection);
-  const estimatedSavings = estimateMonthlySavings(bill, connection);
-  const yearlySavings = estimatedSavings * 12;
-
-  // Animate the savings number when bill changes
-  useEffect(() => {
-    const duration = 500;
-    const steps = 20;
-    const stepTime = duration / steps;
-    const difference = estimatedSavings - animatedSavings;
-    const increment = difference / steps;
-
-    let currentStep = 0;
-    const timer = setInterval(() => {
-      currentStep++;
-      setAnimatedSavings(prev => {
-        const next = prev + increment;
-        return currentStep === steps ? estimatedSavings : next;
-      });
-      if (currentStep === steps) clearInterval(timer);
-    }, stepTime);
-
-    return () => clearInterval(timer);
-  }, [bill, estimatedSavings]);
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+  // Monthly and annual come from the same quote and update in the same render.
+  // A deferred counter on only the monthly figure restarts on every keystroke
+  // and can show a few hundred reais while the year total is already final.
+  const quote = quoteSavings(bill, connection);
+  const discountPercent = quote.discountPercent;
+  const compensatedEnergy = quote.compensatedEnergy;
+  const minimumCharge = quote.minimumCharge;
+  const estimatedSavings = quote.monthly;
+  const yearlySavings = quote.annual;
 
   const handleWhatsApp = () => {
     setFormError("");
@@ -150,10 +123,7 @@ export function Calculator() {
                   setBillFocused(false);
                   if (bill < SLIDER_MIN) setBill(SLIDER_MIN);
                 }}
-                onChange={(event) => {
-                  const digits = event.target.value.replace(/\D/g, "");
-                  setBill(digits ? Math.min(Number(digits), 1_000_000) : 0);
-                }}
+                onChange={(event) => setBill(parseBillInput(event.target.value))}
                 className="w-36 bg-transparent text-right outline-none border-b border-transparent focus:border-primary/50"
               />
             </span>
@@ -215,7 +185,7 @@ export function Calculator() {
               </p>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl md:text-4xl font-display font-medium text-primary text-glow">
-                  {formatCurrency(animatedSavings)}
+                  {formatCurrency(estimatedSavings)}
                 </span>
               </div>
             </div>

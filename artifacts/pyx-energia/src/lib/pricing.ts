@@ -70,3 +70,36 @@ export function estimateMonthlySavings(
 ): number {
   return compensatedEnergyValue(averageBill, connection) * (discountPercentFor(averageBill) / 100);
 }
+
+/** Same whole-real formatting used by the home simulator. */
+export function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+/** Typed or pasted bill text: "14000", "14.000" and "R$ 2.500" all become a number. */
+export const MAX_TYPED_BILL = 1_000_000;
+
+export function parseBillInput(raw: string): number {
+  const digits = raw.replace(/\D/g, "");
+  if (!digits) return 0;
+  return Math.min(Number(digits), MAX_TYPED_BILL);
+}
+
+/**
+ * One quote for the simulator. Monthly and annual savings are the same
+ * estimate: annual is exactly monthly × 12, so the two figures cannot drift.
+ */
+export function quoteSavings(averageBill: number, connection: ConnectionType = DEFAULT_CONNECTION) {
+  const monthly = estimateMonthlySavings(averageBill, connection);
+  return {
+    discountPercent: discountPercentFor(averageBill),
+    compensatedEnergy: compensatedEnergyValue(averageBill, connection),
+    minimumCharge: availabilityCost(connection),
+    monthly,
+    annual: monthly * 12,
+  };
+}
