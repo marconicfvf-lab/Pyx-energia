@@ -61,7 +61,7 @@ export default function EnergiaSolarPorAssinatura() {
               conecta a unidade consumidora a uma usina parceira e cuida da adesão.
             </p>
             <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Não há placas no imóvel, não há obra e não há investimento inicial. O desconto vai de 25% a 40% e incide
+              Não há placas no imóvel, não há obra e não há investimento inicial. O desconto vai de 20% a 40% e incide
               sobre a energia compensada. A proposta final depende da análise da fatura.
             </p>
           </div>

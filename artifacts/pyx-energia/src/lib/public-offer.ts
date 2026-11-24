@@ -48,7 +48,7 @@ export const STEPS = [
   {
     step: "03",
     title: "Economia no caixa",
-    desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o desconto vai de 25% a 40%, conforme o valor da sua conta, e incide sobre a energia compensada.",
+    desc: "Você passa a receber duas faturas unificadas na mesma plataforma, e o desconto vai de 20% a 40%, conforme o valor da sua conta, e incide sobre a energia compensada.",
   },
 ];
 
@@ -59,7 +59,7 @@ export const TIERS: {
   note: string;
   highlight?: boolean;
 }[] = [
-  { label: "Faixa 1", percent: "25%", range: "Contas de R$ 500 a R$ 3.000", note: "Casas, apartamentos e pequenos comércios." },
+  { label: "Faixa 1", percent: "20%", range: "Contas de R$ 500 a R$ 3.000", note: "Casas, apartamentos e pequenos comércios." },
   { label: "Faixa 2", percent: "30%", range: "Acima de R$ 3.000 até R$ 5.000", note: "Escritórios, lojas e clínicas." },
   { label: "Faixa 3", percent: "35%", range: "Acima de R$ 5.000 até R$ 10.000", note: "Restaurantes, condomínios e supermercados." },
   { label: "Faixa 4", percent: "40%", range: "Acima de R$ 10.000", note: "Pode somar filiais, negócios ou imóveis do mesmo cliente.", highlight: true },
@@ -67,7 +67,7 @@ export const TIERS: {
 
 /** Texto já publicado na home e no simulador, reunido para as páginas locais. */
 export const DISCOUNT_RULES =
-  "Os percentuais são aplicados sobre a energia compensada, conforme análise da fatura. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. Ficam de fora da base a taxa mínima de disponibilidade, a iluminação pública e os impostos. A bandeira tarifária entra na base. Contas acima de R$ 10 mil têm 40% de desconto em Pernambuco e no Ceará. A proposta final depende da análise da sua fatura.";
+  "O desconto vai de 20% a 40%, conforme a faixa da conta, e incide sobre a energia compensada. O percentual final depende da análise da fatura. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. Ficam de fora da base a taxa mínima de disponibilidade, a iluminação pública e os impostos. A bandeira tarifária entra na base. Contas acima de R$ 10 mil têm 40% de desconto em Pernambuco e no Ceará.";
 
 export const FAQS = [
   {
@@ -112,7 +112,7 @@ export const FAQS = [
   },
   {
     q: "Qual desconto eu recebo?",
-    a: "Depende do valor médio da sua conta de baixa tensão: 25% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. O desconto incide sobre a energia compensada (a taxa mínima de disponibilidade e a iluminação pública não entram). O percentual final é confirmado após a análise da fatura.",
+    a: "Depende do valor médio da sua conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000. Para chegar aos R$ 10 mil, vale somar as contas de filiais, negócios ou imóveis do mesmo cliente. O desconto incide sobre a energia compensada (a taxa mínima de disponibilidade e a iluminação pública não entram). O percentual final é confirmado após a análise da fatura.",
   },
   {
     q: "Minha conta é menor que R$ 500. Posso participar?",
