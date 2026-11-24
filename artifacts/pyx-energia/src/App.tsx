@@ -9,6 +9,9 @@ import { useBrowserLocation } from "wouter/use-browser-location";
 import Home from "@/pages/Home";
 import Empresas from "@/pages/Empresas";
 import Privacidade from "@/pages/Privacidade";
+import EnergiaSolarPorAssinatura from "@/pages/EnergiaSolarPorAssinatura";
+import Recife from "@/pages/Recife";
+import Fortaleza from "@/pages/Fortaleza";
 import NotFound from "@/pages/not-found";
 
 const AuthShell = lazy(() => import("@/auth-shell"));
@@ -50,6 +53,9 @@ function Routes() {
           <Route path="/" component={HomeRoute} />
           <Route path="/empresas" component={Empresas} />
           <Route path="/privacidade" component={Privacidade} />
+          <Route path="/energia-solar-por-assinatura" component={EnergiaSolarPorAssinatura} />
+          <Route path="/recife" component={Recife} />
+          <Route path="/fortaleza" component={Fortaleza} />
           <Route path="/painel" component={AuthShell} />
           <Route path="/sign-in/*?" component={AuthShell} />
           <Route path="/sign-up/*?" component={AuthShell} />

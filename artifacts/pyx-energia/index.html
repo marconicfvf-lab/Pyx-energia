@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PYX Energia | Reduza de 25% a 40% na sua conta de luz</title>
-    <meta name="description" content="Economize de 25% a 40% na conta de luz da sua casa ou empresa com a PYX Energia, o marketplace de energia solar por assinatura, com foco no Nordeste. Sem obras, sem investimento inicial e sem taxa de adesão." />
+    <meta name="description" content="Energia solar por assinatura no Nordeste, para baixa tensão. Reduza de 25% a 40% na conta de luz da casa ou empresa, sem obras e sem investimento inicial." />
     <link rel="canonical" href="https://pyxenergia.com/" />
     
     <!-- Open Graph / Facebook -->
@@ -16,7 +16,7 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="PYX Energia: reduza de 25% a 40% na sua conta de luz" />
-    <meta property="og:title" content="PYX Energia | Reduza de 25% a 40% na conta de luz" />
+    <meta property="og:title" content="PYX Energia | Reduza de 25% a 40% na sua conta de luz" />
     <meta property="og:description" content="Marketplace de energia solar por assinatura para casas e empresas. Sem placas solares, sem obras e sem burocracia." />
 
     <!-- Twitter -->
@@ -28,32 +28,31 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="icon" type="image/png" href="/brand/pyx-logo.png" />
+    <link rel="icon" type="image/png" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#060a08" />
+    <!--
+      TODO(dono): quando houver dados confirmados, completar Organization e LocalBusiness com
+      streetAddress, postalCode, geo (latitude/longitude), openingHours e sameAs (perfis sociais).
+      Não publicar esses campos enquanto forem estimativa.
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": "https://pyxenergia.com/#organization",
         "name": "PYX Energia",
         "url": "https://pyxenergia.com/",
-        "logo": "https://pyxenergia.com/brand/pyx-logo.png",
-        "email": "comercial@pyxenergia.com",
-        "telephone": "+55-81-99972-5151",
-        "areaServed": ["Nordeste do Brasil", "Pernambuco", "Ceará"],
-        "description": "Marketplace de energia solar por assinatura para casas e empresas, com desconto na conta de luz."
-      }
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "PYX Energia",
-        "url": "https://pyxenergia.com/",
-        "image": "https://pyxenergia.com/og-image.png",
-        "logo": "https://pyxenergia.com/brand/pyx-logo.png",
-        "email": "comercial@pyxenergia.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pyxenergia.com/brand/pyx-logo.webp",
+          "width": 392,
+          "height": 544
+        },
+        "email": ["contato@pyxenergia.com", "comercial@pyxenergia.com"],
         "telephone": "+55-81-99972-5151",
         "address": {
           "@type": "PostalAddress",
@@ -61,7 +60,72 @@
           "addressRegion": "PE",
           "addressCountry": "BR"
         },
-        "areaServed": ["Recife", "Pernambuco", "Nordeste do Brasil"]
+        "areaServed": [
+          { "@type": "State", "name": "Alagoas", "addressCountry": "BR" },
+          { "@type": "State", "name": "Bahia", "addressCountry": "BR" },
+          { "@type": "State", "name": "Ceará", "addressCountry": "BR" },
+          { "@type": "State", "name": "Goiás", "addressCountry": "BR" },
+          { "@type": "State", "name": "Pará", "addressCountry": "BR" },
+          { "@type": "State", "name": "Pernambuco", "addressCountry": "BR" },
+          { "@type": "State", "name": "Piauí", "addressCountry": "BR" },
+          { "@type": "State", "name": "Rio Grande do Norte", "addressCountry": "BR" },
+          { "@type": "State", "name": "Sergipe", "addressCountry": "BR" }
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "contato@pyxenergia.com",
+            "telephone": "+55-81-99972-5151",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "email": "comercial@pyxenergia.com",
+            "telephone": "+55-81-99972-5151",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+          }
+        ],
+        "description": "Marketplace de energia solar por assinatura para casas e empresas, com desconto na conta de luz."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://pyxenergia.com/#localbusiness",
+        "name": "PYX Energia",
+        "url": "https://pyxenergia.com/",
+        "image": "https://pyxenergia.com/og-image.png",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pyxenergia.com/brand/pyx-logo.webp",
+          "width": 392,
+          "height": 544
+        },
+        "email": ["contato@pyxenergia.com", "comercial@pyxenergia.com"],
+        "telephone": "+55-81-99972-5151",
+        "parentOrganization": { "@id": "https://pyxenergia.com/#organization" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Recife",
+          "addressRegion": "PE",
+          "addressCountry": "BR"
+        },
+        "areaServed": [
+          { "@type": "State", "name": "Alagoas", "addressCountry": "BR" },
+          { "@type": "State", "name": "Bahia", "addressCountry": "BR" },
+          { "@type": "State", "name": "Ceará", "addressCountry": "BR" },
+          { "@type": "State", "name": "Goiás", "addressCountry": "BR" },
+          { "@type": "State", "name": "Pará", "addressCountry": "BR" },
+          { "@type": "State", "name": "Pernambuco", "addressCountry": "BR" },
+          { "@type": "State", "name": "Piauí", "addressCountry": "BR" },
+          { "@type": "State", "name": "Rio Grande do Norte", "addressCountry": "BR" },
+          { "@type": "State", "name": "Sergipe", "addressCountry": "BR" }
+        ]
       }
     </script>
   </head>

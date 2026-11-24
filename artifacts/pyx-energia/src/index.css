@@ -249,3 +249,13 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee { animation: none; }
 }
+
+.pyx-landing summary {
+  list-style: none;
+}
+.pyx-landing summary::-webkit-details-marker {
+  display: none;
+}
+.pyx-landing details[open] .faq-chevron {
+  transform: rotate(180deg);
+}

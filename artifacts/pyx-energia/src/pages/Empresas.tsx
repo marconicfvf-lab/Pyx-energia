@@ -2,6 +2,8 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight, Building2, CheckCircle2, MessageCircle, Stethoscope, Store, Zap } from "lucide-react";
 import { BrazilState, LeadSegment, useCreateLead } from "@workspace/api-client-react";
 import { Footer } from "@/components/Footer";
+import { BrandLogo } from "@/components/BrandLogo";
+import { COVERED_STATES, COVERAGE_SUMMARY, isCoveredState } from "@/lib/public-offer";
 import { discountPercentFor, estimateMonthlySavings } from "@/lib/pricing";
 import { pages, usePageMeta } from "@/lib/seo";
 import { trackLead, trackWhatsAppClick, withAttribution } from "@/lib/tracking";
@@ -11,7 +13,6 @@ const WHATSAPP_MESSAGE =
   "Olá! Sou gestor de uma empresa e quero uma proposta para contas de energia acima de R$ 5 mil.";
 const CONSENT_TEXT =
   "Autorizo a PYX Energia a tratar meus dados para contato comercial e simulação de economia, conforme a LGPD.";
-const BRAZIL_STATES = Object.values(BrazilState);
 const SEGMENTS: Array<{ value: LeadSegment; label: string }> = [
   { value: "farmacia", label: "Farmácia" },
   { value: "clinica", label: "Clínica" },
@@ -118,6 +119,10 @@ export default function Empresas() {
       setFormError("Informe um número inteiro de unidades, a partir de 1.");
       return;
     }
+    if (!isCoveredState(state)) {
+      setFormError(`A PYX atende ${COVERAGE_SUMMARY}.`);
+      return;
+    }
     if (!consentAccepted) {
       setFormError("É necessário aceitar o uso dos dados para continuar.");
       return;
@@ -164,7 +169,7 @@ export default function Empresas() {
       <header className="border-b border-white/10 bg-black/40">
         <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6">
           <a href="/" aria-label="PYX Energia — página inicial">
-            <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-12 w-auto" />
+            <BrandLogo height={48} priority className="h-12 w-auto" />
           </a>
           <a
             href={whatsappUrl(WHATSAPP_MESSAGE)}
@@ -478,10 +483,13 @@ export default function Empresas() {
                           onChange={(event) => setState(event.target.value as BrazilState)}
                           className="h-11 w-full rounded-xl border border-white/10 bg-background/60 px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
                         >
-                          {BRAZIL_STATES.map((uf) => (
+                          {COVERED_STATES.map((uf) => (
                             <option key={uf} value={uf}>{uf}</option>
                           ))}
                         </select>
+                        <span className="block text-xs font-normal leading-relaxed text-muted-foreground">
+                          {`Atendemos ${COVERAGE_SUMMARY}.`}
+                        </span>
                       </label>
                       <label className="space-y-2 text-sm font-medium text-foreground">
                         Cidade

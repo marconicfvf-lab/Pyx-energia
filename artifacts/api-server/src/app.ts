@@ -63,6 +63,9 @@ if (env.staticDir) {
     "/": "index.html",
     "/empresas": "empresas/index.html",
     "/privacidade": "privacidade/index.html",
+    "/energia-solar-por-assinatura": "energia-solar-por-assinatura/index.html",
+    "/recife": "recife/index.html",
+    "/fortaleza": "fortaleza/index.html",
   };
   app.use(express.static(staticDir));
   app.get(/^(?!\/api\/).*/, (req, res) => {

@@ -3,7 +3,12 @@ import { MessageCircle } from "lucide-react";
 /** Atalho fixo: rola até o simulador. O texto visível é "Simular economia". */
 
 function scrollToSimulator() {
-  document.getElementById("simulador")?.scrollIntoView({ behavior: "smooth" });
+  const target = document.getElementById("simulador");
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+  window.location.assign("/#simulador");
 }
 
 export function ChatWidget() {

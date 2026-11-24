@@ -75,6 +75,27 @@ function writePage(page) {
   for (const marker of page.markers) {
     if (!html.includes(marker)) throw new Error(`${page.file} não contém "${marker}"`);
   }
+  const jsonLd = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  if (jsonLd.length === 0) throw new Error(`${page.file} sem JSON-LD`);
+  for (const block of jsonLd) JSON.parse(block[1]);
+  const visible = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "");
+  if (page.path === "/") {
+    if (page.description.length < 150 || page.description.length > 160) {
+      throw new Error(`description da home com ${page.description.length} caracteres`);
+    }
+    if (!visible.includes("Absolutamente nenhuma")) {
+      throw new Error("home sem resposta do FAQ no HTML, fora do JSON-LD");
+    }
+    if (!html.includes("FAQPage")) throw new Error("home sem schema FAQPage");
+    if (!html.includes("contato@pyxenergia.com") || !html.includes("Alagoas") || !html.includes("Sergipe")) {
+      throw new Error("home sem e-mail ou estados no schema");
+    }
+  }
+  if (page.path !== "/404" && page.path !== "/") {
+    if (!/<link rel="canonical" href="https:\/\/pyxenergia\.com[^"]*"/.test(html)) {
+      throw new Error(`${page.file} sem canonical`);
+    }
+  }
   const outfile = path.join(dist, page.file);
   fs.mkdirSync(path.dirname(outfile), { recursive: true });
   fs.writeFileSync(outfile, html);

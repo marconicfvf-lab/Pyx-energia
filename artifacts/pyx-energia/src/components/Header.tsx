@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { BrandLogo } from "@/components/BrandLogo";
 import { Menu, X, Zap } from "lucide-react";
 
 const navLinks = [
@@ -13,13 +15,21 @@ const navLinks = [
 ];
 
 function scrollToSimulator() {
-  document.getElementById("simulador")?.scrollIntoView({ behavior: "smooth" });
+  const target = document.getElementById("simulador");
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+  window.location.assign("/#simulador");
 }
 
 export function Header() {
+  const [location] = useLocation();
+  const onHome = location === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState("");
+  const sectionHref = (hash: string) => (onHome ? hash : `/${hash}`);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,8 +71,8 @@ export function Header() {
                 : "border-transparent bg-transparent"
             }`}
           >
-            <a href="#" className="flex items-center gap-3 z-50">
-              <img src="/brand/pyx-logo.png" alt="PYX Energia" width="29" height="40" fetchPriority="high" decoding="async" className="h-10 w-auto" />
+            <a href="/" className="flex items-center gap-3 z-50" aria-label="PYX Energia — página inicial">
+              <BrandLogo height={40} priority className="h-10 w-auto" />
               <span className="hidden sm:block text-[11px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
                 Energia
               </span>
@@ -75,7 +85,7 @@ export function Header() {
                 return (
                   <a
                     key={link.label}
-                    href={link.href}
+                    href={sectionHref(link.href)}
                     className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-white/[0.07] text-foreground"
@@ -121,7 +131,7 @@ export function Header() {
         {navLinks.map((link) => (
           <a
             key={link.label}
-            href={link.href}
+            href={sectionHref(link.href)}
             onClick={() => setIsMobileMenuOpen(false)}
             className="relative text-3xl font-display font-light text-foreground hover:text-primary"
           >
