@@ -46,7 +46,7 @@ export function CityLanding({
     faqByQuestion("Qual o investimento inicial?"),
     {
       q: `Qual desconto na conta de luz em ${city}?`,
-      a: `Depende do valor médio da conta de baixa tensão: 25% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000. ${stateName} está entre os estados em que contas acima de R$ 10 mil têm 40% de desconto. O desconto incide sobre a energia compensada. Ficam de fora da base a taxa mínima de disponibilidade, a iluminação pública e os impostos. A proposta final depende da análise da fatura.`,
+      a: `Depende do valor médio da conta de baixa tensão: 20% de R$ 500 a R$ 3.000, 30% acima de R$ 3.000 até R$ 5.000, 35% acima de R$ 5.000 até R$ 10.000 e 40% acima de R$ 10.000. ${stateName} está entre os estados em que contas acima de R$ 10 mil têm 40% de desconto. O desconto incide sobre a energia compensada. Ficam de fora da base a taxa mínima de disponibilidade, a iluminação pública e os impostos. A proposta final depende da análise da fatura.`,
     },
     faqByQuestion("O que acontece com a minha conta da distribuidora?"),
     faqByQuestion("Em quanto tempo o desconto começa?"),

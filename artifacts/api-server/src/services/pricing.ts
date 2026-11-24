@@ -6,7 +6,7 @@ export interface SavingsEstimate {
 
 /** Faixas de desconto por valor médio da conta (baixa tensão). */
 export const DISCOUNT_TIERS = [
-  { maxBill: 3000, discountPercent: 25 },
+  { maxBill: 3000, discountPercent: 20 },
   { maxBill: 5000, discountPercent: 30 },
   { maxBill: 10000, discountPercent: 35 },
   { maxBill: Number.POSITIVE_INFINITY, discountPercent: 40 },

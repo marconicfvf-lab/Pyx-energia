@@ -26,10 +26,14 @@ describe("simulator quote", () => {
       assert.equal(quote.annual, quote.monthly * 12);
       assert.equal(quote.discountPercent, discountPercentFor(bill));
     }
-    assert.equal(brl(quoteSavings(500).monthly), "R$ 88");
-    assert.equal(brl(quoteSavings(500).annual), "R$ 1.055");
-    assert.equal(brl(quoteSavings(2500).monthly), "R$ 548");
-    assert.equal(brl(quoteSavings(2500).annual), "R$ 6.575");
+    assert.equal(quoteSavings(500).discountPercent, 20);
+    assert.equal(quoteSavings(2500).discountPercent, 20);
+    assert.equal(quoteSavings(3000).discountPercent, 20);
+    assert.equal(quoteSavings(3001).discountPercent, 30);
+    assert.equal(brl(quoteSavings(500).monthly), "R$ 70");
+    assert.equal(brl(quoteSavings(500).annual), "R$ 844");
+    assert.equal(brl(quoteSavings(2500).monthly), "R$ 438");
+    assert.equal(brl(quoteSavings(2500).annual), "R$ 5.260");
     assert.equal(brl(quoteSavings(20000).monthly), "R$ 7.317");
     assert.equal(brl(quoteSavings(20000).annual), "R$ 87.801");
   });
@@ -42,7 +46,8 @@ describe("simulator quote", () => {
       [1, 14, 140, 1400, 14000],
     );
     for (const quote of quotes) assert.equal(quote.annual, quote.monthly * 12);
-    assert.equal(brl(quotes[3].monthly), "R$ 295");
+    assert.equal(quotes[3].discountPercent, 20);
+    assert.equal(brl(quotes[3].monthly), "R$ 236");
     assert.equal(brl(quotes[4].monthly), "R$ 5.109");
     assert.equal(parseBillInput("14.000"), 14000);
     assert.equal(parseBillInput("R$ 2.500"), 2500);

@@ -35,7 +35,7 @@ const MARQUEE_ITEMS = [
   "Sem obras",
   "Sem investimento inicial",
   "Contas de baixa tensão",
-  "Desconto de 25% a 40%",
+  "Desconto de 20% a 40%",
   "100% digital",
   "Regulamentado pela ANEEL",
   "Lei 14.300",
@@ -198,7 +198,7 @@ export default function Home() {
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.05] mb-7 tracking-tight">
-                  Reduza de <span className="font-semibold text-primary text-glow">25% a 40%</span>
+                  Reduza de <span className="font-semibold text-primary text-glow">20% a 40%</span>
                   <br className="hidden sm:block" /> na sua conta de luz.
                 </h1>
 

@@ -65,7 +65,7 @@ export function TiersSection() {
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <Eyebrow>Faixas de desconto</Eyebrow>
           <h2 id="faixas-desconto" className="text-4xl font-display font-light tracking-tight md:text-5xl">
-            De 25% a 40% sobre a energia compensada
+            De 20% a 40% sobre a energia compensada
           </h2>
         </div>
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
