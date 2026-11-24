@@ -1,4 +1,5 @@
 import { Footer } from "@/components/Footer";
+import { BrandLogo } from "@/components/BrandLogo";
 import { pages, usePageMeta } from "@/lib/seo";
 
 export default function NotFound() {
@@ -8,7 +9,7 @@ export default function NotFound() {
       <header className="border-b border-white/10 bg-black/40">
         <div className="container mx-auto flex items-center px-4 py-4 md:px-6">
           <a href="/" aria-label="PYX Energia — página inicial">
-            <img src="/brand/pyx-logo.png" alt="PYX Energia" className="h-12 w-auto" />
+            <BrandLogo height={48} className="h-12 w-auto" />
           </a>
         </div>
       </header>

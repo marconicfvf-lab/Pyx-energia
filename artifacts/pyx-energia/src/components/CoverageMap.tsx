@@ -4,7 +4,7 @@ import { BRAZIL_MAP_VIEWBOX, BRAZIL_STATES } from "@/lib/brazilMap";
 
 export type CoverageItem = { uf: string; state: string; distributor: string };
 
-export function CoverageMap({ coverage }: { coverage: CoverageItem[] }) {
+export function CoverageMap({ coverage }: { coverage: readonly CoverageItem[] }) {
   const [active, setActive] = useState<string | null>(null);
   const byUf = new Map(coverage.map((item) => [item.uf, item]));
   const current = active ? byUf.get(active) : undefined;

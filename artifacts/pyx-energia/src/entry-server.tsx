@@ -4,6 +4,9 @@ import { Route, Router, Switch } from "wouter";
 import Home from "@/pages/Home";
 import Empresas from "@/pages/Empresas";
 import Privacidade from "@/pages/Privacidade";
+import EnergiaSolarPorAssinatura from "@/pages/EnergiaSolarPorAssinatura";
+import Recife from "@/pages/Recife";
+import Fortaleza from "@/pages/Fortaleza";
 import NotFound from "@/pages/not-found";
 import { pages } from "@/lib/seo";
 
@@ -27,6 +30,9 @@ export function render(url: string): string {
           <Route path="/" component={Home} />
           <Route path="/empresas" component={Empresas} />
           <Route path="/privacidade" component={Privacidade} />
+          <Route path="/energia-solar-por-assinatura" component={EnergiaSolarPorAssinatura} />
+          <Route path="/recife" component={Recife} />
+          <Route path="/fortaleza" component={Fortaleza} />
           <Route component={NotFound} />
         </Switch>
       </Router>

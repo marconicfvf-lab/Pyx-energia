@@ -1,4 +1,5 @@
 import { ShieldCheck, Zap } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -8,7 +9,9 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
-            <img src="/brand/pyx-logo.png" alt="PYX Energia" width="46" height="64" loading="lazy" decoding="async" className="h-16 w-auto mb-6" />
+            <a href="/" aria-label="PYX Energia — página inicial">
+              <BrandLogo height={64} className="mb-6 h-16 w-auto" />
+            </a>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Energia renovável por assinatura para casas e empresas. Reduza sua conta sem investir nada, sem obras e sem burocracia.
             </p>
@@ -25,6 +28,9 @@ export function Footer() {
               <li><a href="/#depoimentos" className="hover:text-primary transition-colors">Depoimentos</a></li>
               <li><a href="/#faq" className="hover:text-primary transition-colors">Dúvidas Frequentes</a></li>
               <li><a href="/empresas" className="hover:text-primary transition-colors">Para empresas</a></li>
+              <li><a href="/energia-solar-por-assinatura" className="hover:text-primary transition-colors">Energia solar por assinatura</a></li>
+              <li><a href="/recife" className="hover:text-primary transition-colors">Recife</a></li>
+              <li><a href="/fortaleza" className="hover:text-primary transition-colors">Fortaleza</a></li>
             </ul>
           </div>
 

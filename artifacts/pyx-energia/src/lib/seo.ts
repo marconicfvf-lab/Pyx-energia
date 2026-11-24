@@ -24,11 +24,44 @@ export const pages = {
     file: "index.html",
     title: "PYX Energia | Reduza de 25% a 40% na sua conta de luz",
     description:
-      "Economize de 25% a 40% na conta de luz da sua casa ou empresa com a PYX Energia, o marketplace de energia solar por assinatura, com foco no Nordeste. Sem obras, sem investimento inicial e sem taxa de adesão.",
-    ogTitle: "PYX Energia | Reduza de 25% a 40% na conta de luz",
+      "Energia solar por assinatura no Nordeste, para baixa tensão. Reduza de 25% a 40% na conta de luz da casa ou empresa, sem obras e sem investimento inicial.",
+    ogTitle: "PYX Energia | Reduza de 25% a 40% na sua conta de luz",
     ogDescription:
       "Marketplace de energia solar por assinatura para casas e empresas. Sem placas solares, sem obras e sem burocracia.",
-    markers: ["Reduza de", "25% a 40%", "na sua conta de luz"],
+    markers: ["Reduza de", "25% a 40%", "na sua conta de luz", "Absolutamente nenhuma"],
+  },
+  assinatura: {
+    path: "/energia-solar-por-assinatura",
+    file: "energia-solar-por-assinatura/index.html",
+    title: "Energia solar por assinatura | PYX Energia",
+    description:
+      "Como funciona a energia solar por assinatura da PYX: marketplace de baixa tensão no Nordeste, desconto de 25% a 40%, sem obras e sem investimento.",
+    ogTitle: "Energia solar por assinatura | PYX Energia",
+    ogDescription:
+      "Marketplace de energia solar por assinatura para baixa tensão. Desconto de 25% a 40%, sem obras e sem investimento inicial.",
+    markers: ["Energia solar por assinatura, sem obras", "Neoenergia Pernambuco", "25%"],
+  },
+  recife: {
+    path: "/recife",
+    file: "recife/index.html",
+    title: "Energia solar por assinatura em Recife | PYX Energia",
+    description:
+      "Energia solar por assinatura em Recife (PE), na área da Neoenergia Pernambuco. De 25% a 40% na conta de luz, sem obras e sem investimento.",
+    ogTitle: "Energia solar por assinatura em Recife | PYX Energia",
+    ogDescription:
+      "Assinatura de energia solar em Recife, com a Neoenergia Pernambuco. Desconto de 25% a 40%, sem obras e sem investimento.",
+    markers: ["Energia solar por assinatura em Recife", "Neoenergia Pernambuco"],
+  },
+  fortaleza: {
+    path: "/fortaleza",
+    file: "fortaleza/index.html",
+    title: "Energia solar por assinatura em Fortaleza | PYX Energia",
+    description:
+      "Energia solar por assinatura em Fortaleza (CE), na área da Enel Ceará. De 25% a 40% na conta de luz, sem obras e sem investimento.",
+    ogTitle: "Energia solar por assinatura em Fortaleza | PYX Energia",
+    ogDescription:
+      "Assinatura de energia solar em Fortaleza, com a Enel Ceará. Desconto de 25% a 40%, sem obras e sem investimento.",
+    markers: ["Energia solar por assinatura em Fortaleza", "Enel Ceará"],
   },
   empresas: {
     path: "/empresas",

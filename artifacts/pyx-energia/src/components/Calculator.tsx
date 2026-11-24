@@ -5,6 +5,7 @@ import { ArrowRight, Info, CheckCircle2 } from "lucide-react";
 import { trackLead, withAttribution } from "@/lib/tracking";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { BrazilState, useCreateLead } from "@workspace/api-client-react";
+import { COVERED_STATES, COVERAGE_SUMMARY, isCoveredState } from "@/lib/public-offer";
 import {
   ConnectionType,
   DEFAULT_CONNECTION,
@@ -16,7 +17,6 @@ import {
 
 const SLIDER_MIN = 500;
 const SLIDER_MAX = 20000;
-const BRAZIL_STATES = Object.values(BrazilState);
 
 const CONNECTION_OPTIONS: { value: ConnectionType; label: string }[] = [
   { value: "monofasica", label: "Monofásica" },
@@ -53,6 +53,10 @@ export function Calculator() {
     setFormError("");
     if (!name.trim() || !phone.trim() || !cpfCnpj.trim() || !city.trim()) {
       setFormError("Preencha seus dados para receber a simulação pelo WhatsApp.");
+      return;
+    }
+    if (!isCoveredState(state)) {
+      setFormError(`A PYX atende ${COVERAGE_SUMMARY}.`);
       return;
     }
     if (!consentAccepted) {
@@ -261,7 +265,7 @@ export function Calculator() {
                 aria-label="Estado"
                 className="h-11 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-2 text-sm text-foreground"
               >
-                {BRAZIL_STATES.map((uf) => (
+                {COVERED_STATES.map((uf) => (
                   <option key={uf} value={uf}>
                     {uf}
                   </option>
@@ -275,6 +279,9 @@ export function Calculator() {
                 className="h-11 min-w-0 flex-1 rounded-xl border border-white/10 bg-background/60 placeholder:text-muted-foreground px-3 text-sm text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
               />
             </div>
+            <p className="text-xs leading-relaxed text-muted-foreground md:col-span-2">
+              {`Cobertura atual: ${COVERAGE_SUMMARY}.`}
+            </p>
           </div>
           <input
             value={distributor}
