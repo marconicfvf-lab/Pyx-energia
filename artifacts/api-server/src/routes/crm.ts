@@ -28,6 +28,7 @@ import {
 } from "@workspace/api-zod";
 import { requireAuth } from "../middlewares/requireAuth";
 import { flagHighValueLead } from "../services/highValue";
+import { normalizePhone } from "../services/phone";
 
 const router: IRouter = Router();
 const LGPD_CONSENT =
@@ -53,27 +54,36 @@ router.post("/leads", async (req, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
+  // The phone is the key that links the site lead to its WhatsApp
+  // conversation, so it is stored in the same E.164 shape the webhook uses.
+  const phone = normalizePhone(parsed.data.phone);
+  if (!phone) {
+    res.status(400).json({ error: "Telefone inválido" });
+    return;
+  }
+  const fields = {
+    name: parsed.data.name,
+    customerType: parsed.data.customerType,
+    ...(parsed.data.cpfCnpj !== undefined ? { cpfCnpj: parsed.data.cpfCnpj } : {}),
+    ...(parsed.data.company !== undefined ? { company: parsed.data.company } : {}),
+    ...(parsed.data.jobTitle !== undefined ? { jobTitle: parsed.data.jobTitle } : {}),
+    ...(parsed.data.segment !== undefined ? { segment: parsed.data.segment } : {}),
+    ...(parsed.data.unitCount !== undefined ? { unitCount: parsed.data.unitCount } : {}),
+    state: parsed.data.state,
+    city: parsed.data.city,
+    ...(parsed.data.distributor !== undefined ? { distributor: parsed.data.distributor } : {}),
+    averageBill: parsed.data.averageBill,
+    estimatedMonthlySavings: parsed.data.estimatedMonthlySavings,
+    estimatedAnnualSavings: parsed.data.estimatedAnnualSavings,
+    consentAt: new Date(),
+    consentText: parsed.data.consentText,
+  };
+  // A contact who already wrote on WhatsApp, or who simulates twice, keeps one
+  // lead: the form data fills it in instead of failing on the unique phone.
   const [lead] = await db
     .insert(leadsTable)
-    .values({
-      name: parsed.data.name,
-      phone: parsed.data.phone,
-      customerType: parsed.data.customerType,
-      ...(parsed.data.cpfCnpj !== undefined ? { cpfCnpj: parsed.data.cpfCnpj } : {}),
-      ...(parsed.data.company !== undefined ? { company: parsed.data.company } : {}),
-      ...(parsed.data.jobTitle !== undefined ? { jobTitle: parsed.data.jobTitle } : {}),
-      ...(parsed.data.segment !== undefined ? { segment: parsed.data.segment } : {}),
-      ...(parsed.data.unitCount !== undefined ? { unitCount: parsed.data.unitCount } : {}),
-      state: parsed.data.state,
-      city: parsed.data.city,
-      ...(parsed.data.distributor !== undefined ? { distributor: parsed.data.distributor } : {}),
-      averageBill: parsed.data.averageBill,
-      estimatedMonthlySavings: parsed.data.estimatedMonthlySavings,
-      estimatedAnnualSavings: parsed.data.estimatedAnnualSavings,
-      source: parsed.data.source,
-      consentAt: new Date(),
-      consentText: parsed.data.consentText,
-    })
+    .values({ ...fields, phone, source: parsed.data.source })
+    .onConflictDoUpdate({ target: leadsTable.phone, set: fields })
     .returning();
   if (lead) await flagHighValueLead(lead);
   res.status(201).json(CreateLeadResponse.parse(lead));

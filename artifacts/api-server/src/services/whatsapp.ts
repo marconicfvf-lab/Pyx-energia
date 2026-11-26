@@ -12,6 +12,11 @@ export interface InboundMessage {
   text: string;
   displayName?: string;
   providerMessageId?: string;
+  /**
+   * True when the message was sent by the PYX number itself (typed on the
+   * phone or in WhatsApp Web), so it is mirrored as outbound, not answered.
+   */
+  fromMe: boolean;
 }
 
 async function sendViaEvolution(phone: string, text: string): Promise<SendResult> {
@@ -91,17 +96,19 @@ export function parseInbound(payload: Record<string, unknown>): InboundMessage |
   const evolutionKey = asRecord(evolutionData["key"]);
   const remoteJid = readString(evolutionKey, "remoteJid");
   if (remoteJid) {
-    if (evolutionKey["fromMe"] === true) return null;
     if (remoteJid.includes("@g.us")) return null;
     const message = asRecord(evolutionData["message"]);
     const extended = asRecord(message["extendedTextMessage"]);
     const text = readString(message, "conversation") ?? readString(extended, "text");
     if (!text) return null;
+    const fromMe = evolutionKey["fromMe"] === true;
     return {
       phone: remoteJid.split("@")[0],
       text,
-      displayName: readString(evolutionData, "pushName"),
+      // On outbound messages pushName is the PYX account, not the contact.
+      ...(fromMe ? {} : { displayName: readString(evolutionData, "pushName") }),
       providerMessageId: readString(evolutionKey, "id"),
+      fromMe,
     };
   }
 
@@ -115,14 +122,30 @@ export function parseInbound(payload: Record<string, unknown>): InboundMessage |
       const message = asRecord(messages[0]);
       const body = readString(asRecord(message["text"]), "body");
       const from = readString(message, "from");
-      if (!body || !from) continue;
-      const profile = asRecord(asRecord(contacts[0])["profile"]);
-      return {
-        phone: from,
-        text: body,
-        displayName: readString(profile, "name"),
-        providerMessageId: readString(message, "id"),
-      };
+      if (body && from) {
+        const profile = asRecord(asRecord(contacts[0])["profile"]);
+        return {
+          phone: from,
+          text: body,
+          displayName: readString(profile, "name"),
+          providerMessageId: readString(message, "id"),
+          fromMe: false,
+        };
+      }
+      // Coexistence mode: what is typed in the WhatsApp Business app arrives
+      // as an echo addressed to the contact.
+      const echoes = Array.isArray(value["message_echoes"]) ? value["message_echoes"] : [];
+      const echo = asRecord(echoes[0]);
+      const echoBody = readString(asRecord(echo["text"]), "body");
+      const to = readString(echo, "to");
+      if (echoBody && to) {
+        return {
+          phone: to,
+          text: echoBody,
+          providerMessageId: readString(echo, "id"),
+          fromMe: true,
+        };
+      }
     }
   }
   return null;

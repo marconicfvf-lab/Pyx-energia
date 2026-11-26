@@ -35,6 +35,34 @@ STATIC_DIR=artifacts/pyx-energia/dist/public PORT=8080 node artifacts/api-server
 | `PYX_SALES_WHATSAPP` | não | Número comercial mostrado no fallback |
 | `CRON_SECRET` | em serverless | Habilita `GET`/`POST /api/cron/campaigns` |
 
+## Ligar o WhatsApp ao painel
+
+O painel (`/painel` → Conversas) mostra a conversa inteira: o que o cliente
+manda, o que o robô responde, o que se envia pelo painel e também o que se
+digita no celular ou no WhatsApp Web. Quando alguém da PYX responde fora do
+painel, o robô sai da conversa sozinho.
+
+**Evolution API** (lê QR code, o celular continua funcionando)
+
+1. Na Vercel: `WHATSAPP_PROVIDER=evolution`, `EVOLUTION_API_URL`,
+   `EVOLUTION_API_KEY`, `EVOLUTION_INSTANCE` e `WHATSAPP_WEBHOOK_TOKEN`
+   (qualquer senha longa).
+2. Na instância da Evolution, webhook para
+   `https://pyxenergia.com/api/webhooks/whatsapp?token=SEU_TOKEN`, com o
+   evento `MESSAGES_UPSERT` ligado (ele traz as mensagens recebidas e as
+   enviadas pelo celular).
+
+**Meta Cloud API** (oficial)
+
+1. Na Vercel: `WHATSAPP_PROVIDER=cloud`, `WHATSAPP_PHONE_NUMBER_ID`,
+   `WHATSAPP_ACCESS_TOKEN` e `WHATSAPP_WEBHOOK_TOKEN`.
+2. No app da Meta, URL de callback
+   `https://pyxenergia.com/api/webhooks/whatsapp?token=SEU_TOKEN` e o mesmo
+   valor em "Verify token". Assine `messages` e, se o número também for usado
+   no app WhatsApp Business (coexistência), `smb_message_echoes`.
+
+Faça um novo deploy depois de mudar as variáveis.
+
 ## Disparo das campanhas
 
 Em um processo sempre ativo (VPS, Render, Railway, Fly) o scheduler interno roda
