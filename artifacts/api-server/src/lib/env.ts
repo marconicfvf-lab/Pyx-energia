@@ -2,7 +2,7 @@ function str(name: string, fallback = ""): string {
   return process.env[name]?.trim() || fallback;
 }
 
-const salesWhatsapp = str("PYX_SALES_WHATSAPP", "5581999725151");
+const salesWhatsapp = str("PYX_SALES_WHATSAPP", "5581988358272");
 
 export const env = {
   /** "evolution" | "cloud" | "log" (log only records, never sends). */
