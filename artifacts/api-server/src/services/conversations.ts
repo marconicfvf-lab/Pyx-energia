@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, gte } from "drizzle-orm";
 import {
   activitiesTable,
   contactsTable,
@@ -22,6 +22,8 @@ import { logger } from "../lib/logger";
 const OPT_OUT_PATTERN = /^\s*(sair|parar|pare|stop|descadastrar|nao quero|não quero)\b/i;
 const HISTORY_LIMIT = 20;
 const FOLLOW_UP_HOURS = 24;
+const ECHO_SETTLE_MS = 3000;
+const ECHO_WINDOW_MS = 2 * 60 * 1000;
 
 /** Site visitors are tracked before they share a number, so the lead still lands in the CRM. */
 const pendingPhone = (conversationId: number) => `site:${conversationId}`;
@@ -338,4 +340,64 @@ export async function handleInbound(input: {
     handoff: result.handoff,
     leadId: lead?.id ?? null,
   };
+}
+
+/**
+ * Mirrors a message the PYX team sent outside the panel (phone, WhatsApp Web)
+ * so the conversation on screen matches the phone. A human writing means the
+ * human owns the conversation, so the bot steps back.
+ */
+export async function recordOutboundEcho(input: {
+  phone: string;
+  text: string;
+  providerMessageId?: string;
+}): Promise<void> {
+  // Messages sent by the panel, the bot or a campaign come back from the
+  // provider as echoes. They are stored right after the send returns, so the
+  // echo can arrive first: wait a moment, then match by id or by text.
+  await new Promise((resolve) => setTimeout(resolve, ECHO_SETTLE_MS));
+  if (input.providerMessageId) {
+    const [known] = await db
+      .select({ id: messagesTable.id })
+      .from(messagesTable)
+      .where(eq(messagesTable.providerMessageId, input.providerMessageId))
+      .limit(1);
+    if (known) return;
+  }
+  const conversation = await getOrCreateConversation("whatsapp", input.phone);
+  const [sameText] = await db
+    .select({ id: messagesTable.id })
+    .from(messagesTable)
+    .where(
+      and(
+        eq(messagesTable.conversationId, conversation.id),
+        eq(messagesTable.direction, "saida"),
+        eq(messagesTable.body, input.text),
+        gte(messagesTable.createdAt, new Date(Date.now() - ECHO_WINDOW_MS)),
+      ),
+    )
+    .limit(1);
+  if (sameText) return;
+  await recordMessage(conversation.id, "saida", input.text, {
+    ...(input.providerMessageId ? { providerMessageId: input.providerMessageId } : {}),
+  });
+  if (conversation.botEnabled || conversation.status !== "humano") {
+    await db
+      .update(conversationsTable)
+      .set({ botEnabled: false, status: "humano" })
+      .where(eq(conversationsTable.id, conversation.id));
+  }
+  if (!conversation.leadId) {
+    const [lead] = await db
+      .select({ id: leadsTable.id })
+      .from(leadsTable)
+      .where(eq(leadsTable.phone, input.phone))
+      .limit(1);
+    if (lead) {
+      await db
+        .update(conversationsTable)
+        .set({ leadId: lead.id })
+        .where(eq(conversationsTable.id, conversation.id));
+    }
+  }
 }
